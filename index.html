@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fast Air Cargo</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #222;
+    }
+
+    header {
+      background: #f97316;
+      color: white;
+      padding: 20px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      font-size: 26px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-weight: bold;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 90px 20px;
+      background: #fff7ed;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      color: #f97316;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 22px;
+      margin-bottom: 35px;
+    }
+
+    .tracking {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .tracking input {
+      width: 320px;
+      padding: 15px;
+      border: 2px solid #f97316;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 15px 25px;
+      background: #f97316;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      padding: 60px 8%;
+    }
+
+    .card {
+      width: 280px;
+      padding: 30px;
+      text-align: center;
+      background: white;
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      color: #f97316;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h2>Fast Air Cargo</h2>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Track Shipment</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Fast Air Cargo</h1>
+    <p>Fast. Reliable. Worldwide.</p>
+
+    <div class="tracking">
+      <input type="text" placeholder="Enter tracking number">
+      <button>Track Shipment</button>
+    </div>
+  </section>
+
+  <section class="cards">
+
+    <div class="card">
+      <h3>Fast Delivery</h3>
+      <p>Quick and reliable cargo delivery.</p>
+    </div>
+
+    <div class="card">
+      <h3>Secure Cargo</h3>
+      <p>Your shipment is handled with care.</p>
+    </div>
+
+    <div class="card">
+      <h3>Worldwide Tracking</h3>
+      <p>Track your shipment anywhere in the world.</p>
+    </div>
+
+  </section>
+
+</body>
+</html>
