@@ -4,468 +4,1125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fast Air Cargo | Admin Panel</title>
+<title>Fast Air Cargo - Admin Panel</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:#fff;
-    color:#111;
+:root {
+    --orange: #ff7900;
+    --orange-dark: #e66d00;
+    --white: #ffffff;
+    --black: #222222;
 }
 
-.container{
-    width:1100px;
-    max-width:calc(100% - 30px);
-    margin:auto;
+html {
+    scroll-behavior: smooth;
 }
 
-header{
-    background:#ff6900;
-    color:#fff;
-    padding:22px 0;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--white);
+    color: var(--black);
 }
 
-.header-inner{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+
+/* =========================
+   LOGIN SCREEN
+========================= */
+
+#loginScreen {
+    min-height: 100vh;
+    background: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.logo{
-    font-size:22px;
-    font-weight:900;
+.login-box {
+    width: 100%;
+    max-width: 440px;
+    background: var(--white);
+    padding: 42px 38px;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
 }
 
-.admin-label{
-    font-size:12px;
-    font-weight:bold;
+
+/* =========================
+   LOGIN BRAND
+========================= */
+
+.login-logo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 28px;
+    overflow: hidden;
 }
 
-main{
-    padding:35px 0 60px;
+.login-logo h1 {
+    color: var(--orange);
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(27px, 7vw, 38px);
+    line-height: 1;
+    letter-spacing: 0.5px;
+    font-weight: 900;
+    white-space: nowrap;
 }
 
-.page-title{
-    font-size:30px;
-    font-weight:900;
-    margin-bottom:7px;
+.login-logo p {
+    color: var(--black);
+    margin-top: 9px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
 }
 
-.page-subtitle{
-    color:#666;
-    font-size:13px;
-    margin-bottom:30px;
+
+/* =========================
+   LOGIN TITLE
+========================= */
+
+.login-title {
+    text-align: center;
+    color: var(--orange);
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 23px;
 }
 
-.panel{
-    border:1px solid #e8e8e8;
-    border-radius:15px;
-    padding:25px;
-    margin-bottom:25px;
-    background:#fff;
+
+/* =========================
+   LOGIN FIELDS
+========================= */
+
+.login-field {
+    margin-bottom: 17px;
 }
 
-.panel-title{
-    font-size:18px;
-    font-weight:900;
-    margin-bottom:20px;
+.login-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+    font-size: 14px;
 }
 
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
+.login-field input {
+    width: 100%;
+    padding: 13px;
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    background: var(--white);
+    color: var(--black);
 }
 
-.field{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
+.login-field input:focus {
+    border-color: var(--orange-dark);
 }
 
-.field.full{
-    grid-column:1 / -1;
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-btn {
+    width: 100%;
+    background: var(--orange);
+    color: var(--white);
+    border: 2px solid var(--orange);
+    padding: 13px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.2s ease;
 }
 
-label{
-    font-size:11px;
-    font-weight:bold;
+.login-btn:hover {
+    background: var(--orange-dark);
+    border-color: var(--orange-dark);
 }
 
-input,
-select{
-    height:44px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    padding:0 12px;
-    font-size:13px;
-    outline:none;
-    background:#fff;
+
+/* =========================
+   LOGIN MESSAGE
+========================= */
+
+.login-message {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
 }
 
-input:focus,
-select:focus{
-    border-color:#ff6900;
+
+/* =========================
+   ADMIN PANEL
+========================= */
+
+#adminPanel {
+    display: none;
+    min-height: 100vh;
+    background: var(--white);
 }
 
-button{
-    border:0;
-    border-radius:8px;
-    padding:12px 18px;
-    font-size:12px;
-    font-weight:800;
-    cursor:pointer;
+
+/* =========================
+   ADMIN HEADER
+========================= */
+
+.admin-header {
+    background: var(--orange);
+    color: var(--white);
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
-.btn-primary{
-    background:#ff6900;
-    color:#fff;
+.admin-brand {
+    min-width: 0;
+    overflow: hidden;
 }
 
-.btn-primary:hover{
-    background:#e85d00;
+.admin-brand h2 {
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: clamp(21px, 3vw, 27px);
+    letter-spacing: 0.5px;
+    font-weight: 900;
+    white-space: nowrap;
+    line-height: 1;
 }
 
-.btn-secondary{
-    background:#111;
-    color:#fff;
+.admin-brand p {
+    font-size: 10px;
+    margin-top: 6px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    white-space: nowrap;
 }
 
-.btn-delete{
-    background:#ff6900;
-    color:#fff;
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout-btn {
+    background: var(--white);
+    color: var(--orange);
+    border: 2px solid var(--white);
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-weight: 900;
+    font-size: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: 0.2s ease;
 }
 
-.btn-edit{
-    background:#111;
-    color:#fff;
+.logout-btn:hover {
+    background: var(--orange);
+    color: var(--white);
 }
 
-.actions{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.admin-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 35px auto;
 }
 
-.message{
-    display:none;
-    margin-top:15px;
-    padding:12px;
-    border-radius:8px;
-    font-size:12px;
-    font-weight:bold;
-    background:#fff7f1;
-    border:1px solid #ffd0ad;
+
+/* =========================
+   DASHBOARD TITLE
+========================= */
+
+.dashboard-title {
+    margin-bottom: 24px;
 }
 
-.table-wrapper{
-    overflow-x:auto;
+.dashboard-title h1 {
+    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+    font-size: 30px;
+    color: var(--orange);
+    letter-spacing: 0.3px;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:850px;
+.dashboard-title p {
+    margin-top: 6px;
+    font-size: 14px;
 }
 
-th,
-td{
-    text-align:left;
-    padding:13px 10px;
-    border-bottom:1px solid #eee;
-    font-size:11px;
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    background: var(--white);
+    border: 2px solid var(--orange);
+    border-radius: 14px;
+    padding: 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 7px 22px rgba(0, 0, 0, 0.06);
 }
 
-th{
-    font-size:10px;
-    text-transform:uppercase;
+.card-header {
+    margin-bottom: 20px;
 }
 
-.status-badge{
-    color:#ff6900;
-    font-weight:900;
+.card-header h2 {
+    color: var(--orange);
+    font-size: 21px;
+    font-weight: 900;
 }
 
-.table-actions{
-    display:flex;
-    gap:6px;
+
+/* =========================
+   FORM GRID
+========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 17px;
 }
 
-.table-actions button{
-    padding:7px 9px;
-    font-size:10px;
+.form-field {
+    display: flex;
+    flex-direction: column;
 }
 
-.empty{
-    text-align:center;
-    color:#777;
-    padding:25px;
+.form-field.full {
+    grid-column: 1 / -1;
 }
 
-@media(max-width:700px){
+.form-field label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
 
-    .form-grid{
-        grid-template-columns:1fr;
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    background: var(--white);
+    color: var(--black);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: var(--orange-dark);
+}
+
+.form-field textarea {
+    min-height: 85px;
+    resize: vertical;
+}
+
+
+/* =========================
+   BUTTON ROW
+========================= */
+
+.button-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.primary-btn {
+    background: var(--orange);
+    color: var(--white);
+    border: 2px solid var(--orange);
+}
+
+.primary-btn:hover {
+    background: var(--orange-dark);
+    border-color: var(--orange-dark);
+}
+
+.secondary-btn {
+    background: var(--white);
+    color: var(--orange);
+    border: 2px solid var(--orange);
+}
+
+.secondary-btn:hover {
+    background: var(--orange);
+    color: var(--white);
+}
+
+
+/* =========================
+   FORM MESSAGE
+========================= */
+
+.form-message {
+    margin-top: 14px;
+    font-weight: bold;
+    font-size: 13px;
+    display: none;
+}
+
+
+/* =========================
+   SHIPMENT LIST
+========================= */
+
+.shipment-list {
+    display: grid;
+    gap: 15px;
+}
+
+.shipment {
+    border: 2px solid var(--orange);
+    border-radius: 11px;
+    padding: 19px;
+    background: var(--white);
+}
+
+.shipment-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 14px;
+}
+
+.shipment-top h3 {
+    color: var(--orange);
+    font-size: 19px;
+    font-weight: 900;
+    word-break: break-word;
+}
+
+.status {
+    border: 2px solid var(--orange);
+    color: var(--orange);
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+
+/* =========================
+   SHIPMENT INFO
+========================= */
+
+.shipment-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 20px;
+}
+
+.shipment-info p {
+    line-height: 1.5;
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.shipment-info strong {
+    color: var(--orange);
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actions {
+    margin-top: 17px;
+    display: flex;
+    gap: 9px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-weight: 900;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.edit-btn {
+    background: var(--orange);
+    color: var(--white);
+    border: 2px solid var(--orange);
+}
+
+.edit-btn:hover {
+    background: var(--orange-dark);
+}
+
+.delete-btn {
+    background: var(--white);
+    color: var(--orange);
+    border: 2px solid var(--orange);
+}
+
+.delete-btn:hover {
+    background: var(--orange);
+    color: var(--white);
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty {
+    text-align: center;
+    padding: 25px;
+    border: 2px dashed var(--orange);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.admin-footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 2px solid var(--orange);
+    margin-top: 40px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    #loginScreen {
+        padding: 15px;
     }
 
-    .field.full{
-        grid-column:auto;
+    .login-box {
+        max-width: 400px;
+        padding: 35px 22px;
     }
 
-    .header-inner{
-        gap:15px;
+    .login-logo h1 {
+        font-size: clamp(25px, 8vw, 31px);
+        letter-spacing: 0;
     }
 
-    .page-title{
-        font-size:25px;
+    .login-logo p {
+        font-size: 10px;
+        letter-spacing: 0.5px;
     }
 
-    .panel{
-        padding:18px;
+    .login-title {
+        font-size: 18px;
+    }
+
+    .admin-header {
+        padding: 14px;
+        gap: 12px;
+    }
+
+    .admin-brand h2 {
+        font-size: clamp(18px, 6vw, 23px);
+        letter-spacing: 0;
+    }
+
+    .admin-brand p {
+        font-size: 8px;
+        letter-spacing: 0.7px;
+    }
+
+    .logout-btn {
+        padding: 8px 11px;
+        font-size: 10px;
+    }
+
+    .admin-container {
+        width: 94%;
+        margin: 25px auto;
+    }
+
+    .dashboard-title h1 {
+        font-size: 26px;
+    }
+
+    .dashboard-title p {
+        font-size: 13px;
+    }
+
+    .card {
+        padding: 19px;
+    }
+
+    .card-header h2 {
+        font-size: 19px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-field.full {
+        grid-column: auto;
+    }
+
+    .shipment-info {
+        grid-template-columns: 1fr;
+    }
+
+    .shipment-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .status {
+        white-space: normal;
+    }
+
+    .actions {
+        flex-wrap: wrap;
     }
 }
+
+
+/* =========================
+   VERY SMALL MOBILE
+========================= */
+
+@media (max-width: 360px) {
+
+    .login-logo h1 {
+        font-size: 24px;
+    }
+
+    .login-logo p {
+        font-size: 9px;
+    }
+
+    .admin-brand h2 {
+        font-size: 18px;
+    }
+
+    .admin-brand p {
+        font-size: 7px;
+    }
+
+    .logout-btn {
+        padding: 7px 9px;
+        font-size: 9px;
+    }
+}
+
 </style>
 </head>
 
+
 <body>
 
-<header>
-<div class="container header-inner">
 
-<div class="logo">
-FAST AIR CARGO
-</div>
+<!-- ==================================================
+     LOGIN SCREEN
+================================================== -->
 
-<div class="admin-label">
-ADMIN PANEL
-</div>
+<section id="loginScreen">
 
-</div>
-</header>
+    <div class="login-box">
 
+        <div class="login-logo">
 
-<main>
+            <h1>FAST AIR CARGO</h1>
 
-<div class="container">
+            <p>Where Every Shipment Matters!</p>
 
-<div class="page-title">
-Shipment Management
-</div>
-
-<div class="page-subtitle">
-Add, update and manage customer shipments.
-</div>
+        </div>
 
 
-<!-- ADD / EDIT SHIPMENT -->
-
-<div class="panel">
-
-<div class="panel-title" id="formTitle">
-Add New Shipment
-</div>
-
-<form id="shipmentForm">
-
-<div class="form-grid">
-
-<div class="field">
-<label>Tracking Number</label>
-<input
-id="tracking_number"
-type="text"
-placeholder="FAC123456789PK"
-required
->
-</div>
-
-<div class="field">
-<label>Origin</label>
-<input
-id="origin"
-type="text"
-placeholder="Dina, Pakistan"
-required
->
-</div>
-
-<div class="field">
-<label>Destination</label>
-<input
-id="destination"
-type="text"
-placeholder="London, United Kingdom"
-required
->
-</div>
-
-<div class="field">
-<label>Service</label>
-
-<select id="service" required>
-
-<option value="">Select Service</option>
-
-<option>Regular Cargo</option>
-<option>Express Cargo</option>
-<option>Priority Cargo</option>
-<option>Premium Cargo</option>
-<option>Secure Service</option>
-<option>COD Service</option>
-
-</select>
-</div>
-
-<div class="field">
-<label>Booking Date</label>
-<input
-id="booking_date"
-type="date"
-required
->
-</div>
-
-<div class="field">
-<label>Estimated Delivery</label>
-<input
-id="estimated_delivery"
-type="date"
-required
->
-</div>
-
-<div class="field">
-<label>Current Status</label>
-
-<select id="current_status" required>
-
-<option>Order Confirmed</option>
-<option>Picked Up</option>
-<option>In Transit</option>
-<option>Customs Clearance</option>
-<option>Out for Delivery</option>
-<option>Delivered</option>
-
-</select>
-</div>
-
-<div class="field">
-<label>Weight</label>
-<input
-id="weight"
-type="text"
-placeholder="10 KG"
->
-</div>
-
-<div class="field full">
-<label>Package Details</label>
-<input
-id="package_details"
-type="text"
-placeholder="General Cargo"
->
-</div>
-
-</div>
+        <div class="login-title">
+            Admin Panel Login
+        </div>
 
 
-<div class="actions">
+        <form id="loginForm">
 
-<button
-type="submit"
-class="btn-primary"
-id="saveButton"
->
-ADD SHIPMENT
-</button>
+            <div class="login-field">
 
-<button
-type="button"
-class="btn-secondary"
-id="cancelButton"
-style="display:none;"
->
-CANCEL
-</button>
+                <label for="loginEmail">
+                    Email
+                </label>
 
-</div>
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter admin email"
+                    autocomplete="username"
+                    required
+                >
 
-<div class="message" id="formMessage"></div>
-
-</form>
-
-</div>
+            </div>
 
 
-<!-- SHIPMENT LIST -->
+            <div class="login-field">
 
-<div class="panel">
+                <label for="loginPassword">
+                    Password
+                </label>
 
-<div class="panel-title">
-All Shipments
-</div>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                    autocomplete="current-password"
+                    required
+                >
 
-<div class="table-wrapper">
+            </div>
 
-<table>
 
-<thead>
+            <button
+                type="submit"
+                class="login-btn"
+            >
+                LOGIN TO ADMIN PANEL
+            </button>
 
-<tr>
+        </form>
 
-<th>Tracking</th>
-<th>Origin</th>
-<th>Destination</th>
-<th>Service</th>
-<th>Status</th>
-<th>Delivery</th>
-<th>Actions</th>
 
-</tr>
+        <div
+            id="loginMessage"
+            class="login-message"
+        ></div>
 
-</thead>
+    </div>
 
-<tbody id="shipmentTable">
+</section>
 
-<tr>
-<td colspan="7" class="empty">
-Loading shipments...
-</td>
-</tr>
 
-</tbody>
 
-</table>
+<!-- ==================================================
+     ADMIN PANEL
+================================================== -->
 
-</div>
+<section id="adminPanel">
 
-</div>
 
-</div>
+    <!-- HEADER -->
 
-</main>
+    <header class="admin-header">
+
+        <div class="admin-brand">
+
+            <h2>FAST AIR CARGO</h2>
+
+            <p>Where Every Shipment Matters!</p>
+
+        </div>
+
+
+        <button
+            id="logoutBtn"
+            class="logout-btn"
+        >
+            LOGOUT
+        </button>
+
+    </header>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="admin-container">
+
+
+        <!-- DASHBOARD TITLE -->
+
+        <div class="dashboard-title">
+
+            <h1>
+                Shipment Management
+            </h1>
+
+            <p>
+                Add, update and manage customer shipments.
+            </p>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             ADD / EDIT SHIPMENT
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2 id="formTitle">
+                    Add New Shipment
+                </h2>
+
+            </div>
+
+
+            <form id="shipmentForm">
+
+                <div class="form-grid">
+
+
+                    <!-- TRACKING NUMBER -->
+
+                    <div class="form-field">
+
+                        <label for="tracking_number">
+                            Tracking Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="tracking_number"
+                            placeholder="FAC123456789PK"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ORIGIN -->
+
+                    <div class="form-field">
+
+                        <label for="origin">
+                            Origin
+                        </label>
+
+                        <input
+                            type="text"
+                            id="origin"
+                            placeholder="Dina, Pakistan"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- DESTINATION -->
+
+                    <div class="form-field">
+
+                        <label for="destination">
+                            Destination
+                        </label>
+
+                        <input
+                            type="text"
+                            id="destination"
+                            placeholder="London, United Kingdom"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- SERVICE -->
+
+                    <div class="form-field">
+
+                        <label for="service">
+                            Service
+                        </label>
+
+                        <select
+                            id="service"
+                            required
+                        >
+
+                            <option value="">
+                                Select Service
+                            </option>
+
+                            <option value="Regular Cargo">
+                                Regular Cargo
+                            </option>
+
+                            <option value="Express Cargo">
+                                Express Cargo
+                            </option>
+
+                            <option value="Priority Cargo">
+                                Priority Cargo
+                            </option>
+
+                            <option value="Premium Cargo">
+                                Premium Cargo
+                            </option>
+
+                            <option value="Secure Service">
+                                Secure Service
+                            </option>
+
+                            <option value="COD Service">
+                                COD Service
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- BOOKING DATE -->
+
+                    <div class="form-field">
+
+                        <label for="booking_date">
+                            Booking Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="booking_date"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ESTIMATED DELIVERY -->
+
+                    <div class="form-field">
+
+                        <label for="estimated_delivery">
+                            Estimated Delivery
+                        </label>
+
+                        <input
+                            type="date"
+                            id="estimated_delivery"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div class="form-field">
+
+                        <label for="current_status">
+                            Current Status
+                        </label>
+
+                        <select
+                            id="current_status"
+                            required
+                        >
+
+                            <option value="Order Confirmed">
+                                Order Confirmed
+                            </option>
+
+                            <option value="Picked Up">
+                                Picked Up
+                            </option>
+
+                            <option value="In Transit">
+                                In Transit
+                            </option>
+
+                            <option value="Customs Clearance">
+                                Customs Clearance
+                            </option>
+
+                            <option value="Out for Delivery">
+                                Out for Delivery
+                            </option>
+
+                            <option value="Delivered">
+                                Delivered
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- WEIGHT -->
+
+                    <div class="form-field">
+
+                        <label for="weight">
+                            Weight
+                        </label>
+
+                        <input
+                            type="text"
+                            id="weight"
+                            placeholder="10 KG"
+                        >
+
+                    </div>
+
+
+                    <!-- PACKAGE DETAILS -->
+
+                    <div class="form-field full">
+
+                        <label for="package_details">
+                            Package Details
+                        </label>
+
+                        <textarea
+                            id="package_details"
+                            placeholder="General Cargo"
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-row">
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                        id="saveBtn"
+                    >
+                        ADD SHIPMENT
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        id="cancelBtn"
+                        style="display: none;"
+                    >
+                        CANCEL
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="formMessage"
+                    class="form-message"
+                ></div>
+
+            </form>
+
+        </div>
+
+
+
+        <!-- ==================================================
+             ALL SHIPMENTS
+        ================================================== -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>
+                    All Shipments
+                </h2>
+
+            </div>
+
+
+            <div
+                id="shipmentList"
+                class="shipment-list"
+            >
+                Loading shipments...
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="admin-footer">
+
+        FAST AIR CARGO © 2026
+        <br>
+        Where Every Shipment Matters!
+
+    </footer>
+
+</section>
+
 
 
 <script>
 
-/* ==============================
-   SUPABASE
-============================== */
+/* ==================================================
+   SUPABASE CONFIGURATION
+================================================== */
 
 const SUPABASE_URL =
 "https://gpkmqcplkzcdjnswbfvo.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_3q1b92xzA08jiXl_T-285w_y_WfyJCF";
+
 
 const supabaseClient =
 window.supabase.createClient(
@@ -474,295 +1131,491 @@ window.supabase.createClient(
 );
 
 
-/* ==============================
-   ELEMENTS
-============================== */
-
-const form =
-document.getElementById("shipmentForm");
-
-const formTitle =
-document.getElementById("formTitle");
-
-const saveButton =
-document.getElementById("saveButton");
-
-const cancelButton =
-document.getElementById("cancelButton");
-
-const formMessage =
-document.getElementById("formMessage");
-
-const shipmentTable =
-document.getElementById("shipmentTable");
-
+/* ==================================================
+   VARIABLES
+================================================== */
 
 let editingId = null;
 
 
-/* ==============================
-   LOAD SHIPMENTS
-============================== */
+/* ==================================================
+   ELEMENTS
+================================================== */
 
-async function loadShipments(){
+const loginScreen =
+document.getElementById("loginScreen");
 
-    shipmentTable.innerHTML = `
-        <tr>
-            <td colspan="7" class="empty">
-                Loading shipments...
-            </td>
-        </tr>
-    `;
+const adminPanel =
+document.getElementById("adminPanel");
 
-    const { data, error } =
-    await supabaseClient
-        .from("shipments")
-        .select("*")
-        .order("created_at", {
-            ascending:false
-        });
+const loginForm =
+document.getElementById("loginForm");
 
-    if(error){
+const logoutBtn =
+document.getElementById("logoutBtn");
 
-        console.error(error);
+const shipmentForm =
+document.getElementById("shipmentForm");
 
-        shipmentTable.innerHTML = `
-            <tr>
-                <td colspan="7" class="empty">
-                    Unable to load shipments.
-                </td>
-            </tr>
-        `;
+const shipmentList =
+document.getElementById("shipmentList");
 
-        return;
+const cancelBtn =
+document.getElementById("cancelBtn");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+
+/* ==================================================
+   CHECK CURRENT SESSION
+================================================== */
+
+async function checkSession() {
+
+    const {
+        data: {
+            session
+        }
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    if (session) {
+
+        showAdminPanel();
+
+        loadShipments();
+
+    } else {
+
+        showLoginScreen();
+
     }
 
-    if(!data || data.length === 0){
-
-        shipmentTable.innerHTML = `
-            <tr>
-                <td colspan="7" class="empty">
-                    No shipments found.
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    shipmentTable.innerHTML = "";
-
-    data.forEach(function(shipment){
-
-        const row =
-        document.createElement("tr");
-
-        row.innerHTML = `
-
-            <td>
-                <strong>
-                    ${escapeHtml(shipment.tracking_number)}
-                </strong>
-            </td>
-
-            <td>
-                ${escapeHtml(shipment.origin || "-")}
-            </td>
-
-            <td>
-                ${escapeHtml(shipment.destination || "-")}
-            </td>
-
-            <td>
-                ${escapeHtml(shipment.service || "-")}
-            </td>
-
-            <td>
-                <span class="status-badge">
-                    ${escapeHtml(shipment.current_status || "-")}
-                </span>
-            </td>
-
-            <td>
-                ${escapeHtml(formatDate(shipment.estimated_delivery))}
-            </td>
-
-            <td>
-
-                <div class="table-actions">
-
-                    <button
-                        class="btn-edit"
-                        onclick="editShipment(${shipment.id})"
-                    >
-                        EDIT
-                    </button>
-
-                    <button
-                        class="btn-delete"
-                        onclick="deleteShipment(${shipment.id})"
-                    >
-                        DELETE
-                    </button>
-
-                </div>
-
-            </td>
-        `;
-
-        shipmentTable.appendChild(row);
-
-    });
 }
 
 
-/* ==============================
-   ADD / UPDATE
-============================== */
+/* ==================================================
+   SHOW LOGIN
+================================================== */
 
-form.addEventListener(
-"submit",
-async function(event){
+function showLoginScreen() {
 
-    event.preventDefault();
+    loginScreen.style.display = "flex";
 
-    formMessage.style.display = "none";
+    adminPanel.style.display = "none";
 
-    const shipment = {
-
-        tracking_number:
-            document.getElementById(
-                "tracking_number"
-            ).value.trim().toUpperCase(),
-
-        origin:
-            document.getElementById(
-                "origin"
-            ).value.trim(),
-
-        destination:
-            document.getElementById(
-                "destination"
-            ).value.trim(),
-
-        service:
-            document.getElementById(
-                "service"
-            ).value,
-
-        booking_date:
-            document.getElementById(
-                "booking_date"
-            ).value,
-
-        estimated_delivery:
-            document.getElementById(
-                "estimated_delivery"
-            ).value,
-
-        current_status:
-            document.getElementById(
-                "current_status"
-            ).value,
-
-        package_details:
-            document.getElementById(
-                "package_details"
-            ).value.trim(),
-
-        weight:
-            document.getElementById(
-                "weight"
-            ).value.trim()
-
-    };
+}
 
 
-    saveButton.disabled = true;
+/* ==================================================
+   SHOW ADMIN
+================================================== */
 
-    saveButton.textContent =
-        editingId
-        ? "UPDATING..."
-        : "ADDING...";
+function showAdminPanel() {
+
+    loginScreen.style.display = "none";
+
+    adminPanel.style.display = "block";
+
+}
 
 
-    let result;
+/* ==================================================
+   LOGIN
+================================================== */
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
 
 
-    if(editingId){
+        const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
 
-        result =
-        await supabaseClient
+
+        const password =
+        document
+        .getElementById("loginPassword")
+        .value;
+
+
+        const message =
+        document.getElementById(
+            "loginMessage"
+        );
+
+
+        message.textContent =
+        "Logging in...";
+
+
+        const {
+            error
+        } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+        if (error) {
+
+            message.textContent =
+            "Login failed: " +
+            error.message;
+
+            return;
+        }
+
+
+        message.textContent = "";
+
+        loginForm.reset();
+
+        showAdminPanel();
+
+        loadShipments();
+
+    }
+);
+
+
+/* ==================================================
+   LOGOUT
+================================================== */
+
+logoutBtn.addEventListener(
+    "click",
+    async function() {
+
+        await supabaseClient.auth.signOut();
+
+        editingId = null;
+
+        showLoginScreen();
+
+    }
+);
+
+
+/* ==================================================
+   ADD / UPDATE SHIPMENT
+================================================== */
+
+shipmentForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const shipment = {
+
+            tracking_number:
+            document
+            .getElementById("tracking_number")
+            .value
+            .trim(),
+
+            origin:
+            document
+            .getElementById("origin")
+            .value
+            .trim(),
+
+            destination:
+            document
+            .getElementById("destination")
+            .value
+            .trim(),
+
+            service:
+            document
+            .getElementById("service")
+            .value,
+
+            booking_date:
+            document
+            .getElementById("booking_date")
+            .value,
+
+            estimated_delivery:
+            document
+            .getElementById("estimated_delivery")
+            .value,
+
+            current_status:
+            document
+            .getElementById("current_status")
+            .value,
+
+            package_details:
+            document
+            .getElementById("package_details")
+            .value
+            .trim(),
+
+            weight:
+            document
+            .getElementById("weight")
+            .value
+            .trim()
+
+        };
+
+
+        let result;
+
+
+        /* UPDATE */
+
+        if (editingId !== null) {
+
+            result =
+            await supabaseClient
             .from("shipments")
             .update(shipment)
             .eq("id", editingId);
 
-    }else{
 
-        result =
-        await supabaseClient
+        }
+
+        /* INSERT */
+
+        else {
+
+            result =
+            await supabaseClient
             .from("shipments")
-            .insert([shipment]);
+            .insert(shipment);
+
+        }
+
+
+        if (result.error) {
+
+            showFormMessage(
+                "Error: " +
+                result.error.message
+            );
+
+            return;
+        }
+
+
+        showFormMessage(
+            editingId !== null
+            ? "Shipment updated successfully."
+            : "Shipment added successfully."
+        );
+
+
+        resetForm();
+
+        await loadShipments();
 
     }
+);
 
 
-    if(result.error){
+/* ==================================================
+   LOAD SHIPMENTS
+================================================== */
 
-        console.error(result.error);
+async function loadShipments() {
 
-        formMessage.style.display = "block";
+    shipmentList.innerHTML =
+    "Loading shipments...";
 
-        formMessage.textContent =
-            result.error.message;
 
-        saveButton.disabled = false;
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("shipments")
+    .select("*")
+    .order(
+        "created_at",
+        {
+            ascending: false
+        }
+    );
 
-        saveButton.textContent =
-            editingId
-            ? "UPDATE SHIPMENT"
-            : "ADD SHIPMENT";
+
+    if (error) {
+
+        shipmentList.innerHTML =
+        "Error loading shipments: " +
+        escapeHtml(error.message);
 
         return;
     }
 
 
-    formMessage.style.display = "block";
+    if (!data || data.length === 0) {
 
-    formMessage.textContent =
-        editingId
-        ? "Shipment updated successfully."
-        : "Shipment added successfully.";
+        shipmentList.innerHTML =
+        `
+        <div class="empty">
+            No shipments found.
+        </div>
+        `;
 
-
-    resetForm();
-
-    await loadShipments();
-
-});
+        return;
+    }
 
 
-/* ==============================
-   EDIT
-============================== */
+    shipmentList.innerHTML = "";
 
-async function editShipment(id){
 
-    const { data, error } =
+    data.forEach(function(shipment) {
+
+        const div =
+        document.createElement("div");
+
+
+        div.className =
+        "shipment";
+
+
+        div.innerHTML = `
+
+            <div class="shipment-top">
+
+                <h3>
+                    ${escapeHtml(
+                        shipment.tracking_number || ""
+                    )}
+                </h3>
+
+                <span class="status">
+                    ${escapeHtml(
+                        shipment.current_status || ""
+                    )}
+                </span>
+
+            </div>
+
+
+            <div class="shipment-info">
+
+                <p>
+                    <strong>Origin:</strong>
+                    ${escapeHtml(
+                        shipment.origin || ""
+                    )}
+                </p>
+
+                <p>
+                    <strong>Destination:</strong>
+                    ${escapeHtml(
+                        shipment.destination || ""
+                    )}
+                </p>
+
+                <p>
+                    <strong>Service:</strong>
+                    ${escapeHtml(
+                        shipment.service || ""
+                    )}
+                </p>
+
+                <p>
+                    <strong>Weight:</strong>
+                    ${escapeHtml(
+                        shipment.weight || ""
+                    )}
+                </p>
+
+                <p>
+                    <strong>Booking Date:</strong>
+                    ${escapeHtml(
+                        shipment.booking_date || ""
+                    )}
+                </p>
+
+                <p>
+                    <strong>Estimated Delivery:</strong>
+                    ${escapeHtml(
+                        shipment.estimated_delivery || ""
+                    )}
+                </p>
+
+                <p>
+                    <strong>Package:</strong>
+                    ${escapeHtml(
+                        shipment.package_details || ""
+                    )}
+                </p>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    type="button"
+                    class="edit-btn"
+                    onclick="editShipment(${Number(shipment.id)})"
+                >
+                    EDIT
+                </button>
+
+
+                <button
+                    type="button"
+                    class="delete-btn"
+                    onclick="deleteShipment(${Number(shipment.id)})"
+                >
+                    DELETE
+                </button>
+
+            </div>
+
+        `;
+
+
+        shipmentList.appendChild(div);
+
+    });
+
+}
+
+
+/* ==================================================
+   EDIT SHIPMENT
+================================================== */
+
+async function editShipment(id) {
+
+    const {
+        data,
+        error
+    } =
     await supabaseClient
-        .from("shipments")
-        .select("*")
-        .eq("id", id)
-        .single();
+    .from("shipments")
+    .select("*")
+    .eq("id", id)
+    .single();
 
-    if(error){
+
+    if (error) {
 
         alert(
-            "Unable to load shipment."
+            "Error loading shipment: " +
+            error.message
         );
-
-        console.error(error);
 
         return;
     }
@@ -770,195 +1623,267 @@ async function editShipment(id){
 
     editingId = id;
 
-    document.getElementById(
-        "tracking_number"
-    ).value =
-        data.tracking_number || "";
 
-    document.getElementById(
-        "origin"
-    ).value =
-        data.origin || "";
-
-    document.getElementById(
-        "destination"
-    ).value =
-        data.destination || "";
-
-    document.getElementById(
-        "service"
-    ).value =
-        data.service || "";
-
-    document.getElementById(
-        "booking_date"
-    ).value =
-        data.booking_date || "";
-
-    document.getElementById(
-        "estimated_delivery"
-    ).value =
-        data.estimated_delivery || "";
-
-    document.getElementById(
-        "current_status"
-    ).value =
-        data.current_status || "Order Confirmed";
-
-    document.getElementById(
-        "package_details"
-    ).value =
-        data.package_details || "";
-
-    document.getElementById(
-        "weight"
-    ).value =
-        data.weight || "";
+    document
+    .getElementById("tracking_number")
+    .value =
+    data.tracking_number || "";
 
 
-    formTitle.textContent =
-        "Edit Shipment";
+    document
+    .getElementById("origin")
+    .value =
+    data.origin || "";
 
-    saveButton.textContent =
-        "UPDATE SHIPMENT";
 
-    cancelButton.style.display =
-        "block";
+    document
+    .getElementById("destination")
+    .value =
+    data.destination || "";
+
+
+    document
+    .getElementById("service")
+    .value =
+    data.service || "";
+
+
+    document
+    .getElementById("booking_date")
+    .value =
+    data.booking_date || "";
+
+
+    document
+    .getElementById("estimated_delivery")
+    .value =
+    data.estimated_delivery || "";
+
+
+    document
+    .getElementById("current_status")
+    .value =
+    data.current_status ||
+    "Order Confirmed";
+
+
+    document
+    .getElementById("weight")
+    .value =
+    data.weight || "";
+
+
+    document
+    .getElementById("package_details")
+    .value =
+    data.package_details || "";
+
+
+    document
+    .getElementById("formTitle")
+    .textContent =
+    "Edit Shipment";
+
+
+    saveBtn.textContent =
+    "UPDATE SHIPMENT";
+
+
+    cancelBtn.style.display =
+    "inline-block";
 
 
     window.scrollTo({
-        top:0,
-        behavior:"smooth"
+        top: 0,
+        behavior: "smooth"
     });
+
 }
 
 
-/* ==============================
-   DELETE
-============================== */
+/* ==================================================
+   DELETE SHIPMENT
+================================================== */
 
-async function deleteShipment(id){
+async function deleteShipment(id) {
 
-    const confirmDelete =
-        confirm(
-            "Are you sure you want to delete this shipment?"
-        );
+    const confirmed =
+    confirm(
+        "Are you sure you want to delete this shipment?"
+    );
 
-    if(!confirmDelete){
+
+    if (!confirmed) {
         return;
     }
 
 
-    const { error } =
+    const {
+        error
+    } =
     await supabaseClient
-        .from("shipments")
-        .delete()
-        .eq("id", id);
+    .from("shipments")
+    .delete()
+    .eq("id", id);
 
 
-    if(error){
-
-        console.error(error);
+    if (error) {
 
         alert(
-            "Unable to delete shipment."
+            "Delete failed: " +
+            error.message
         );
 
         return;
     }
 
 
-    await loadShipments();
+    alert(
+        "Shipment deleted successfully."
+    );
+
+
+    loadShipments();
+
 }
 
 
-/* ==============================
+/* ==================================================
    CANCEL EDIT
-============================== */
+================================================== */
 
-cancelButton.addEventListener(
-"click",
-function(){
+cancelBtn.addEventListener(
+    "click",
+    function() {
 
-    resetForm();
+        resetForm();
 
-});
+    }
+);
 
 
-/* ==============================
-   RESET
-============================== */
+/* ==================================================
+   RESET FORM
+================================================== */
 
-function resetForm(){
+function resetForm() {
 
     editingId = null;
 
-    form.reset();
+    shipmentForm.reset();
 
-    formTitle.textContent =
-        "Add New Shipment";
 
-    saveButton.disabled =
-        false;
+    document
+    .getElementById("formTitle")
+    .textContent =
+    "Add New Shipment";
 
-    saveButton.textContent =
-        "ADD SHIPMENT";
 
-    cancelButton.style.display =
-        "none";
+    saveBtn.textContent =
+    "ADD SHIPMENT";
+
+
+    cancelBtn.style.display =
+    "none";
+
 }
 
 
-/* ==============================
-   DATE
-============================== */
+/* ==================================================
+   FORM MESSAGE
+================================================== */
 
-function formatDate(value){
+function showFormMessage(text) {
 
-    if(!value){
-        return "-";
-    }
-
-    const date =
-        new Date(
-            value + "T00:00:00"
-        );
-
-    if(isNaN(date.getTime())){
-        return value;
-    }
-
-    return date.toLocaleDateString(
-        "en-GB",
-        {
-            day:"2-digit",
-            month:"short",
-            year:"numeric"
-        }
+    const message =
+    document.getElementById(
+        "formMessage"
     );
+
+
+    message.style.display =
+    "block";
+
+
+    message.textContent =
+    text;
+
+
+    setTimeout(
+        function() {
+
+            message.style.display =
+            "none";
+
+        },
+        4000
+    );
+
 }
 
 
-/* ==============================
+/* ==================================================
    HTML SECURITY
-============================== */
+================================================== */
 
-function escapeHtml(value){
+function escapeHtml(value) {
 
     return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
 }
 
 
-/* ==============================
-   START
-============================== */
+/* ==================================================
+   AUTH STATE
+================================================== */
 
-loadShipments();
+supabaseClient.auth.onAuthStateChange(
+    function(event, session) {
+
+        if (session) {
+
+            showAdminPanel();
+
+        } else {
+
+            showLoginScreen();
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   START APPLICATION
+================================================== */
+
+checkSession();
 
 </script>
 
