@@ -7,9 +7,9 @@
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
@@ -27,8 +27,9 @@
       align-items: center;
     }
 
-    header h2 {
-      font-size: 26px;
+    .logo {
+      font-size: 27px;
+      font-weight: 800;
     }
 
     nav a {
@@ -36,6 +37,11 @@
       text-decoration: none;
       margin-left: 25px;
       font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
     }
 
     .hero {
@@ -45,8 +51,9 @@
     }
 
     .hero h1 {
-      font-size: 52px;
       color: #f97316;
+      font-size: 52px;
+      font-weight: 800;
       margin-bottom: 15px;
     }
 
@@ -62,22 +69,26 @@
     }
 
     .tracking input {
-      width: 320px;
+      width: 330px;
       padding: 15px;
       border: 2px solid #f97316;
-      border-radius: 6px;
+      border-radius: 7px;
       font-size: 16px;
+      outline: none;
     }
 
-    button {
+    .tracking button {
       padding: 15px 25px;
       background: #f97316;
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 7px;
       font-weight: bold;
       cursor: pointer;
+    }
+
+    .tracking button:hover {
+      background: #ea580c;
     }
 
     .cards {
@@ -91,15 +102,135 @@
       width: 280px;
       padding: 30px;
       text-align: center;
-      background: white;
       border: 1px solid #fed7aa;
       border-radius: 12px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      background: white;
     }
 
     .card h3 {
       color: #f97316;
       margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    /* Contact Popup */
+
+    .contact-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .contact-box {
+      background: white;
+      width: 100%;
+      max-width: 650px;
+      border-radius: 15px;
+      padding: 35px;
+      position: relative;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .contact-box h2 {
+      text-align: center;
+      color: #f97316;
+      font-size: 30px;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .contact-box > p {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+      font-size: 28px;
+      color: #555;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .branch {
+      border: 1px solid #fed7aa;
+      border-left: 5px solid #f97316;
+      border-radius: 9px;
+      padding: 17px 20px;
+      margin-bottom: 13px;
+      background: #fffaf5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .branch-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .branch-phone {
+      color: #f97316;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .branch-phone:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .tracking {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tracking input {
+        width: 90%;
+      }
+
+      .tracking button {
+        width: 90%;
+      }
+
+      .cards {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .branch {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .contact-box {
+        padding: 30px 20px;
+      }
     }
   </style>
 </head>
@@ -107,12 +238,12 @@
 <body>
 
   <header>
-    <h2>Fast Air Cargo</h2>
+    <div class="logo">Fast Air Cargo</div>
 
     <nav>
       <a href="#">Home</a>
       <a href="#">Track Shipment</a>
-      <a href="#">Contact</a>
+      <a onclick="openContact()">Contact</a>
     </nav>
   </header>
 
@@ -144,6 +275,57 @@
     </div>
 
   </section>
+
+  <!-- Contact Popup -->
+
+  <div class="contact-overlay" id="contactOverlay">
+
+    <div class="contact-box">
+
+      <button class="close-btn" onclick="closeContact()">×</button>
+
+      <h2>Contact Fast Air Cargo</h2>
+      <p>For bookings, shipments and cargo enquiries, contact your nearest branch.</p>
+
+      <div class="branch">
+        <div class="branch-name">Branch 1 — Dina</div>
+        <a class="branch-phone" href="tel:03180381586">0318 0381586</a>
+      </div>
+
+      <div class="branch">
+        <div class="branch-name">Branch 2 — Mirpur</div>
+        <a class="branch-phone" href="tel:03255987631">0325 5987631</a>
+      </div>
+
+      <div class="branch">
+        <div class="branch-name">Branch 3 — Jhelum</div>
+        <a class="branch-phone" href="tel:03173681721">0317 3681721</a>
+      </div>
+
+      <div class="branch">
+        <div class="branch-name">Branch 4 — Gujarkhan</div>
+        <a class="branch-phone" href="tel:03218554919">0321 8554919</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function openContact() {
+      document.getElementById("contactOverlay").style.display = "flex";
+    }
+
+    function closeContact() {
+      document.getElementById("contactOverlay").style.display = "none";
+    }
+
+    document.getElementById("contactOverlay").addEventListener("click", function(event) {
+      if (event.target === this) {
+        closeContact();
+      }
+    });
+  </script>
 
 </body>
 </html>
