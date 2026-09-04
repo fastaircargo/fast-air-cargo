@@ -6,6 +6,9 @@
 
 <title>Fast Air Cargo | Shipment Tracking</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     margin:0;
@@ -53,8 +56,6 @@ header{
     align-items:center;
     justify-content:space-between;
 }
-
-/* LOGO */
 
 .logo{
     display:flex;
@@ -112,8 +113,6 @@ header{
     letter-spacing:2px;
     margin-top:4px;
 }
-
-/* NAVIGATION */
 
 .nav-links{
     display:flex;
@@ -181,8 +180,6 @@ header{
     line-height:1.7;
 }
 
-/* TRACKING SEARCH */
-
 .track-wrapper{
     width:650px;
     max-width:100%;
@@ -228,6 +225,11 @@ header{
     background:var(--orange-dark);
 }
 
+.track-form button:disabled{
+    opacity:.7;
+    cursor:wait;
+}
+
 .multi-track{
     margin-top:13px;
     color:#777;
@@ -247,6 +249,10 @@ header{
     font-weight:bold;
 }
 
+.message.error{
+    color:var(--orange-dark);
+}
+
 /* ================= TRACKING CARD ================= */
 
 .tracking-section{
@@ -254,11 +260,16 @@ header{
 }
 
 .tracking-card{
+    display:none;
     background:#fff;
     border:1px solid var(--border);
     border-radius:15px;
     box-shadow:0 8px 30px rgba(0,0,0,.06);
     padding:30px;
+}
+
+.tracking-card.show{
+    display:block;
 }
 
 .card-top{
@@ -298,6 +309,32 @@ header{
     font-weight:bold;
 }
 
+/* EXTRA INFO */
+
+.extra-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+    margin-top:25px;
+    padding-top:22px;
+    border-top:1px solid #eeeeee;
+}
+
+.extra-box{
+    background:#fff7f1;
+    border:1px solid #ffd9bf;
+    border-radius:10px;
+    padding:14px;
+}
+
+.extra-box .label{
+    margin-bottom:5px;
+}
+
+.extra-box .info-value{
+    font-size:12px;
+}
+
 /* TIMELINE */
 
 .timeline-wrapper{
@@ -308,7 +345,7 @@ header{
 .timeline{
     position:relative;
     display:grid;
-    grid-template-columns:repeat(5,1fr);
+    grid-template-columns:repeat(6,1fr);
 }
 
 .timeline-line{
@@ -317,13 +354,7 @@ header{
     left:5%;
     right:5%;
     height:3px;
-    background:linear-gradient(
-        to right,
-        var(--orange) 0%,
-        var(--orange) 55%,
-        #ddd 55%,
-        #ddd 100%
-    );
+    background:#ddd;
 }
 
 .step{
@@ -358,14 +389,14 @@ header{
 }
 
 .title{
-    font-size:11px;
+    font-size:10px;
     font-weight:bold;
 }
 
 .date{
     margin-top:4px;
     color:#888;
-    font-size:10px;
+    font-size:9px;
 }
 
 /* ================= FEATURES ================= */
@@ -570,7 +601,7 @@ footer li{
     margin-bottom:24px;
 }
 
-/* SERVICES POPUP */
+/* SERVICES */
 
 .service-list{
     display:grid;
@@ -610,7 +641,7 @@ footer li{
     white-space:nowrap;
 }
 
-/* CONTACT POPUP */
+/* CONTACT */
 
 .branch-list{
     display:grid;
@@ -650,7 +681,7 @@ footer li{
     color:var(--orange);
 }
 
-/* ABOUT POPUP */
+/* ABOUT */
 
 .about-content{
     display:grid;
@@ -821,6 +852,10 @@ footer li{
         font-size:19px;
     }
 
+    .extra-info{
+        grid-template-columns:1fr;
+    }
+
     .timeline-wrapper{
         overflow-x:auto;
         padding-bottom:8px;
@@ -828,7 +863,7 @@ footer li{
     }
 
     .timeline{
-        min-width:620px;
+        min-width:720px;
     }
 
     .features-box{
@@ -896,8 +931,6 @@ footer li{
     }
 
 }
-
-/* EXTRA SMALL PHONES */
 
 @media(max-width:380px){
 
@@ -1001,15 +1034,15 @@ placeholder="Enter Tracking Number"
 autocomplete="off"
 >
 
-<button type="submit">
+<button type="submit" id="trackButton">
 TRACK
 </button>
 
 </form>
 
 <div class="multi-track">
-Multiple tracking numbers?
-<span>Track More →</span>
+Secure & COD services available.
+<span>Track Your Cargo →</span>
 </div>
 
 <div class="message" id="message"></div>
@@ -1027,7 +1060,7 @@ Multiple tracking numbers?
 
 <div class="container">
 
-<div class="tracking-card">
+<div class="tracking-card" id="trackingCard">
 
 <div class="card-top">
 
@@ -1038,11 +1071,11 @@ Tracking Number
 </div>
 
 <div class="tracking-number" id="displayNumber">
-FAC123456789PK
+-
 </div>
 
-<span class="status">
-IN TRANSIT
+<span class="status" id="displayStatus">
+-
 </span>
 
 </div>
@@ -1053,8 +1086,8 @@ IN TRANSIT
 Origin
 </div>
 
-<div class="info-value">
-Dina, Pakistan 🇵🇰
+<div class="info-value" id="displayOrigin">
+-
 </div>
 
 </div>
@@ -1065,8 +1098,8 @@ Dina, Pakistan 🇵🇰
 Destination
 </div>
 
-<div class="info-value">
-London, United Kingdom 🇬🇧
+<div class="info-value" id="displayDestination">
+-
 </div>
 
 </div>
@@ -1077,8 +1110,61 @@ London, United Kingdom 🇬🇧
 Estimated Delivery
 </div>
 
-<div class="info-value">
-15 Aug 2026
+<div class="info-value" id="displayDelivery">
+-
+</div>
+
+</div>
+
+</div>
+
+
+<div class="extra-info">
+
+<div class="extra-box">
+
+<div class="label">
+Service
+</div>
+
+<div class="info-value" id="displayService">
+-
+</div>
+
+</div>
+
+<div class="extra-box">
+
+<div class="label">
+Booking Date
+</div>
+
+<div class="info-value" id="displayBookingDate">
+-
+</div>
+
+</div>
+
+<div class="extra-box">
+
+<div class="label">
+Package Details
+</div>
+
+<div class="info-value" id="displayPackage">
+-
+</div>
+
+</div>
+
+<div class="extra-box">
+
+<div class="label">
+Weight
+</div>
+
+<div class="info-value" id="displayWeight">
+-
 </div>
 
 </div>
@@ -1090,12 +1176,12 @@ Estimated Delivery
 
 <div class="timeline">
 
-<div class="timeline-line"></div>
+<div class="timeline-line" id="timelineLine"></div>
 
-<div class="step done">
+<div class="step" id="step1">
 
 <div class="dot">
-✓
+1
 </div>
 
 <div class="title">
@@ -1103,16 +1189,15 @@ Order Confirmed
 </div>
 
 <div class="date">
-10 Aug 2026<br>
-10:30 AM
+-
 </div>
 
 </div>
 
-<div class="step done">
+<div class="step" id="step2">
 
 <div class="dot">
-✓
+2
 </div>
 
 <div class="title">
@@ -1120,16 +1205,15 @@ Picked Up
 </div>
 
 <div class="date">
-11 Aug 2026<br>
-09:15 AM
+-
 </div>
 
 </div>
 
-<div class="step active">
+<div class="step" id="step3">
 
 <div class="dot">
-↗️
+3
 </div>
 
 <div class="title">
@@ -1137,16 +1221,15 @@ In Transit
 </div>
 
 <div class="date">
-12 Aug 2026<br>
-04:45 PM
+-
 </div>
 
 </div>
 
-<div class="step">
+<div class="step" id="step4">
 
 <div class="dot">
-□
+4
 </div>
 
 <div class="title">
@@ -1154,15 +1237,31 @@ Customs Clearance
 </div>
 
 <div class="date">
-—
+-
 </div>
 
 </div>
 
-<div class="step">
+<div class="step" id="step5">
 
 <div class="dot">
-□
+5
+</div>
+
+<div class="title">
+Out for Delivery
+</div>
+
+<div class="date">
+-
+</div>
+
+</div>
+
+<div class="step" id="step6">
+
+<div class="dot">
+6
 </div>
 
 <div class="title">
@@ -1170,7 +1269,7 @@ Delivered
 </div>
 
 <div class="date">
-—
+-
 </div>
 
 </div>
@@ -1188,7 +1287,7 @@ Delivered
 
 <!-- ================= FEATURES ================= -->
 
-<section class="features" id="services">
+<section class="features">
 
 <div class="container">
 
@@ -1265,7 +1364,7 @@ Our team is available to assist you.
 
 <!-- ================= UK SECTION ================= -->
 
-<section class="lower-section" id="about">
+<section class="lower-section">
 
 <div class="container">
 
@@ -1292,7 +1391,7 @@ secure packing and dependable international cargo service.
 
 <!-- ================= FOOTER ================= -->
 
-<footer id="contact">
+<footer>
 
 <div class="footer-main">
 
@@ -1387,6 +1486,14 @@ Priority Cargo
 Premium Cargo
 </li>
 
+<li class="footer-link" onclick="openModal('servicesModal')">
+Secure Service
+</li>
+
+<li class="footer-link" onclick="openModal('servicesModal')">
+COD Service
+</li>
+
 </ul>
 
 </div>
@@ -1449,78 +1556,51 @@ Choose the cargo service that best matches your delivery requirements.
 <div class="service-list">
 
 <div class="service-item">
-
 <div>
-<div class="service-name">
-Regular Cargo
+<div class="service-name">Regular Cargo</div>
+<div class="service-text">Reliable and economical cargo service.</div>
 </div>
-
-<div class="service-text">
-Reliable and economical cargo service.
+<div class="service-days">8 WORKING DAYS</div>
 </div>
-</div>
-
-<div class="service-days">
-8 WORKING DAYS
-</div>
-
-</div>
-
 
 <div class="service-item">
-
 <div>
-<div class="service-name">
-Express Cargo
+<div class="service-name">Express Cargo</div>
+<div class="service-text">Faster delivery for time-sensitive shipments.</div>
 </div>
-
-<div class="service-text">
-Faster delivery for time-sensitive shipments.
+<div class="service-days">6 WORKING DAYS</div>
 </div>
-</div>
-
-<div class="service-days">
-6 WORKING DAYS
-</div>
-
-</div>
-
 
 <div class="service-item">
-
 <div>
-<div class="service-name">
-Priority Cargo
+<div class="service-name">Priority Cargo</div>
+<div class="service-text">Priority handling for important shipments.</div>
 </div>
-
-<div class="service-text">
-Priority handling for important shipments.
+<div class="service-days">5 WORKING DAYS</div>
 </div>
-</div>
-
-<div class="service-days">
-5 WORKING DAYS
-</div>
-
-</div>
-
 
 <div class="service-item">
-
 <div>
-<div class="service-name">
-Premium Cargo
+<div class="service-name">Premium Cargo</div>
+<div class="service-text">Our fastest premium cargo service.</div>
+</div>
+<div class="service-days">4 WORKING DAYS</div>
 </div>
 
-<div class="service-text">
-Our fastest premium cargo service.
+<div class="service-item">
+<div>
+<div class="service-name">Secure Service</div>
+<div class="service-text">Secure handling with dependable cargo delivery.</div>
 </div>
+<div class="service-days">5–7 WORKING DAYS</div>
 </div>
 
-<div class="service-days">
-4 WORKING DAYS
+<div class="service-item">
+<div>
+<div class="service-name">COD Service</div>
+<div class="service-text">Cash on Delivery cargo service.</div>
 </div>
-
+<div class="service-days">5–7 WORKING DAYS</div>
 </div>
 
 </div>
@@ -1552,70 +1632,27 @@ cargo information and customer support.
 <div class="branch-list">
 
 <div class="branch-item">
-
-<div class="branch-city">
-Dina
+<div class="branch-city">Dina</div>
+<div class="branch-label">Contact Number</div>
+<a class="branch-phone" href="tel:03180381586">03180381586</a>
 </div>
-
-<div class="branch-label">
-Contact Number
-</div>
-
-<a class="branch-phone" href="tel:03180381586">
-03180381586
-</a>
-
-</div>
-
 
 <div class="branch-item">
-
-<div class="branch-city">
-Mirpur
+<div class="branch-city">Mirpur</div>
+<div class="branch-label">Contact Number</div>
+<a class="branch-phone" href="tel:03255987631">03255987631</a>
 </div>
-
-<div class="branch-label">
-Contact Number
-</div>
-
-<a class="branch-phone" href="tel:03255987631">
-03255987631
-</a>
-
-</div>
-
 
 <div class="branch-item">
-
-<div class="branch-city">
-Jhelum
+<div class="branch-city">Jhelum</div>
+<div class="branch-label">Contact Number</div>
+<a class="branch-phone" href="tel:03173681721">03173681721</a>
 </div>
-
-<div class="branch-label">
-Contact Number
-</div>
-
-<a class="branch-phone" href="tel:03173681721">
-03173681721
-</a>
-
-</div>
-
 
 <div class="branch-item">
-
-<div class="branch-city">
-Gujarkhan
-</div>
-
-<div class="branch-label">
-Contact Number
-</div>
-
-<a class="branch-phone" href="tel:03218554919">
-03218554919
-</a>
-
+<div class="branch-city">Gujarkhan</div>
+<div class="branch-label">Contact Number</div>
+<a class="branch-phone" href="tel:03218554919">03218554919</a>
 </div>
 
 </div>
@@ -1658,7 +1695,6 @@ OF CARGO SERVICE EXPERIENCE
 
 </div>
 
-
 <div class="about-box">
 
 <h3>
@@ -1673,7 +1709,6 @@ careful and reliable shipment preparation.
 
 </div>
 
-
 <div class="about-box">
 
 <h3>
@@ -1687,7 +1722,6 @@ security and dependable service.
 </p>
 
 </div>
-
 
 <div class="about-box">
 
@@ -1714,31 +1748,306 @@ support for customers and their shipments.
 
 <script>
 
+/* ==================================================
+   SUPABASE CONNECTION
+   ================================================== */
+
+const SUPABASE_URL =
+"https://gpkmqcplkzcdjnswbfvo.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_3q1b92xzA08jiXl_T-285w_y_WfyJCF";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* ==================================================
+   ELEMENTS
+   ================================================== */
+
 const form =
 document.getElementById("trackingForm");
 
 const input =
 document.getElementById("trackingInput");
 
-const display =
-document.getElementById("displayNumber");
-
 const message =
 document.getElementById("message");
 
+const trackButton =
+document.getElementById("trackButton");
 
-/* TRACKING */
+const trackingCard =
+document.getElementById("trackingCard");
 
-form.addEventListener("submit", function(event){
+const displayNumber =
+document.getElementById("displayNumber");
+
+const displayStatus =
+document.getElementById("displayStatus");
+
+const displayOrigin =
+document.getElementById("displayOrigin");
+
+const displayDestination =
+document.getElementById("displayDestination");
+
+const displayDelivery =
+document.getElementById("displayDelivery");
+
+const displayService =
+document.getElementById("displayService");
+
+const displayBookingDate =
+document.getElementById("displayBookingDate");
+
+const displayPackage =
+document.getElementById("displayPackage");
+
+const displayWeight =
+document.getElementById("displayWeight");
+
+
+/* ==================================================
+   FORMAT DATE
+   ================================================== */
+
+function formatDate(dateValue){
+
+    if(!dateValue){
+        return "-";
+    }
+
+    const date =
+    new Date(dateValue + "T00:00:00");
+
+    if(isNaN(date.getTime())){
+        return dateValue;
+    }
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+
+/* ==================================================
+   NORMALIZE STATUS
+   ================================================== */
+
+function normalizeStatus(status){
+
+    if(!status){
+        return "Order Confirmed";
+    }
+
+    return status
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g," ");
+}
+
+
+/* ==================================================
+   UPDATE TIMELINE
+   ================================================== */
+
+function updateTimeline(currentStatus){
+
+    const status =
+    normalizeStatus(currentStatus);
+
+    const steps = [
+
+        {
+            id:"step1",
+            names:[
+                "order confirmed",
+                "confirmed"
+            ]
+        },
+
+        {
+            id:"step2",
+            names:[
+                "picked up",
+                "pickup",
+                "picked"
+            ]
+        },
+
+        {
+            id:"step3",
+            names:[
+                "in transit",
+                "transit"
+            ]
+        },
+
+        {
+            id:"step4",
+            names:[
+                "customs clearance",
+                "customs"
+            ]
+        },
+
+        {
+            id:"step5",
+            names:[
+                "out for delivery",
+                "out for delivery"
+            ]
+        },
+
+        {
+            id:"step6",
+            names:[
+                "delivered",
+                "complete",
+                "completed"
+            ]
+        }
+
+    ];
+
+    let activeIndex = 0;
+
+    steps.forEach(function(step,index){
+
+        if(step.names.includes(status)){
+            activeIndex = index;
+        }
+
+    });
+
+
+    steps.forEach(function(step,index){
+
+        const element =
+        document.getElementById(step.id);
+
+        element.classList.remove(
+            "done",
+            "active"
+        );
+
+        const dot =
+        element.querySelector(".dot");
+
+        if(index < activeIndex){
+
+            element.classList.add("done");
+
+            dot.textContent = "✓";
+
+        }else if(index === activeIndex){
+
+            element.classList.add("active");
+
+            dot.textContent = "●";
+
+        }else{
+
+            dot.textContent = index + 1;
+
+        }
+
+    });
+
+
+    const percentage =
+    activeIndex / (steps.length - 1) * 100;
+
+    document.getElementById("timelineLine").style.background =
+    "linear-gradient(to right, var(--orange) 0%, var(--orange) " +
+    percentage +
+    "%, #ddd " +
+    percentage +
+    "%, #ddd 100%)";
+}
+
+
+/* ==================================================
+   SHOW SHIPMENT
+   ================================================== */
+
+function showShipment(shipment){
+
+    displayNumber.textContent =
+    shipment.tracking_number || "-";
+
+    displayOrigin.textContent =
+    shipment.origin || "-";
+
+    displayDestination.textContent =
+    shipment.destination || "-";
+
+    displayDelivery.textContent =
+    formatDate(shipment.estimated_delivery);
+
+    displayService.textContent =
+    shipment.service || "-";
+
+    displayBookingDate.textContent =
+    formatDate(shipment.booking_date);
+
+    displayPackage.textContent =
+    shipment.package_details || "-";
+
+    displayWeight.textContent =
+    shipment.weight || "-";
+
+    const status =
+    shipment.current_status || "Order Confirmed";
+
+    displayStatus.textContent =
+    status.toUpperCase();
+
+    updateTimeline(status);
+
+    trackingCard.classList.add("show");
+
+    trackingCard.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+}
+
+
+/* ==================================================
+   TRACK SHIPMENT
+   ================================================== */
+
+form.addEventListener(
+"submit",
+async function(event){
 
     event.preventDefault();
 
     const trackingNumber =
-    input.value.trim().toUpperCase();
+    input.value
+    .trim()
+    .toUpperCase();
+
+    trackingCard.classList.remove("show");
+
+    message.style.display = "none";
 
     if(trackingNumber === ""){
 
         message.style.display = "block";
+
+        message.classList.add("error");
 
         message.textContent =
         "Please enter a tracking number.";
@@ -1746,25 +2055,92 @@ form.addEventListener("submit", function(event){
         return;
     }
 
-    display.textContent =
-    trackingNumber;
 
-    message.style.display = "block";
+    trackButton.disabled = true;
 
-    message.textContent =
-    "Tracking number loaded successfully.";
+    trackButton.textContent =
+    "SEARCHING...";
 
-    document
-    .querySelector(".tracking-card")
-    .scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-    });
+
+    try{
+
+        const { data, error } =
+        await supabaseClient
+        .from("shipments")
+        .select("*")
+        .eq(
+            "tracking_number",
+            trackingNumber
+        )
+        .maybeSingle();
+
+
+        if(error){
+
+            console.error(
+                "Supabase error:",
+                error
+            );
+
+            message.style.display = "block";
+
+            message.classList.add("error");
+
+            message.textContent =
+            "Unable to connect to the tracking system. Please try again.";
+
+            return;
+        }
+
+
+        if(!data){
+
+            message.style.display = "block";
+
+            message.classList.add("error");
+
+            message.textContent =
+            "Shipment not found. Please check your tracking number.";
+
+            return;
+        }
+
+
+        message.style.display = "block";
+
+        message.classList.remove("error");
+
+        message.textContent =
+        "Shipment found successfully.";
+
+        showShipment(data);
+
+    }catch(error){
+
+        console.error(error);
+
+        message.style.display = "block";
+
+        message.classList.add("error");
+
+        message.textContent =
+        "Something went wrong. Please try again.";
+
+    }finally{
+
+        trackButton.disabled = false;
+
+        trackButton.textContent =
+        "TRACK";
+
+    }
 
 });
 
 
-/* POPUPS */
+/* ==================================================
+   POPUPS
+   ================================================== */
 
 function openModal(id){
 
@@ -1772,7 +2148,8 @@ function openModal(id){
     .getElementById(id)
     .classList.add("show");
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+    "hidden";
 }
 
 
@@ -1782,21 +2159,29 @@ function closeModal(id){
     .getElementById(id)
     .classList.remove("show");
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+    "";
 }
 
 
-/* CLOSE POPUP WHEN CLICKING OUTSIDE */
+/* ==================================================
+   CLOSE OUTSIDE
+   ================================================== */
 
-document.querySelectorAll(".modal").forEach(function(modal){
+document
+.querySelectorAll(".modal")
+.forEach(function(modal){
 
-    modal.addEventListener("click", function(event){
+    modal.addEventListener(
+    "click",
+    function(event){
 
         if(event.target === modal){
 
             modal.classList.remove("show");
 
-            document.body.style.overflow = "";
+            document.body.style.overflow =
+            "";
 
         }
 
@@ -1805,26 +2190,35 @@ document.querySelectorAll(".modal").forEach(function(modal){
 });
 
 
-/* CLOSE POPUP WITH ESC */
+/* ==================================================
+   ESC KEY
+   ================================================== */
 
-document.addEventListener("keydown", function(event){
+document.addEventListener(
+"keydown",
+function(event){
 
     if(event.key === "Escape"){
 
-        document.querySelectorAll(".modal").forEach(function(modal){
+        document
+        .querySelectorAll(".modal")
+        .forEach(function(modal){
 
             modal.classList.remove("show");
 
         });
 
-        document.body.style.overflow = "";
+        document.body.style.overflow =
+        "";
 
     }
 
 });
 
 
-/* FOOTER NAVIGATION */
+/* ==================================================
+   FOOTER NAVIGATION
+   ================================================== */
 
 function goHome(){
 
