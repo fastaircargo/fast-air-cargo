@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,6 +26,8 @@
     --orange-dark: #e66d00;
     --white: #ffffff;
     --black: #222222;
+    --gray: #666666;
+    --light-gray: #f7f7f7;
 }
 
 html {
@@ -61,11 +64,6 @@ body {
     overflow: hidden;
 }
 
-
-/* =========================
-   LOGIN BRAND
-========================= */
-
 .login-logo {
     width: 100%;
     text-align: center;
@@ -92,11 +90,6 @@ body {
     white-space: nowrap;
 }
 
-
-/* =========================
-   LOGIN TITLE
-========================= */
-
 .login-title {
     text-align: center;
     color: var(--orange);
@@ -104,11 +97,6 @@ body {
     font-weight: 900;
     margin-bottom: 23px;
 }
-
-
-/* =========================
-   LOGIN FIELDS
-========================= */
 
 .login-field {
     margin-bottom: 17px;
@@ -136,11 +124,6 @@ body {
     border-color: var(--orange-dark);
 }
 
-
-/* =========================
-   LOGIN BUTTON
-========================= */
-
 .login-btn {
     width: 100%;
     background: var(--orange);
@@ -158,11 +141,6 @@ body {
     background: var(--orange-dark);
     border-color: var(--orange-dark);
 }
-
-
-/* =========================
-   LOGIN MESSAGE
-========================= */
 
 .login-message {
     margin-top: 14px;
@@ -350,6 +328,36 @@ body {
 
 
 /* =========================
+   STATUS DETAILS
+========================= */
+
+.status-detail-field {
+    transition: 0.2s ease;
+}
+
+.status-detail-field.hidden {
+    display: none;
+}
+
+.status-detail-field label {
+    color: var(--gray);
+    font-size: 13px;
+}
+
+.status-detail-field select {
+    font-size: 13px;
+    border-color: #ffad66;
+    background: #fffaf5;
+}
+
+.status-help {
+    margin-top: 5px;
+    font-size: 11px;
+    color: var(--gray);
+}
+
+
+/* =========================
    BUTTON ROW
 ========================= */
 
@@ -379,6 +387,12 @@ body {
 .primary-btn:hover {
     background: var(--orange-dark);
     border-color: var(--orange-dark);
+}
+
+.primary-btn:disabled,
+.login-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
 }
 
 .secondary-btn {
@@ -444,6 +458,18 @@ body {
     font-size: 11px;
     font-weight: 900;
     white-space: nowrap;
+}
+
+.status-detail {
+    margin-top: -5px;
+    margin-bottom: 14px;
+    padding: 8px 11px;
+    background: #fff7ef;
+    border-left: 3px solid var(--orange);
+    color: var(--black);
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
 }
 
 
@@ -666,7 +692,6 @@ body {
 </style>
 </head>
 
-
 <body>
 
 
@@ -679,26 +704,18 @@ body {
     <div class="login-box">
 
         <div class="login-logo">
-
             <h1>FAST AIR CARGO</h1>
-
             <p>Where Every Shipment Matters!</p>
-
         </div>
-
 
         <div class="login-title">
             Admin Panel Login
         </div>
 
-
         <form id="loginForm">
 
             <div class="login-field">
-
-                <label for="loginEmail">
-                    Email
-                </label>
+                <label for="loginEmail">Email</label>
 
                 <input
                     type="email"
@@ -707,15 +724,10 @@ body {
                     autocomplete="username"
                     required
                 >
-
             </div>
 
-
             <div class="login-field">
-
-                <label for="loginPassword">
-                    Password
-                </label>
+                <label for="loginPassword">Password</label>
 
                 <input
                     type="password"
@@ -724,19 +736,17 @@ body {
                     autocomplete="current-password"
                     required
                 >
-
             </div>
-
 
             <button
                 type="submit"
                 class="login-btn"
+                id="loginBtn"
             >
                 LOGIN TO ADMIN PANEL
             </button>
 
         </form>
-
 
         <div
             id="loginMessage"
@@ -748,30 +758,23 @@ body {
 </section>
 
 
-
 <!-- ==================================================
      ADMIN PANEL
 ================================================== -->
 
 <section id="adminPanel">
 
-
-    <!-- HEADER -->
-
     <header class="admin-header">
 
         <div class="admin-brand">
-
             <h2>FAST AIR CARGO</h2>
-
             <p>Where Every Shipment Matters!</p>
-
         </div>
-
 
         <button
             id="logoutBtn"
             class="logout-btn"
+            type="button"
         >
             LOGOUT
         </button>
@@ -779,26 +782,17 @@ body {
     </header>
 
 
-
-    <!-- MAIN CONTENT -->
-
     <main class="admin-container">
-
-
-        <!-- DASHBOARD TITLE -->
 
         <div class="dashboard-title">
 
-            <h1>
-                Shipment Management
-            </h1>
+            <h1>Shipment Management</h1>
 
             <p>
                 Add, update and manage customer shipments.
             </p>
 
         </div>
-
 
 
         <!-- ==================================================
@@ -833,6 +827,7 @@ body {
                             type="text"
                             id="tracking_number"
                             placeholder="FAC123456789PK"
+                            autocomplete="off"
                             required
                         >
 
@@ -955,7 +950,7 @@ body {
                     </div>
 
 
-                    <!-- STATUS -->
+                    <!-- MAIN STATUS -->
 
                     <div class="form-field">
 
@@ -997,6 +992,28 @@ body {
                     </div>
 
 
+                    <!-- DETAIL STATUS -->
+
+                    <div
+                        class="form-field status-detail-field"
+                        id="statusDetailField"
+                    >
+
+                        <label for="status_detail">
+                            Status Detail
+                        </label>
+
+                        <select id="status_detail">
+
+                        </select>
+
+                        <div class="status-help">
+                            Select the current detailed shipment update.
+                        </div>
+
+                    </div>
+
+
                     <!-- WEIGHT -->
 
                     <div class="form-field">
@@ -1032,7 +1049,6 @@ body {
                 </div>
 
 
-
                 <!-- BUTTONS -->
 
                 <div class="button-row">
@@ -1044,7 +1060,6 @@ body {
                     >
                         ADD SHIPMENT
                     </button>
-
 
                     <button
                         type="button"
@@ -1068,7 +1083,6 @@ body {
         </div>
 
 
-
         <!-- ==================================================
              ALL SHIPMENTS
         ================================================== -->
@@ -1083,7 +1097,6 @@ body {
 
             </div>
 
-
             <div
                 id="shipmentList"
                 class="shipment-list"
@@ -1096,9 +1109,6 @@ body {
     </main>
 
 
-
-    <!-- FOOTER -->
-
     <footer class="admin-footer">
 
         FAST AIR CARGO © 2026
@@ -1108,7 +1118,6 @@ body {
     </footer>
 
 </section>
-
 
 
 <script>
@@ -1122,7 +1131,6 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_3q1b92xzA08jiXl_T-285w_y_WfyJCF";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -1139,6 +1147,49 @@ let editingId = null;
 
 
 /* ==================================================
+   STATUS STRUCTURE
+================================================== */
+
+const statusDetails = {
+
+    "Order Confirmed": [
+        "Shipment Packed",
+        "On Hold Due to Payment",
+        "On Hold Due to No Available Flight Schedule"
+    ],
+
+    "Picked Up": [
+        "Forwarded to Airport",
+        "Under Customs Clearance in Pakistan",
+        "Customs Cleared in Pakistan"
+    ],
+
+    "In Transit": [
+        "Departed from Pakistan",
+        "Arrived at LHR Airport"
+    ],
+
+    "Customs Clearance": [
+        "Held by Border Force",
+        "Held by UK Customs",
+        "Customs Cleared",
+        "Shipment Transferred from the UK to Germany",
+        "Arrived in Germany"
+    ],
+
+    "Out for Delivery": [
+        "Handed Over to Delivery Partner"
+    ],
+
+    "Delivered": [
+        "Thank You for Choosing Fast Air Cargo",
+        "Send Feedback via WhatsApp"
+    ]
+
+};
+
+
+/* ==================================================
    ELEMENTS
 ================================================== */
 
@@ -1150,6 +1201,9 @@ document.getElementById("adminPanel");
 
 const loginForm =
 document.getElementById("loginForm");
+
+const loginBtn =
+document.getElementById("loginBtn");
 
 const logoutBtn =
 document.getElementById("logoutBtn");
@@ -1166,6 +1220,101 @@ document.getElementById("cancelBtn");
 const saveBtn =
 document.getElementById("saveBtn");
 
+const currentStatus =
+document.getElementById("current_status");
+
+const statusDetail =
+document.getElementById("status_detail");
+
+const statusDetailField =
+document.getElementById("statusDetailField");
+
+
+/* ==================================================
+   UPDATE DETAIL DROPDOWN
+================================================== */
+
+function updateStatusDetails(selectedStatus, selectedDetail = "") {
+
+    const details =
+    statusDetails[selectedStatus] || [];
+
+
+    statusDetail.innerHTML = "";
+
+
+    if (details.length === 0) {
+
+        statusDetailField.classList.add("hidden");
+
+        statusDetail.disabled = true;
+
+        return;
+    }
+
+
+    statusDetailField.classList.remove("hidden");
+
+    statusDetail.disabled = false;
+
+
+    const defaultOption =
+    document.createElement("option");
+
+    defaultOption.value = "";
+
+    defaultOption.textContent =
+    "Select Status Detail";
+
+    statusDetail.appendChild(defaultOption);
+
+
+    details.forEach(function(detail) {
+
+        const option =
+        document.createElement("option");
+
+        option.value = detail;
+
+        option.textContent = detail;
+
+        statusDetail.appendChild(option);
+
+    });
+
+
+    if (
+        selectedDetail &&
+        details.includes(selectedDetail)
+    ) {
+
+        statusDetail.value =
+        selectedDetail;
+
+    } else {
+
+        statusDetail.value = "";
+
+    }
+
+}
+
+
+/* ==================================================
+   STATUS CHANGE
+================================================== */
+
+currentStatus.addEventListener(
+    "change",
+    function() {
+
+        updateStatusDetails(
+            currentStatus.value
+        );
+
+    }
+);
+
 
 /* ==================================================
    CHECK CURRENT SESSION
@@ -1176,16 +1325,30 @@ async function checkSession() {
     const {
         data: {
             session
-        }
+        },
+        error
     } =
     await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+        console.error(
+            "Session error:",
+            error
+        );
+
+        showLoginScreen();
+
+        return;
+    }
 
 
     if (session) {
 
         showAdminPanel();
 
-        loadShipments();
+        await loadShipments();
 
     } else {
 
@@ -1218,6 +1381,10 @@ function showAdminPanel() {
     loginScreen.style.display = "none";
 
     adminPanel.style.display = "block";
+
+    updateStatusDetails(
+        currentStatus.value || "Order Confirmed"
+    );
 
 }
 
@@ -1252,8 +1419,12 @@ loginForm.addEventListener(
         );
 
 
-        message.textContent =
-        "Logging in...";
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+        "LOGGING IN...";
+
+        message.textContent = "";
 
 
         const {
@@ -1274,6 +1445,11 @@ loginForm.addEventListener(
             "Login failed: " +
             error.message;
 
+            loginBtn.disabled = false;
+
+            loginBtn.textContent =
+            "LOGIN TO ADMIN PANEL";
+
             return;
         }
 
@@ -1282,9 +1458,14 @@ loginForm.addEventListener(
 
         loginForm.reset();
 
+        loginBtn.disabled = false;
+
+        loginBtn.textContent =
+        "LOGIN TO ADMIN PANEL";
+
         showAdminPanel();
 
-        loadShipments();
+        await loadShipments();
 
     }
 );
@@ -1301,6 +1482,8 @@ logoutBtn.addEventListener(
         await supabaseClient.auth.signOut();
 
         editingId = null;
+
+        resetForm();
 
         showLoginScreen();
 
@@ -1319,62 +1502,125 @@ shipmentForm.addEventListener(
         event.preventDefault();
 
 
+        const trackingNumber =
+        document
+        .getElementById("tracking_number")
+        .value
+        .trim();
+
+
+        const origin =
+        document
+        .getElementById("origin")
+        .value
+        .trim();
+
+
+        const destination =
+        document
+        .getElementById("destination")
+        .value
+        .trim();
+
+
+        const service =
+        document
+        .getElementById("service")
+        .value;
+
+
+        const bookingDate =
+        document
+        .getElementById("booking_date")
+        .value;
+
+
+        const estimatedDelivery =
+        document
+        .getElementById("estimated_delivery")
+        .value;
+
+
+        const currentStatusValue =
+        document
+        .getElementById("current_status")
+        .value;
+
+
+        const statusDetailValue =
+        document
+        .getElementById("status_detail")
+        .value;
+
+
+        const packageDetails =
+        document
+        .getElementById("package_details")
+        .value
+        .trim();
+
+
+        const weight =
+        document
+        .getElementById("weight")
+        .value
+        .trim();
+
+
+        if (!statusDetailValue) {
+
+            showFormMessage(
+                "Please select a Status Detail."
+            );
+
+            return;
+        }
+
+
         const shipment = {
 
             tracking_number:
-            document
-            .getElementById("tracking_number")
-            .value
-            .trim(),
+            trackingNumber,
 
             origin:
-            document
-            .getElementById("origin")
-            .value
-            .trim(),
+            origin,
 
             destination:
-            document
-            .getElementById("destination")
-            .value
-            .trim(),
+            destination,
 
             service:
-            document
-            .getElementById("service")
-            .value,
+            service,
 
             booking_date:
-            document
-            .getElementById("booking_date")
-            .value,
+            bookingDate,
 
             estimated_delivery:
-            document
-            .getElementById("estimated_delivery")
-            .value,
+            estimatedDelivery,
 
             current_status:
-            document
-            .getElementById("current_status")
-            .value,
+            currentStatusValue,
+
+            status_detail:
+            statusDetailValue,
 
             package_details:
-            document
-            .getElementById("package_details")
-            .value
-            .trim(),
+            packageDetails,
 
             weight:
-            document
-            .getElementById("weight")
-            .value
-            .trim()
+            weight
 
         };
 
 
         let result;
+
+
+        saveBtn.disabled = true;
+
+        saveBtn.textContent =
+        editingId !== null
+        ? "UPDATING..."
+        : "ADDING...";
 
 
         /* UPDATE */
@@ -1387,8 +1633,8 @@ shipmentForm.addEventListener(
             .update(shipment)
             .eq("id", editingId);
 
-
         }
+
 
         /* INSERT */
 
@@ -1402,6 +1648,14 @@ shipmentForm.addEventListener(
         }
 
 
+        saveBtn.disabled = false;
+
+        saveBtn.textContent =
+        editingId !== null
+        ? "UPDATE SHIPMENT"
+        : "ADD SHIPMENT";
+
+
         if (result.error) {
 
             showFormMessage(
@@ -1413,14 +1667,19 @@ shipmentForm.addEventListener(
         }
 
 
+        const wasEditing =
+        editingId !== null;
+
+
+        resetForm();
+
+
         showFormMessage(
-            editingId !== null
+            wasEditing
             ? "Shipment updated successfully."
             : "Shipment added successfully."
         );
 
-
-        resetForm();
 
         await loadShipments();
 
@@ -1465,11 +1724,10 @@ async function loadShipments() {
 
     if (!data || data.length === 0) {
 
-        shipmentList.innerHTML =
-        `
-        <div class="empty">
-            No shipments found.
-        </div>
+        shipmentList.innerHTML = `
+            <div class="empty">
+                No shipments found.
+            </div>
         `;
 
         return;
@@ -1504,6 +1762,15 @@ async function loadShipments() {
                         shipment.current_status || ""
                     )}
                 </span>
+
+            </div>
+
+
+            <div class="status-detail">
+
+                ${escapeHtml(
+                    shipment.status_detail || "No detail selected"
+                )}
 
             </div>
 
@@ -1567,7 +1834,9 @@ async function loadShipments() {
                 <button
                     type="button"
                     class="edit-btn"
-                    onclick="editShipment(${Number(shipment.id)})"
+                    onclick="editShipment('${escapeJs(
+                        shipment.id
+                    )}')"
                 >
                     EDIT
                 </button>
@@ -1576,7 +1845,9 @@ async function loadShipments() {
                 <button
                     type="button"
                     class="delete-btn"
-                    onclick="deleteShipment(${Number(shipment.id)})"
+                    onclick="deleteShipment('${escapeJs(
+                        shipment.id
+                    )}')"
                 >
                     DELETE
                 </button>
@@ -1667,6 +1938,13 @@ async function editShipment(id) {
     "Order Confirmed";
 
 
+    updateStatusDetails(
+        data.current_status ||
+        "Order Confirmed",
+        data.status_detail || ""
+    );
+
+
     document
     .getElementById("weight")
     .value =
@@ -1738,12 +2016,7 @@ async function deleteShipment(id) {
     }
 
 
-    alert(
-        "Shipment deleted successfully."
-    );
-
-
-    loadShipments();
+    await loadShipments();
 
 }
 
@@ -1786,6 +2059,15 @@ function resetForm() {
     cancelBtn.style.display =
     "none";
 
+
+    currentStatus.value =
+    "Order Confirmed";
+
+
+    updateStatusDetails(
+        "Order Confirmed"
+    );
+
 }
 
 
@@ -1793,12 +2075,19 @@ function resetForm() {
    FORM MESSAGE
 ================================================== */
 
+let messageTimer = null;
+
 function showFormMessage(text) {
 
     const message =
     document.getElementById(
         "formMessage"
     );
+
+
+    if (messageTimer) {
+        clearTimeout(messageTimer);
+    }
 
 
     message.style.display =
@@ -1809,6 +2098,7 @@ function showFormMessage(text) {
     text;
 
 
+    messageTimer =
     setTimeout(
         function() {
 
@@ -1830,30 +2120,32 @@ function escapeHtml(value) {
 
     return String(value)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+        .replace(/&/g, "&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+        .replace(/</g, "&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+        .replace(/>/g, "&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+        .replace(/"/g, "&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeJs(value) {
+
+    return String(value)
+
+        .replace(/\\/g, "\\\\")
+
+        .replace(/'/g, "\\'")
+
+        .replace(/"/g, '\\"')
+
+        .replace(/\r/g, "\\r")
+
+        .replace(/\n/g, "\\n");
 
 }
 
@@ -1883,9 +2175,14 @@ supabaseClient.auth.onAuthStateChange(
    START APPLICATION
 ================================================== */
 
+updateStatusDetails(
+    "Order Confirmed"
+);
+
 checkSession();
 
 </script>
 
 </body>
 </html>
+```
