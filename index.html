@@ -1,331 +1,1852 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fast Air Cargo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<title>Fast Air Cargo | Shipment Tracking</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --orange:#ff6900;
+    --orange-dark:#e85d00;
+    --black:#111111;
+    --gray:#666666;
+    --light:#fff7f1;
+    --border:#e8e8e8;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#ffffff;
+    color:var(--black);
+    overflow-x:hidden;
+}
+
+.container{
+    width:1180px;
+    max-width:calc(100% - 40px);
+    margin:auto;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    height:88px;
+    background:#fff;
+    border-bottom:1px solid #eeeeee;
+}
+
+.nav{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#111;
+}
+
+.logo-icon{
+    width:39px;
+    height:30px;
+    position:relative;
+}
+
+.logo-icon span{
+    position:absolute;
+    height:6px;
+    background:var(--orange);
+    transform:skew(-28deg);
+    border-radius:1px;
+}
+
+.logo-icon span:nth-child(1){
+    width:37px;
+    top:2px;
+}
+
+.logo-icon span:nth-child(2){
+    width:30px;
+    left:6px;
+    top:12px;
+}
+
+.logo-icon span:nth-child(3){
+    width:23px;
+    left:12px;
+    top:22px;
+}
+
+.logo-name{
+    font-size:23px;
+    font-weight:900;
+    font-style:italic;
+    line-height:21px;
+}
+
+.logo-name span{
+    color:var(--orange);
+}
+
+.logo-tagline{
+    font-size:8px;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-top:4px;
+}
+
+/* NAVIGATION */
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:32px;
+}
+
+.nav-links a{
+    color:#444;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.nav-links a:hover{
+    color:var(--orange);
+}
+
+.nav-contact{
+    background:var(--orange);
+    color:white;
+    padding:11px 17px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    background:#fff;
+    padding:75px 0 65px;
+    text-align:center;
+}
+
+.hero-badge{
+    display:inline-block;
+    color:var(--orange);
+    background:var(--light);
+    border:1px solid #ffd9bf;
+    border-radius:30px;
+    padding:7px 15px;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:.5px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:54px;
+    line-height:1.02;
+    letter-spacing:-1.5px;
+}
+
+.hero h1 span{
+    color:var(--orange);
+}
+
+.hero-description{
+    max-width:580px;
+    margin:20px auto 30px;
+    color:#666;
+    font-size:15px;
+    line-height:1.7;
+}
+
+/* TRACKING SEARCH */
+
+.track-wrapper{
+    width:650px;
+    max-width:100%;
+    margin:auto;
+}
+
+.track-form{
+    display:flex;
+    width:100%;
+    height:58px;
+    border:1px solid #dddddd;
+    border-radius:10px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:0 8px 25px rgba(0,0,0,.07);
+}
+
+.track-form input{
+    flex:1;
+    min-width:0;
+    border:0;
+    outline:none;
+    padding:0 20px;
+    font-size:14px;
+    color:#222;
+}
+
+.track-form input::placeholder{
+    color:#999;
+}
+
+.track-form button{
+    width:125px;
+    border:0;
+    background:var(--orange);
+    color:#fff;
+    font-size:13px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.track-form button:hover{
+    background:var(--orange-dark);
+}
+
+.multi-track{
+    margin-top:13px;
+    color:#777;
+    font-size:12px;
+}
+
+.multi-track span{
+    color:var(--orange);
+    font-weight:bold;
+}
+
+.message{
+    display:none;
+    margin-top:12px;
+    color:var(--orange);
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* ================= TRACKING CARD ================= */
+
+.tracking-section{
+    padding-bottom:35px;
+}
+
+.tracking-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:15px;
+    box-shadow:0 8px 30px rgba(0,0,0,.06);
+    padding:30px;
+}
+
+.card-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1.2fr 1fr;
+    gap:25px;
+}
+
+.label{
+    color:#777;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:6px;
+}
+
+.tracking-number{
+    color:var(--orange);
+    font-size:21px;
+    font-weight:900;
+    word-break:break-word;
+}
+
+.info-value{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.status{
+    display:inline-block;
+    margin-top:7px;
+    padding:4px 9px;
+    background:#fff1e7;
+    color:var(--orange);
+    border-radius:5px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+/* TIMELINE */
+
+.timeline-wrapper{
+    margin-top:32px;
+    width:100%;
+}
+
+.timeline{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+}
+
+.timeline-line{
+    position:absolute;
+    top:14px;
+    left:5%;
+    right:5%;
+    height:3px;
+    background:linear-gradient(
+        to right,
+        var(--orange) 0%,
+        var(--orange) 55%,
+        #ddd 55%,
+        #ddd 100%
+    );
+}
+
+.step{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+.dot{
+    width:29px;
+    height:29px;
+    margin:auto auto 9px;
+    border-radius:50%;
+    background:#fff;
+    border:2px solid #aaa;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#777;
+    font-size:12px;
+}
+
+.step.done .dot,
+.step.active .dot{
+    background:var(--orange);
+    border-color:var(--orange);
+    color:#fff;
+}
+
+.step.active .title{
+    color:var(--orange);
+}
+
+.title{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.date{
+    margin-top:4px;
+    color:#888;
+    font-size:10px;
+}
+
+/* ================= FEATURES ================= */
+
+.features{
+    padding:0 0 35px;
+}
+
+.features-box{
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:25px 20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    padding:0 25px;
+}
+
+.feature + .feature{
+    border-left:1px solid #ddd;
+}
+
+.feature-icon{
+    width:46px;
+    height:46px;
+    border:2px solid var(--orange);
+    color:var(--orange);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:20px;
+    font-weight:bold;
+    flex-shrink:0;
+}
+
+.feature h3{
+    font-size:13px;
+    margin-bottom:4px;
+}
+
+.feature p{
+    color:#777;
+    font-size:11px;
+    line-height:1.5;
+}
+
+/* ================= UK SECTION ================= */
+
+.lower-section{
+    padding-bottom:60px;
+}
+
+.uk-card{
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:32px;
+    background:linear-gradient(
+        100deg,
+        #fff 0%,
+        #fff 65%,
+        #fff7f1 65%,
+        #fff7f1 100%
+    );
+}
+
+.uk-card h2{
+    font-size:28px;
+    line-height:1.15;
+    margin-bottom:14px;
+}
+
+.uk-card h2 span{
+    color:var(--orange);
+}
+
+.uk-card p{
+    max-width:620px;
+    color:#666;
+    font-size:13px;
+    line-height:1.8;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    border-top:1px solid #eee;
+    background:#fff;
+}
+
+.footer-main{
+    padding:40px 0 35px;
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr 1fr;
+    gap:30px;
+}
+
+.footer-description{
+    max-width:270px;
+    color:#777;
+    font-size:11px;
+    line-height:1.7;
+    margin-top:14px;
+}
+
+footer h4{
+    font-size:12px;
+    margin-bottom:14px;
+}
+
+footer ul{
+    list-style:none;
+}
+
+footer li{
+    color:#777;
+    font-size:11px;
+    margin:9px 0;
+}
+
+.footer-link{
+    cursor:pointer;
+}
+
+.footer-link:hover{
+    color:var(--orange);
+}
+
+.footer-bottom{
+    background:var(--orange);
+    color:white;
+    text-align:center;
+    padding:12px;
+    font-size:11px;
+}
+
+/* ================= POPUP ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(255,105,0,.78);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:560px;
+    max-width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:18px;
+    padding:32px;
+    position:relative;
+    box-shadow:0 15px 45px rgba(0,0,0,.20);
+}
+
+.modal-close{
+    position:absolute;
+    right:18px;
+    top:15px;
+    width:34px;
+    height:34px;
+    border:0;
+    border-radius:50%;
+    background:var(--orange);
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.modal-title{
+    font-size:25px;
+    font-weight:900;
+    margin-bottom:7px;
+}
+
+.modal-title span{
+    color:var(--orange);
+}
+
+.modal-subtitle{
+    color:#777;
+    font-size:12px;
+    line-height:1.6;
+    margin-bottom:24px;
+}
+
+/* SERVICES POPUP */
+
+.service-list{
+    display:grid;
+    gap:12px;
+}
+
+.service-item{
+    border:1px solid #ffd0ad;
+    border-radius:11px;
+    padding:17px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    background:#fff7f1;
+}
+
+.service-name{
+    color:var(--orange);
+    font-size:14px;
+    font-weight:900;
+}
+
+.service-text{
+    color:#555;
+    font-size:11px;
+    margin-top:4px;
+}
+
+.service-days{
+    background:var(--orange);
+    color:#fff;
+    padding:9px 12px;
+    border-radius:7px;
+    font-size:10px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+/* CONTACT POPUP */
+
+.branch-list{
+    display:grid;
+    gap:12px;
+}
+
+.branch-item{
+    border:1px solid #ffd0ad;
+    border-radius:11px;
+    padding:17px;
+    background:#fff7f1;
+}
+
+.branch-city{
+    color:var(--orange);
+    font-size:16px;
+    font-weight:900;
+    margin-bottom:6px;
+}
+
+.branch-label{
+    color:#777;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:4px;
+}
+
+.branch-phone{
+    color:#111;
+    font-size:14px;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.branch-phone:hover{
+    color:var(--orange);
+}
+
+/* ABOUT POPUP */
+
+.about-content{
+    display:grid;
+    gap:14px;
+}
+
+.about-box{
+    border:1px solid #ffd0ad;
+    background:#fff7f1;
+    border-radius:11px;
+    padding:18px;
+}
+
+.about-box h3{
+    color:var(--orange);
+    font-size:14px;
+    margin-bottom:7px;
+}
+
+.about-box p{
+    color:#555;
+    font-size:12px;
+    line-height:1.7;
+}
+
+.experience{
+    text-align:center;
+    background:var(--orange);
+    color:#fff;
+    border-radius:12px;
+    padding:20px;
+}
+
+.experience-number{
+    font-size:31px;
+    font-weight:900;
+}
+
+.experience-text{
+    font-size:11px;
+    font-weight:bold;
+    margin-top:3px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+    .container{
+        max-width:calc(100% - 30px);
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #222;
+    header{
+        height:auto;
+        padding:18px 0;
     }
 
-    header {
-      background: #f97316;
-      color: white;
-      padding: 20px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .nav-links{
+        display:none;
     }
 
-    .logo {
-      font-size: 27px;
-      font-weight: 800;
+    .nav{
+        justify-content:center;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 25px;
-      font-weight: bold;
-      cursor: pointer;
+    .nav-contact{
+        display:none;
     }
 
-    nav a:hover {
-      text-decoration: underline;
+    .hero{
+        padding:50px 0 45px;
     }
 
-    .hero {
-      text-align: center;
-      padding: 90px 20px;
-      background: #fff7ed;
+    .hero h1{
+        font-size:44px;
     }
 
-    .hero h1 {
-      color: #f97316;
-      font-size: 52px;
-      font-weight: 800;
-      margin-bottom: 15px;
+    .hero-description{
+        font-size:14px;
     }
 
-    .hero p {
-      font-size: 22px;
-      margin-bottom: 35px;
+    .card-top{
+        grid-template-columns:1fr 1fr;
     }
 
-    .tracking {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
+    .features-box{
+        grid-template-columns:1fr;
+        gap:20px;
     }
 
-    .tracking input {
-      width: 330px;
-      padding: 15px;
-      border: 2px solid #f97316;
-      border-radius: 7px;
-      font-size: 16px;
-      outline: none;
+    .feature{
+        padding:0 10px;
     }
 
-    .tracking button {
-      padding: 15px 25px;
-      background: #f97316;
-      color: white;
-      border: none;
-      border-radius: 7px;
-      font-weight: bold;
-      cursor: pointer;
+    .feature + .feature{
+        border-left:0;
+        border-top:1px solid #ddd;
+        padding-top:20px;
     }
 
-    .tracking button:hover {
-      background: #ea580c;
+    .footer-grid{
+        grid-template-columns:1fr 1fr;
     }
 
-    .cards {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      padding: 60px 8%;
+}
+
+@media(max-width:600px){
+
+    .container{
+        max-width:calc(100% - 24px);
     }
 
-    .card {
-      width: 280px;
-      padding: 30px;
-      text-align: center;
-      border: 1px solid #fed7aa;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-      background: white;
+    .logo-name{
+        font-size:20px;
     }
 
-    .card h3 {
-      color: #f97316;
-      margin-bottom: 12px;
-      font-size: 20px;
+    .logo-tagline{
+        font-size:7px;
     }
 
-    /* Contact Popup */
-
-    .contact-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      z-index: 1000;
+    .hero{
+        padding:40px 0 35px;
     }
 
-    .contact-box {
-      background: white;
-      width: 100%;
-      max-width: 650px;
-      border-radius: 15px;
-      padding: 35px;
-      position: relative;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    .hero-badge{
+        font-size:10px;
     }
 
-    .contact-box h2 {
-      text-align: center;
-      color: #f97316;
-      font-size: 30px;
-      margin-bottom: 10px;
-      font-weight: 800;
+    .hero h1{
+        font-size:37px;
+        letter-spacing:-1px;
     }
 
-    .contact-box > p {
-      text-align: center;
-      color: #666;
-      margin-bottom: 25px;
+    .hero-description{
+        font-size:13px;
+        margin:17px auto 24px;
     }
 
-    .close-btn {
-      position: absolute;
-      right: 20px;
-      top: 15px;
-      font-size: 28px;
-      color: #555;
-      cursor: pointer;
-      border: none;
-      background: none;
+    .track-form{
+        height:52px;
     }
 
-    .branch {
-      border: 1px solid #fed7aa;
-      border-left: 5px solid #f97316;
-      border-radius: 9px;
-      padding: 17px 20px;
-      margin-bottom: 13px;
-      background: #fffaf5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .track-form input{
+        padding:0 13px;
+        font-size:13px;
     }
 
-    .branch-name {
-      font-size: 18px;
-      font-weight: bold;
-      color: #222;
+    .track-form button{
+        width:90px;
+        font-size:12px;
     }
 
-    .branch-phone {
-      color: #f97316;
-      font-weight: bold;
-      text-decoration: none;
+    .multi-track{
+        font-size:11px;
     }
 
-    .branch-phone:hover {
-      text-decoration: underline;
+    .tracking-card{
+        padding:20px 16px;
+        border-radius:12px;
     }
 
-    @media (max-width: 700px) {
-      header {
-        flex-direction: column;
-        gap: 15px;
-      }
-
-      nav a {
-        margin: 0 8px;
-      }
-
-      .hero h1 {
-        font-size: 40px;
-      }
-
-      .tracking {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .tracking input {
-        width: 90%;
-      }
-
-      .tracking button {
-        width: 90%;
-      }
-
-      .cards {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .branch {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-
-      .contact-box {
-        padding: 30px 20px;
-      }
+    .card-top{
+        grid-template-columns:1fr;
+        gap:17px;
     }
-  </style>
+
+    .tracking-number{
+        font-size:19px;
+    }
+
+    .timeline-wrapper{
+        overflow-x:auto;
+        padding-bottom:8px;
+        -webkit-overflow-scrolling:touch;
+    }
+
+    .timeline{
+        min-width:620px;
+    }
+
+    .features-box{
+        padding:20px 15px;
+    }
+
+    .feature{
+        gap:12px;
+    }
+
+    .feature-icon{
+        width:42px;
+        height:42px;
+        font-size:18px;
+    }
+
+    .feature h3{
+        font-size:12px;
+    }
+
+    .feature p{
+        font-size:10px;
+    }
+
+    .uk-card{
+        padding:24px 19px;
+        background:#fff7f1;
+    }
+
+    .uk-card h2{
+        font-size:23px;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr;
+        gap:25px;
+    }
+
+    .footer-main{
+        padding:35px 0;
+    }
+
+    .modal{
+        padding:14px;
+    }
+
+    .modal-box{
+        padding:26px 18px;
+        border-radius:14px;
+    }
+
+    .modal-title{
+        font-size:22px;
+        padding-right:35px;
+    }
+
+    .service-item{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .service-days{
+        width:100%;
+        text-align:center;
+    }
+
+}
+
+/* EXTRA SMALL PHONES */
+
+@media(max-width:380px){
+
+    .hero h1{
+        font-size:33px;
+    }
+
+    .track-form button{
+        width:82px;
+    }
+
+    .track-form input{
+        font-size:12px;
+    }
+
+    .logo-name{
+        font-size:18px;
+    }
+
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">Fast Air Cargo</div>
+<!-- ================= HEADER ================= -->
 
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Track Shipment</a>
-      <a onclick="openContact()">Contact</a>
-    </nav>
-  </header>
+<header>
 
-  <section class="hero">
-    <h1>Fast Air Cargo</h1>
-    <p>Fast. Reliable. Worldwide.</p>
+<div class="container nav">
 
-    <div class="tracking">
-      <input type="text" placeholder="Enter tracking number">
-      <button>Track Shipment</button>
-    </div>
-  </section>
+<a href="#" class="logo">
 
-  <section class="cards">
+<div class="logo-icon">
+<span></span>
+<span></span>
+<span></span>
+</div>
 
-    <div class="card">
-      <h3>Fast Delivery</h3>
-      <p>Quick and reliable cargo delivery.</p>
-    </div>
+<div>
 
-    <div class="card">
-      <h3>Secure Cargo</h3>
-      <p>Your shipment is handled with care.</p>
-    </div>
+<div class="logo-name">
+<span>FAST</span> AIR CARGO
+</div>
 
-    <div class="card">
-      <h3>Worldwide Tracking</h3>
-      <p>Track your shipment anywhere in the world.</p>
-    </div>
+<div class="logo-tagline">
+SAFE • FAST • RELIABLE
+</div>
 
-  </section>
+</div>
 
-  <!-- Contact Popup -->
+</a>
 
-  <div class="contact-overlay" id="contactOverlay">
+<nav class="nav-links">
 
-    <div class="contact-box">
+<a href="#">Home</a>
+<a href="#track">Track Shipment</a>
+<a onclick="openModal('servicesModal')">Services</a>
+<a onclick="openModal('aboutModal')">About Us</a>
+<a onclick="openModal('contactModal')">Contact Us</a>
 
-      <button class="close-btn" onclick="closeContact()">×</button>
+</nav>
 
-      <h2>Contact Fast Air Cargo</h2>
-      <p>For bookings, shipments and cargo enquiries, contact your nearest branch.</p>
+<div class="nav-contact">
+03180381586
+</div>
 
-      <div class="branch">
-        <div class="branch-name">Branch 1 — Dina</div>
-        <a class="branch-phone" href="tel:03180381586">0318 0381586</a>
-      </div>
+</div>
 
-      <div class="branch">
-        <div class="branch-name">Branch 2 — Mirpur</div>
-        <a class="branch-phone" href="tel:03255987631">0325 5987631</a>
-      </div>
+</header>
 
-      <div class="branch">
-        <div class="branch-name">Branch 3 — Jhelum</div>
-        <a class="branch-phone" href="tel:03173681721">0317 3681721</a>
-      </div>
 
-      <div class="branch">
-        <div class="branch-name">Branch 4 — Gujarkhan</div>
-        <a class="branch-phone" href="tel:03218554919">0321 8554919</a>
-      </div>
+<!-- ================= HERO ================= -->
 
-    </div>
+<section class="hero" id="track">
 
-  </div>
+<div class="container">
 
-  <script>
-    function openContact() {
-      document.getElementById("contactOverlay").style.display = "flex";
+<div class="hero-badge">
+FAST AIR CARGO TRACKING SYSTEM
+</div>
+
+<h1>
+TRACK YOUR
+<span>SHIPMENT</span>
+</h1>
+
+<p class="hero-description">
+Enter your tracking number below to get the latest
+shipment status and delivery updates.
+</p>
+
+<div class="track-wrapper">
+
+<form class="track-form" id="trackingForm">
+
+<input
+id="trackingInput"
+type="text"
+placeholder="Enter Tracking Number"
+autocomplete="off"
+>
+
+<button type="submit">
+TRACK
+</button>
+
+</form>
+
+<div class="multi-track">
+Multiple tracking numbers?
+<span>Track More →</span>
+</div>
+
+<div class="message" id="message"></div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= TRACKING RESULT ================= -->
+
+<section class="tracking-section">
+
+<div class="container">
+
+<div class="tracking-card">
+
+<div class="card-top">
+
+<div>
+
+<div class="label">
+Tracking Number
+</div>
+
+<div class="tracking-number" id="displayNumber">
+FAC123456789PK
+</div>
+
+<span class="status">
+IN TRANSIT
+</span>
+
+</div>
+
+<div>
+
+<div class="label">
+Origin
+</div>
+
+<div class="info-value">
+Dina, Pakistan 🇵🇰
+</div>
+
+</div>
+
+<div>
+
+<div class="label">
+Destination
+</div>
+
+<div class="info-value">
+London, United Kingdom 🇬🇧
+</div>
+
+</div>
+
+<div>
+
+<div class="label">
+Estimated Delivery
+</div>
+
+<div class="info-value">
+15 Aug 2026
+</div>
+
+</div>
+
+</div>
+
+
+<div class="timeline-wrapper">
+
+<div class="timeline">
+
+<div class="timeline-line"></div>
+
+<div class="step done">
+
+<div class="dot">
+✓
+</div>
+
+<div class="title">
+Order Confirmed
+</div>
+
+<div class="date">
+10 Aug 2026<br>
+10:30 AM
+</div>
+
+</div>
+
+<div class="step done">
+
+<div class="dot">
+✓
+</div>
+
+<div class="title">
+Picked Up
+</div>
+
+<div class="date">
+11 Aug 2026<br>
+09:15 AM
+</div>
+
+</div>
+
+<div class="step active">
+
+<div class="dot">
+↗️
+</div>
+
+<div class="title">
+In Transit
+</div>
+
+<div class="date">
+12 Aug 2026<br>
+04:45 PM
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="dot">
+□
+</div>
+
+<div class="title">
+Customs Clearance
+</div>
+
+<div class="date">
+—
+</div>
+
+</div>
+
+<div class="step">
+
+<div class="dot">
+□
+</div>
+
+<div class="title">
+Delivered
+</div>
+
+<div class="date">
+—
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features" id="services">
+
+<div class="container">
+
+<div class="features-box">
+
+<div class="feature">
+
+<div class="feature-icon">
+✓
+</div>
+
+<div>
+
+<h3>
+SAFE & SECURE
+</h3>
+
+<p>
+Your shipment is handled with care and security.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="feature">
+
+<div class="feature-icon">
+⚡
+</div>
+
+<div>
+
+<h3>
+FAST DELIVERY
+</h3>
+
+<p>
+Fast and reliable cargo delivery to the UK.
+</p>
+
+</div>
+
+</div>
+
+
+<div class="feature">
+
+<div class="feature-icon">
+24
+</div>
+
+<div>
+
+<h3>
+24/7 SUPPORT
+</h3>
+
+<p>
+Our team is available to assist you.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= UK SECTION ================= -->
+
+<section class="lower-section" id="about">
+
+<div class="container">
+
+<div class="uk-card">
+
+<h2>
+RELIABLE CARGO<br>
+DELIVERY <span>TO THE UK</span>
+</h2>
+
+<p>
+Fast Air Cargo provides safe, fast and reliable
+cargo services from Pakistan to the United Kingdom.
+Our experienced team focuses on professional handling,
+secure packing and dependable international cargo service.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer id="contact">
+
+<div class="footer-main">
+
+<div class="container footer-grid">
+
+<div>
+
+<div class="logo">
+
+<div class="logo-icon">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div>
+
+<div class="logo-name">
+<span>FAST</span> AIR CARGO
+</div>
+
+<div class="logo-tagline">
+SAFE • FAST • RELIABLE
+</div>
+
+</div>
+
+</div>
+
+<p class="footer-description">
+Reliable international cargo services from
+Pakistan to the United Kingdom.
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+QUICK LINKS
+</h4>
+
+<ul>
+
+<li class="footer-link" onclick="goHome()">
+Home
+</li>
+
+<li class="footer-link" onclick="goTrack()">
+Track Shipment
+</li>
+
+<li class="footer-link" onclick="openModal('servicesModal')">
+Services
+</li>
+
+<li class="footer-link" onclick="openModal('aboutModal')">
+About Us
+</li>
+
+<li class="footer-link" onclick="openModal('contactModal')">
+Contact Us
+</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h4>
+SERVICES
+</h4>
+
+<ul>
+
+<li class="footer-link" onclick="openModal('servicesModal')">
+Regular Cargo
+</li>
+
+<li class="footer-link" onclick="openModal('servicesModal')">
+Express Cargo
+</li>
+
+<li class="footer-link" onclick="openModal('servicesModal')">
+Priority Cargo
+</li>
+
+<li class="footer-link" onclick="openModal('servicesModal')">
+Premium Cargo
+</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h4>
+CONTACT US
+</h4>
+
+<ul>
+
+<li>
+☎ 03180381586
+</li>
+
+<li>
+✉ info@fastaircargo.com
+</li>
+
+<li>
+⌖ Pakistan
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+©️ 2026 Fast Air Cargo. All Rights Reserved.
+</div>
+
+</footer>
+
+
+<!-- ================= SERVICES POPUP ================= -->
+
+<div class="modal" id="servicesModal">
+
+<div class="modal-box">
+
+<button class="modal-close" onclick="closeModal('servicesModal')">
+×
+</button>
+
+<div class="modal-title">
+OUR <span>SERVICES</span>
+</div>
+
+<p class="modal-subtitle">
+Choose the cargo service that best matches your delivery requirements.
+</p>
+
+<div class="service-list">
+
+<div class="service-item">
+
+<div>
+<div class="service-name">
+Regular Cargo
+</div>
+
+<div class="service-text">
+Reliable and economical cargo service.
+</div>
+</div>
+
+<div class="service-days">
+8 WORKING DAYS
+</div>
+
+</div>
+
+
+<div class="service-item">
+
+<div>
+<div class="service-name">
+Express Cargo
+</div>
+
+<div class="service-text">
+Faster delivery for time-sensitive shipments.
+</div>
+</div>
+
+<div class="service-days">
+6 WORKING DAYS
+</div>
+
+</div>
+
+
+<div class="service-item">
+
+<div>
+<div class="service-name">
+Priority Cargo
+</div>
+
+<div class="service-text">
+Priority handling for important shipments.
+</div>
+</div>
+
+<div class="service-days">
+5 WORKING DAYS
+</div>
+
+</div>
+
+
+<div class="service-item">
+
+<div>
+<div class="service-name">
+Premium Cargo
+</div>
+
+<div class="service-text">
+Our fastest premium cargo service.
+</div>
+</div>
+
+<div class="service-days">
+4 WORKING DAYS
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= CONTACT POPUP ================= -->
+
+<div class="modal" id="contactModal">
+
+<div class="modal-box">
+
+<button class="modal-close" onclick="closeModal('contactModal')">
+×
+</button>
+
+<div class="modal-title">
+OUR <span>BRANCHES</span>
+</div>
+
+<p class="modal-subtitle">
+Contact your nearest Fast Air Cargo branch for bookings,
+cargo information and customer support.
+</p>
+
+<div class="branch-list">
+
+<div class="branch-item">
+
+<div class="branch-city">
+Dina
+</div>
+
+<div class="branch-label">
+Contact Number
+</div>
+
+<a class="branch-phone" href="tel:03180381586">
+03180381586
+</a>
+
+</div>
+
+
+<div class="branch-item">
+
+<div class="branch-city">
+Mirpur
+</div>
+
+<div class="branch-label">
+Contact Number
+</div>
+
+<a class="branch-phone" href="tel:03255987631">
+03255987631
+</a>
+
+</div>
+
+
+<div class="branch-item">
+
+<div class="branch-city">
+Jhelum
+</div>
+
+<div class="branch-label">
+Contact Number
+</div>
+
+<a class="branch-phone" href="tel:03173681721">
+03173681721
+</a>
+
+</div>
+
+
+<div class="branch-item">
+
+<div class="branch-city">
+Gujarkhan
+</div>
+
+<div class="branch-label">
+Contact Number
+</div>
+
+<a class="branch-phone" href="tel:03218554919">
+03218554919
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= ABOUT POPUP ================= -->
+
+<div class="modal" id="aboutModal">
+
+<div class="modal-box">
+
+<button class="modal-close" onclick="closeModal('aboutModal')">
+×
+</button>
+
+<div class="modal-title">
+ABOUT <span>FAST AIR CARGO</span>
+</div>
+
+<p class="modal-subtitle">
+Professional cargo handling with experience,
+care and commitment to reliable international delivery.
+</p>
+
+<div class="about-content">
+
+<div class="experience">
+
+<div class="experience-number">
+10+ YEARS
+</div>
+
+<div class="experience-text">
+OF CARGO SERVICE EXPERIENCE
+</div>
+
+</div>
+
+
+<div class="about-box">
+
+<h3>
+Experienced & Professional Packing Experts
+</h3>
+
+<p>
+Our team includes experienced and professional packing
+experts who understand the importance of secure,
+careful and reliable shipment preparation.
+</p>
+
+</div>
+
+
+<div class="about-box">
+
+<h3>
+Safe & Secure Handling
+</h3>
+
+<p>
+Every shipment is handled with care from packing
+through transportation, with a strong focus on safety,
+security and dependable service.
+</p>
+
+</div>
+
+
+<div class="about-box">
+
+<h3>
+Pakistan to United Kingdom
+</h3>
+
+<p>
+Fast Air Cargo provides international cargo services
+from Pakistan to the United Kingdom with professional
+support for customers and their shipments.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+const form =
+document.getElementById("trackingForm");
+
+const input =
+document.getElementById("trackingInput");
+
+const display =
+document.getElementById("displayNumber");
+
+const message =
+document.getElementById("message");
+
+
+/* TRACKING */
+
+form.addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    const trackingNumber =
+    input.value.trim().toUpperCase();
+
+    if(trackingNumber === ""){
+
+        message.style.display = "block";
+
+        message.textContent =
+        "Please enter a tracking number.";
+
+        return;
     }
 
-    function closeContact() {
-      document.getElementById("contactOverlay").style.display = "none";
-    }
+    display.textContent =
+    trackingNumber;
 
-    document.getElementById("contactOverlay").addEventListener("click", function(event) {
-      if (event.target === this) {
-        closeContact();
-      }
+    message.style.display = "block";
+
+    message.textContent =
+    "Tracking number loaded successfully.";
+
+    document
+    .querySelector(".tracking-card")
+    .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
     });
-  </script>
+
+});
+
+
+/* POPUPS */
+
+function openModal(id){
+
+    document
+    .getElementById(id)
+    .classList.add("show");
+
+    document.body.style.overflow = "hidden";
+}
+
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+    document.body.style.overflow = "";
+}
+
+
+/* CLOSE POPUP WHEN CLICKING OUTSIDE */
+
+document.querySelectorAll(".modal").forEach(function(modal){
+
+    modal.addEventListener("click", function(event){
+
+        if(event.target === modal){
+
+            modal.classList.remove("show");
+
+            document.body.style.overflow = "";
+
+        }
+
+    });
+
+});
+
+
+/* CLOSE POPUP WITH ESC */
+
+document.addEventListener("keydown", function(event){
+
+    if(event.key === "Escape"){
+
+        document.querySelectorAll(".modal").forEach(function(modal){
+
+            modal.classList.remove("show");
+
+        });
+
+        document.body.style.overflow = "";
+
+    }
+
+});
+
+
+/* FOOTER NAVIGATION */
+
+function goHome(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function goTrack(){
+
+    document
+    .getElementById("track")
+    .scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+</script>
 
 </body>
 </html>
