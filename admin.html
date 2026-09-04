@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fast Air Cargo | Admin Panel</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#fff;
+    color:#111;
+}
+
+.container{
+    width:1100px;
+    max-width:calc(100% - 30px);
+    margin:auto;
+}
+
+header{
+    background:#ff6900;
+    color:#fff;
+    padding:22px 0;
+}
+
+.header-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:900;
+}
+
+.admin-label{
+    font-size:12px;
+    font-weight:bold;
+}
+
+main{
+    padding:35px 0 60px;
+}
+
+.page-title{
+    font-size:30px;
+    font-weight:900;
+    margin-bottom:7px;
+}
+
+.page-subtitle{
+    color:#666;
+    font-size:13px;
+    margin-bottom:30px;
+}
+
+.panel{
+    border:1px solid #e8e8e8;
+    border-radius:15px;
+    padding:25px;
+    margin-bottom:25px;
+    background:#fff;
+}
+
+.panel-title{
+    font-size:18px;
+    font-weight:900;
+    margin-bottom:20px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+label{
+    font-size:11px;
+    font-weight:bold;
+}
+
+input,
+select{
+    height:44px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:0 12px;
+    font-size:13px;
+    outline:none;
+    background:#fff;
+}
+
+input:focus,
+select:focus{
+    border-color:#ff6900;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:12px 18px;
+    font-size:12px;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:#ff6900;
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:#e85d00;
+}
+
+.btn-secondary{
+    background:#111;
+    color:#fff;
+}
+
+.btn-delete{
+    background:#ff6900;
+    color:#fff;
+}
+
+.btn-edit{
+    background:#111;
+    color:#fff;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.message{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+    background:#fff7f1;
+    border:1px solid #ffd0ad;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th,
+td{
+    text-align:left;
+    padding:13px 10px;
+    border-bottom:1px solid #eee;
+    font-size:11px;
+}
+
+th{
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+.status-badge{
+    color:#ff6900;
+    font-weight:900;
+}
+
+.table-actions{
+    display:flex;
+    gap:6px;
+}
+
+.table-actions button{
+    padding:7px 9px;
+    font-size:10px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:25px;
+}
+
+@media(max-width:700px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .header-inner{
+        gap:15px;
+    }
+
+    .page-title{
+        font-size:25px;
+    }
+
+    .panel{
+        padding:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container header-inner">
+
+<div class="logo">
+FAST AIR CARGO
+</div>
+
+<div class="admin-label">
+ADMIN PANEL
+</div>
+
+</div>
+</header>
+
+
+<main>
+
+<div class="container">
+
+<div class="page-title">
+Shipment Management
+</div>
+
+<div class="page-subtitle">
+Add, update and manage customer shipments.
+</div>
+
+
+<!-- ADD / EDIT SHIPMENT -->
+
+<div class="panel">
+
+<div class="panel-title" id="formTitle">
+Add New Shipment
+</div>
+
+<form id="shipmentForm">
+
+<div class="form-grid">
+
+<div class="field">
+<label>Tracking Number</label>
+<input
+id="tracking_number"
+type="text"
+placeholder="FAC123456789PK"
+required
+>
+</div>
+
+<div class="field">
+<label>Origin</label>
+<input
+id="origin"
+type="text"
+placeholder="Dina, Pakistan"
+required
+>
+</div>
+
+<div class="field">
+<label>Destination</label>
+<input
+id="destination"
+type="text"
+placeholder="London, United Kingdom"
+required
+>
+</div>
+
+<div class="field">
+<label>Service</label>
+
+<select id="service" required>
+
+<option value="">Select Service</option>
+
+<option>Regular Cargo</option>
+<option>Express Cargo</option>
+<option>Priority Cargo</option>
+<option>Premium Cargo</option>
+<option>Secure Service</option>
+<option>COD Service</option>
+
+</select>
+</div>
+
+<div class="field">
+<label>Booking Date</label>
+<input
+id="booking_date"
+type="date"
+required
+>
+</div>
+
+<div class="field">
+<label>Estimated Delivery</label>
+<input
+id="estimated_delivery"
+type="date"
+required
+>
+</div>
+
+<div class="field">
+<label>Current Status</label>
+
+<select id="current_status" required>
+
+<option>Order Confirmed</option>
+<option>Picked Up</option>
+<option>In Transit</option>
+<option>Customs Clearance</option>
+<option>Out for Delivery</option>
+<option>Delivered</option>
+
+</select>
+</div>
+
+<div class="field">
+<label>Weight</label>
+<input
+id="weight"
+type="text"
+placeholder="10 KG"
+>
+</div>
+
+<div class="field full">
+<label>Package Details</label>
+<input
+id="package_details"
+type="text"
+placeholder="General Cargo"
+>
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+type="submit"
+class="btn-primary"
+id="saveButton"
+>
+ADD SHIPMENT
+</button>
+
+<button
+type="button"
+class="btn-secondary"
+id="cancelButton"
+style="display:none;"
+>
+CANCEL
+</button>
+
+</div>
+
+<div class="message" id="formMessage"></div>
+
+</form>
+
+</div>
+
+
+<!-- SHIPMENT LIST -->
+
+<div class="panel">
+
+<div class="panel-title">
+All Shipments
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tracking</th>
+<th>Origin</th>
+<th>Destination</th>
+<th>Service</th>
+<th>Status</th>
+<th>Delivery</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="shipmentTable">
+
+<tr>
+<td colspan="7" class="empty">
+Loading shipments...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* ==============================
+   SUPABASE
+============================== */
+
+const SUPABASE_URL =
+"https://gpkmqcplkzcdjnswbfvo.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_3q1b92xzA08jiXl_T-285w_y_WfyJCF";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* ==============================
+   ELEMENTS
+============================== */
+
+const form =
+document.getElementById("shipmentForm");
+
+const formTitle =
+document.getElementById("formTitle");
+
+const saveButton =
+document.getElementById("saveButton");
+
+const cancelButton =
+document.getElementById("cancelButton");
+
+const formMessage =
+document.getElementById("formMessage");
+
+const shipmentTable =
+document.getElementById("shipmentTable");
+
+
+let editingId = null;
+
+
+/* ==============================
+   LOAD SHIPMENTS
+============================== */
+
+async function loadShipments(){
+
+    shipmentTable.innerHTML = `
+        <tr>
+            <td colspan="7" class="empty">
+                Loading shipments...
+            </td>
+        </tr>
+    `;
+
+    const { data, error } =
+    await supabaseClient
+        .from("shipments")
+        .select("*")
+        .order("created_at", {
+            ascending:false
+        });
+
+    if(error){
+
+        console.error(error);
+
+        shipmentTable.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    Unable to load shipments.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    if(!data || data.length === 0){
+
+        shipmentTable.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    No shipments found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    shipmentTable.innerHTML = "";
+
+    data.forEach(function(shipment){
+
+        const row =
+        document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>
+                <strong>
+                    ${escapeHtml(shipment.tracking_number)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHtml(shipment.origin || "-")}
+            </td>
+
+            <td>
+                ${escapeHtml(shipment.destination || "-")}
+            </td>
+
+            <td>
+                ${escapeHtml(shipment.service || "-")}
+            </td>
+
+            <td>
+                <span class="status-badge">
+                    ${escapeHtml(shipment.current_status || "-")}
+                </span>
+            </td>
+
+            <td>
+                ${escapeHtml(formatDate(shipment.estimated_delivery))}
+            </td>
+
+            <td>
+
+                <div class="table-actions">
+
+                    <button
+                        class="btn-edit"
+                        onclick="editShipment(${shipment.id})"
+                    >
+                        EDIT
+                    </button>
+
+                    <button
+                        class="btn-delete"
+                        onclick="deleteShipment(${shipment.id})"
+                    >
+                        DELETE
+                    </button>
+
+                </div>
+
+            </td>
+        `;
+
+        shipmentTable.appendChild(row);
+
+    });
+}
+
+
+/* ==============================
+   ADD / UPDATE
+============================== */
+
+form.addEventListener(
+"submit",
+async function(event){
+
+    event.preventDefault();
+
+    formMessage.style.display = "none";
+
+    const shipment = {
+
+        tracking_number:
+            document.getElementById(
+                "tracking_number"
+            ).value.trim().toUpperCase(),
+
+        origin:
+            document.getElementById(
+                "origin"
+            ).value.trim(),
+
+        destination:
+            document.getElementById(
+                "destination"
+            ).value.trim(),
+
+        service:
+            document.getElementById(
+                "service"
+            ).value,
+
+        booking_date:
+            document.getElementById(
+                "booking_date"
+            ).value,
+
+        estimated_delivery:
+            document.getElementById(
+                "estimated_delivery"
+            ).value,
+
+        current_status:
+            document.getElementById(
+                "current_status"
+            ).value,
+
+        package_details:
+            document.getElementById(
+                "package_details"
+            ).value.trim(),
+
+        weight:
+            document.getElementById(
+                "weight"
+            ).value.trim()
+
+    };
+
+
+    saveButton.disabled = true;
+
+    saveButton.textContent =
+        editingId
+        ? "UPDATING..."
+        : "ADDING...";
+
+
+    let result;
+
+
+    if(editingId){
+
+        result =
+        await supabaseClient
+            .from("shipments")
+            .update(shipment)
+            .eq("id", editingId);
+
+    }else{
+
+        result =
+        await supabaseClient
+            .from("shipments")
+            .insert([shipment]);
+
+    }
+
+
+    if(result.error){
+
+        console.error(result.error);
+
+        formMessage.style.display = "block";
+
+        formMessage.textContent =
+            result.error.message;
+
+        saveButton.disabled = false;
+
+        saveButton.textContent =
+            editingId
+            ? "UPDATE SHIPMENT"
+            : "ADD SHIPMENT";
+
+        return;
+    }
+
+
+    formMessage.style.display = "block";
+
+    formMessage.textContent =
+        editingId
+        ? "Shipment updated successfully."
+        : "Shipment added successfully.";
+
+
+    resetForm();
+
+    await loadShipments();
+
+});
+
+
+/* ==============================
+   EDIT
+============================== */
+
+async function editShipment(id){
+
+    const { data, error } =
+    await supabaseClient
+        .from("shipments")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if(error){
+
+        alert(
+            "Unable to load shipment."
+        );
+
+        console.error(error);
+
+        return;
+    }
+
+
+    editingId = id;
+
+    document.getElementById(
+        "tracking_number"
+    ).value =
+        data.tracking_number || "";
+
+    document.getElementById(
+        "origin"
+    ).value =
+        data.origin || "";
+
+    document.getElementById(
+        "destination"
+    ).value =
+        data.destination || "";
+
+    document.getElementById(
+        "service"
+    ).value =
+        data.service || "";
+
+    document.getElementById(
+        "booking_date"
+    ).value =
+        data.booking_date || "";
+
+    document.getElementById(
+        "estimated_delivery"
+    ).value =
+        data.estimated_delivery || "";
+
+    document.getElementById(
+        "current_status"
+    ).value =
+        data.current_status || "Order Confirmed";
+
+    document.getElementById(
+        "package_details"
+    ).value =
+        data.package_details || "";
+
+    document.getElementById(
+        "weight"
+    ).value =
+        data.weight || "";
+
+
+    formTitle.textContent =
+        "Edit Shipment";
+
+    saveButton.textContent =
+        "UPDATE SHIPMENT";
+
+    cancelButton.style.display =
+        "block";
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* ==============================
+   DELETE
+============================== */
+
+async function deleteShipment(id){
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete this shipment?"
+        );
+
+    if(!confirmDelete){
+        return;
+    }
+
+
+    const { error } =
+    await supabaseClient
+        .from("shipments")
+        .delete()
+        .eq("id", id);
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Unable to delete shipment."
+        );
+
+        return;
+    }
+
+
+    await loadShipments();
+}
+
+
+/* ==============================
+   CANCEL EDIT
+============================== */
+
+cancelButton.addEventListener(
+"click",
+function(){
+
+    resetForm();
+
+});
+
+
+/* ==============================
+   RESET
+============================== */
+
+function resetForm(){
+
+    editingId = null;
+
+    form.reset();
+
+    formTitle.textContent =
+        "Add New Shipment";
+
+    saveButton.disabled =
+        false;
+
+    saveButton.textContent =
+        "ADD SHIPMENT";
+
+    cancelButton.style.display =
+        "none";
+}
+
+
+/* ==============================
+   DATE
+============================== */
+
+function formatDate(value){
+
+    if(!value){
+        return "-";
+    }
+
+    const date =
+        new Date(
+            value + "T00:00:00"
+        );
+
+    if(isNaN(date.getTime())){
+        return value;
+    }
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+}
+
+
+/* ==============================
+   HTML SECURITY
+============================== */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* ==============================
+   START
+============================== */
+
+loadShipments();
+
+</script>
+
+</body>
+</html>
