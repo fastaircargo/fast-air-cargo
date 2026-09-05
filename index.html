@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,10 +18,12 @@
 :root{
     --orange:#ff6900;
     --orange-dark:#e85d00;
-    --black:#111111;
-    --gray:#666666;
+    --black:#111;
+    --gray:#6b6b6b;
     --light:#fff7f1;
-    --border:#e8e8e8;
+    --border:#e9e9e9;
+    --green:#19a34a;
+    --shadow:0 18px 50px rgba(17,17,17,.08);
 }
 
 html{
@@ -30,11 +31,13 @@ html{
 }
 
 body{
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
     background:#fff;
     color:var(--black);
     overflow-x:hidden;
 }
+
+/* ================= CONTAINER ================= */
 
 .container{
     width:1180px;
@@ -45,9 +48,13 @@ body{
 /* ================= HEADER ================= */
 
 header{
-    height:88px;
-    background:#fff;
+    height:82px;
+    background:rgba(255,255,255,.94);
+    backdrop-filter:blur(12px);
     border-bottom:1px solid #eee;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
 .nav{
@@ -58,42 +65,31 @@ header{
 }
 
 .logo{
-    display:flex;
-    align-items:center;
     text-decoration:none;
-    color:#111;
-}
-
-.logo-name{
-    font-size:23px;
-    font-weight:900;
-    font-style:italic;
-    line-height:21px;
-}
-
-.logo-name span{
     color:var(--orange);
+    font-size:23px;
+    font-weight:1000;
+    letter-spacing:-.8px;
+    font-style:italic;
 }
 
-.logo-tagline{
-    font-size:8px;
-    font-weight:bold;
-    letter-spacing:1.2px;
-    margin-top:5px;
+.logo span{
+    color:#111;
 }
 
 .nav-links{
     display:flex;
     align-items:center;
-    gap:32px;
+    gap:30px;
 }
 
 .nav-links a{
     color:#444;
     text-decoration:none;
     font-size:13px;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
+    transition:.2s;
 }
 
 .nav-links a:hover{
@@ -103,34 +99,68 @@ header{
 /* ================= HERO ================= */
 
 .hero{
-    background:#fff;
-    padding:70px 0 65px;
+    position:relative;
+    padding:82px 0 70px;
     text-align:center;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(255,105,0,.10),transparent 35%),
+        #fff;
+}
+
+.hero:before,
+.hero:after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+}
+
+.hero:before{
+    width:300px;
+    height:300px;
+    background:rgba(255,105,0,.045);
+    left:-160px;
+    top:100px;
+}
+
+.hero:after{
+    width:260px;
+    height:260px;
+    background:rgba(255,105,0,.045);
+    right:-130px;
+    bottom:40px;
 }
 
 .hero-badge{
-    display:inline-block;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
     color:var(--orange);
     background:var(--light);
     border:1px solid #ffd9bf;
-    border-radius:30px;
-    padding:7px 15px;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:.5px;
-    margin-bottom:18px;
+    border-radius:50px;
+    padding:9px 17px;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:1px;
+    margin-bottom:20px;
 }
 
-.hero-title-row{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+.hero-badge:before{
+    content:"";
+    width:7px;
+    height:7px;
+    background:var(--orange);
+    border-radius:50%;
+    box-shadow:0 0 0 5px rgba(255,105,0,.10);
 }
 
 .hero h1{
-    font-size:54px;
-    line-height:1.02;
-    letter-spacing:-1.5px;
+    font-size:58px;
+    line-height:1;
+    letter-spacing:-2.5px;
+    font-weight:1000;
 }
 
 .hero h1 span{
@@ -138,20 +168,22 @@ header{
 }
 
 .hero-description{
-    max-width:610px;
-    margin:20px auto 30px;
-    color:#666;
-    font-size:15px;
-    line-height:1.7;
+    max-width:630px;
+    margin:20px auto 31px;
+    color:#707070;
+    font-size:14px;
+    line-height:1.8;
 }
 
-.hero-description .orange-word{
+.orange-word{
     color:var(--orange);
-    font-weight:800;
+    font-weight:900;
 }
+
+/* ================= TRACK FORM ================= */
 
 .track-wrapper{
-    width:650px;
+    width:680px;
     max-width:100%;
     margin:auto;
 }
@@ -159,143 +191,163 @@ header{
 .track-form{
     display:flex;
     width:100%;
-    height:58px;
+    height:62px;
+    padding:5px;
     border:1px solid #ddd;
-    border-radius:10px;
-    overflow:hidden;
+    border-radius:14px;
     background:#fff;
-    box-shadow:0 8px 25px rgba(0,0,0,.07);
+    box-shadow:0 12px 35px rgba(0,0,0,.09);
 }
 
 .track-form input{
     flex:1;
     min-width:0;
     border:0;
-    outline:none;
-    padding:0 20px;
+    outline:0;
+    padding:0 18px;
     font-size:14px;
     color:#222;
+    background:transparent;
 }
 
 .track-form input::placeholder{
-    color:#999;
+    color:#aaa;
 }
 
 .track-form button{
     width:125px;
     border:0;
+    border-radius:10px;
     background:var(--orange);
     color:#fff;
-    font-size:13px;
-    font-weight:800;
+    font-size:12px;
+    font-weight:900;
     cursor:pointer;
+    transition:.2s;
 }
 
 .track-form button:hover{
     background:var(--orange-dark);
+    transform:translateY(-1px);
 }
 
 .track-form button:disabled{
     opacity:.7;
     cursor:wait;
+    transform:none;
 }
 
 .multi-track{
-    margin-top:13px;
-    color:#777;
-    font-size:12px;
+    margin-top:14px;
+    color:#888;
+    font-size:11px;
 }
 
 .multi-track span{
     color:var(--orange);
-    font-weight:bold;
+    font-weight:900;
 }
 
 .message{
     display:none;
-    margin-top:12px;
-    color:var(--orange);
-    font-size:12px;
-    font-weight:bold;
+    margin-top:13px;
+    font-size:11px;
+    font-weight:800;
+}
+
+.message.success{
+    color:var(--green);
 }
 
 .message.error{
     color:var(--orange-dark);
 }
 
-/* ================= TRACKING CARD ================= */
+/* ================= TRACKING ================= */
 
 .tracking-section{
-    padding-bottom:35px;
+    padding:0 0 38px;
 }
 
 .tracking-card{
     display:none;
     background:#fff;
     border:1px solid var(--border);
-    border-radius:15px;
-    box-shadow:0 8px 30px rgba(0,0,0,.06);
-    padding:30px;
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:32px;
 }
 
 .tracking-card.show{
     display:block;
+    animation:cardIn .4s ease;
 }
+
+@keyframes cardIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ================= CARD TOP ================= */
 
 .card-top{
     display:grid;
-    grid-template-columns:1.4fr 1fr 1.2fr 1fr;
-    gap:25px;
+    grid-template-columns:1.35fr 1fr 1.2fr 1fr 1fr 1fr;
+    gap:24px;
 }
 
 .label{
-    color:#777;
-    font-size:10px;
+    color:#999;
+    font-size:9px;
     text-transform:uppercase;
-    letter-spacing:.5px;
-    margin-bottom:6px;
+    letter-spacing:.7px;
+    margin-bottom:7px;
+    font-weight:800;
 }
 
 .tracking-number{
     color:var(--orange);
-    font-size:21px;
-    font-weight:900;
+    font-size:20px;
+    font-weight:1000;
     word-break:break-word;
 }
 
 .info-value{
-    font-size:13px;
-    font-weight:bold;
+    font-size:12px;
+    font-weight:800;
+    color:#222;
 }
 
 /* ================= TIMELINE ================= */
 
 .tracking-details{
     display:grid;
-    grid-template-columns:1.35fr .85fr;
-    gap:30px;
+    grid-template-columns:1.4fr .8fr;
+    gap:32px;
     margin-top:32px;
-    padding-top:28px;
+    padding-top:30px;
     border-top:1px solid #eee;
-}
-
-.timeline-wrapper{
-    width:100%;
 }
 
 .timeline{
     position:relative;
-    padding:0 0 0 8px;
+    padding-left:4px;
 }
 
 .timeline-line{
     position:absolute;
-    top:18px;
-    bottom:53px;
-    left:21px;
+    top:16px;
+    bottom:52px;
+    left:18px;
     width:3px;
-    background:#ddd;
     border-radius:10px;
+    background:#ddd;
 }
 
 .step{
@@ -305,7 +357,6 @@ header{
     display:grid;
     grid-template-columns:38px 1fr;
     column-gap:14px;
-    align-items:start;
 }
 
 .dot{
@@ -313,20 +364,20 @@ header{
     height:29px;
     border-radius:50%;
     background:#fff;
-    border:2px solid #aaa;
+    border:2px solid #c5c5c5;
     display:flex;
     align-items:center;
     justify-content:center;
-    color:#777;
-    font-size:11px;
-    font-weight:bold;
+    color:#999;
+    font-size:10px;
+    font-weight:900;
     position:relative;
     z-index:3;
 }
 
 .step.done .dot{
-    background:#19a34a;
-    border-color:#19a34a;
+    background:var(--green);
+    border-color:var(--green);
     color:#fff;
     animation:tickPop .45s ease-out;
 }
@@ -335,6 +386,7 @@ header{
     background:var(--orange);
     border-color:var(--orange);
     color:#fff;
+    box-shadow:0 0 0 6px rgba(255,105,0,.10);
 }
 
 .step.active .title{
@@ -342,28 +394,26 @@ header{
 }
 
 .step.done .title{
-    color:#19a34a;
+    color:var(--green);
 }
 
 .title{
     font-size:12px;
-    font-weight:bold;
-    padding-top:4px;
+    font-weight:900;
+    padding-top:5px;
 }
-
-/* ================= SELECTED STATUS DETAIL ================= */
 
 .status-detail{
     display:none;
-    margin-top:7px;
-    padding:7px 10px;
+    margin-top:8px;
+    padding:9px 11px;
     background:#fff7f1;
     border-left:3px solid var(--orange);
-    border-radius:5px;
+    border-radius:6px;
     color:#555;
     font-size:10px;
-    font-weight:600;
-    line-height:1.5;
+    font-weight:700;
+    line-height:1.55;
 }
 
 .status-detail.show{
@@ -372,8 +422,9 @@ header{
 
 .date{
     margin-top:5px;
-    color:#888;
+    color:#999;
     font-size:9px;
+    font-weight:600;
 }
 
 @keyframes tickPop{
@@ -381,44 +432,54 @@ header{
         transform:scale(.65);
         opacity:.4;
     }
-
     55%{
         transform:scale(1.18);
         opacity:1;
     }
-
     75%{
         transform:scale(.94);
     }
-
     100%{
         transform:scale(1);
     }
 }
 
-/* ================= ADDITIONAL INFORMATION ================= */
+/* ================= ADDITIONAL INFO ================= */
 
 .additional-information{
     align-self:start;
     background:#fff7f1;
     border:1px solid #ffd0ad;
-    border-radius:14px;
-    padding:22px;
-    min-height:180px;
-    box-shadow:0 5px 18px rgba(255,105,0,.06);
+    border-radius:16px;
+    padding:24px;
+    min-height:190px;
+    box-shadow:0 8px 25px rgba(255,105,0,.06);
 }
 
 .additional-information h3{
+    display:flex;
+    align-items:center;
+    gap:9px;
     color:var(--orange);
+    font-size:17px;
+    font-weight:1000;
+    margin-bottom:13px;
+}
+
+.warning-icon{
+    width:25px;
+    height:25px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
     font-size:18px;
-    font-weight:900;
-    margin-bottom:12px;
+    line-height:1;
 }
 
 .additional-information-content{
     color:#555;
-    font-size:12px;
-    line-height:1.8;
+    font-size:11px;
+    line-height:1.85;
     white-space:pre-wrap;
     word-break:break-word;
 }
@@ -428,21 +489,22 @@ header{
 }
 
 .additional-information.empty .additional-information-content{
-    color:#888;
+    color:#999;
 }
 
 /* ================= FEATURES ================= */
 
 .features{
-    padding:0 0 35px;
+    padding:0 0 38px;
 }
 
 .features-box{
     border:1px solid var(--border);
-    border-radius:15px;
-    padding:25px 20px;
+    border-radius:18px;
+    padding:27px 20px;
     display:grid;
     grid-template-columns:repeat(3,1fr);
+    box-shadow:0 8px 25px rgba(0,0,0,.03);
 }
 
 .feature{
@@ -465,23 +527,24 @@ header{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:20px;
-    font-weight:bold;
+    font-size:18px;
+    font-weight:1000;
     flex-shrink:0;
 }
 
 .feature h3{
-    font-size:13px;
-    margin-bottom:4px;
+    font-size:12px;
+    margin-bottom:5px;
+    font-weight:1000;
 }
 
 .feature p{
     color:#777;
-    font-size:11px;
-    line-height:1.5;
+    font-size:10px;
+    line-height:1.55;
 }
 
-/* ================= WORLDWIDE SECTION ================= */
+/* ================= WORLDWIDE ================= */
 
 .lower-section{
     padding-bottom:60px;
@@ -489,8 +552,8 @@ header{
 
 .uk-card{
     border:1px solid var(--border);
-    border-radius:15px;
-    padding:32px;
+    border-radius:18px;
+    padding:35px;
     background:linear-gradient(
         100deg,
         #fff 0%,
@@ -498,12 +561,15 @@ header{
         #fff7f1 65%,
         #fff7f1 100%
     );
+    box-shadow:0 8px 25px rgba(0,0,0,.03);
 }
 
 .uk-card h2{
-    font-size:28px;
+    font-size:29px;
     line-height:1.15;
     margin-bottom:14px;
+    font-weight:1000;
+    letter-spacing:-1px;
 }
 
 .uk-card h2 span{
@@ -513,8 +579,8 @@ header{
 .uk-card p{
     max-width:620px;
     color:#666;
-    font-size:13px;
-    line-height:1.8;
+    font-size:12px;
+    line-height:1.85;
 }
 
 /* ================= FOOTER ================= */
@@ -525,7 +591,7 @@ footer{
 }
 
 .footer-main{
-    padding:40px 0 35px;
+    padding:42px 0 36px;
 }
 
 .footer-grid{
@@ -537,14 +603,15 @@ footer{
 .footer-description{
     max-width:270px;
     color:#777;
-    font-size:11px;
-    line-height:1.7;
-    margin-top:14px;
+    font-size:10px;
+    line-height:1.8;
+    margin-top:13px;
 }
 
 footer h4{
-    font-size:12px;
-    margin-bottom:14px;
+    font-size:11px;
+    margin-bottom:15px;
+    font-weight:1000;
 }
 
 footer ul{
@@ -553,12 +620,13 @@ footer ul{
 
 footer li{
     color:#777;
-    font-size:11px;
-    margin:9px 0;
+    font-size:10px;
+    margin:10px 0;
 }
 
 .footer-link{
     cursor:pointer;
+    transition:.2s;
 }
 
 .footer-link:hover{
@@ -569,17 +637,19 @@ footer li{
     background:var(--orange);
     color:#fff;
     text-align:center;
-    padding:12px;
-    font-size:11px;
+    padding:13px;
+    font-size:10px;
+    font-weight:700;
 }
 
-/* ================= POPUP ================= */
+/* ================= MODAL ================= */
 
 .modal{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(255,105,0,.78);
+    background:rgba(17,17,17,.48);
+    backdrop-filter:blur(6px);
     z-index:9999;
     align-items:center;
     justify-content:center;
@@ -596,10 +666,22 @@ footer li{
     max-height:90vh;
     overflow-y:auto;
     background:#fff;
-    border-radius:18px;
+    border-radius:20px;
     padding:32px;
     position:relative;
-    box-shadow:0 15px 45px rgba(0,0,0,.20);
+    box-shadow:0 20px 60px rgba(0,0,0,.22);
+    animation:modalIn .25s ease;
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:scale(.96) translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:scale(1) translateY(0);
+    }
 }
 
 .modal-close{
@@ -617,8 +699,8 @@ footer li{
 }
 
 .modal-title{
-    font-size:25px;
-    font-weight:900;
+    font-size:24px;
+    font-weight:1000;
     margin-bottom:7px;
 }
 
@@ -628,22 +710,22 @@ footer li{
 
 .modal-subtitle{
     color:#777;
-    font-size:12px;
-    line-height:1.6;
-    margin-bottom:24px;
+    font-size:11px;
+    line-height:1.7;
+    margin-bottom:23px;
 }
 
 /* ================= SERVICES ================= */
 
 .service-list{
     display:grid;
-    gap:12px;
+    gap:11px;
 }
 
 .service-item{
     border:1px solid #ffd0ad;
     border-radius:11px;
-    padding:17px;
+    padding:16px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -653,23 +735,23 @@ footer li{
 
 .service-name{
     color:var(--orange);
-    font-size:14px;
-    font-weight:900;
+    font-size:13px;
+    font-weight:1000;
 }
 
 .service-text{
     color:#555;
-    font-size:11px;
+    font-size:10px;
     margin-top:4px;
 }
 
 .service-days{
     background:var(--orange);
     color:#fff;
-    padding:9px 12px;
+    padding:8px 11px;
     border-radius:7px;
-    font-size:10px;
-    font-weight:800;
+    font-size:9px;
+    font-weight:900;
     white-space:nowrap;
 }
 
@@ -677,26 +759,26 @@ footer li{
 
 .branch-list{
     display:grid;
-    gap:12px;
+    gap:11px;
 }
 
 .branch-item{
     border:1px solid #ffd0ad;
     border-radius:11px;
-    padding:17px;
+    padding:16px;
     background:#fff7f1;
 }
 
 .branch-city{
     color:var(--orange);
-    font-size:16px;
-    font-weight:900;
+    font-size:15px;
+    font-weight:1000;
     margin-bottom:6px;
 }
 
 .branch-label{
     color:#777;
-    font-size:10px;
+    font-size:9px;
     text-transform:uppercase;
     letter-spacing:.5px;
     margin-bottom:4px;
@@ -704,8 +786,8 @@ footer li{
 
 .branch-phone{
     color:#111;
-    font-size:14px;
-    font-weight:bold;
+    font-size:13px;
+    font-weight:900;
     text-decoration:none;
 }
 
@@ -717,26 +799,26 @@ footer li{
 
 .about-content{
     display:grid;
-    gap:14px;
+    gap:13px;
 }
 
 .about-box{
     border:1px solid #ffd0ad;
     background:#fff7f1;
     border-radius:11px;
-    padding:18px;
+    padding:17px;
 }
 
 .about-box h3{
     color:var(--orange);
-    font-size:14px;
+    font-size:13px;
     margin-bottom:7px;
 }
 
 .about-box p{
     color:#555;
-    font-size:12px;
-    line-height:1.7;
+    font-size:11px;
+    line-height:1.75;
 }
 
 .experience{
@@ -744,21 +826,32 @@ footer li{
     background:var(--orange);
     color:#fff;
     border-radius:12px;
-    padding:20px;
+    padding:19px;
 }
 
 .experience-number{
-    font-size:31px;
-    font-weight:900;
+    font-size:30px;
+    font-weight:1000;
 }
 
 .experience-text{
-    font-size:11px;
-    font-weight:bold;
+    font-size:10px;
+    font-weight:800;
     margin-top:3px;
 }
 
 /* ================= MOBILE ================= */
+
+@media(max-width:1050px){
+
+    .card-top{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .tracking-details{
+        grid-template-columns:1fr;
+    }
+}
 
 @media(max-width:900px){
 
@@ -768,7 +861,7 @@ footer li{
 
     header{
         height:auto;
-        padding:18px 0;
+        padding:19px 0;
     }
 
     .nav-links{
@@ -780,28 +873,15 @@ footer li{
     }
 
     .hero{
-        padding:50px 0 45px;
+        padding:55px 0 45px;
     }
 
     .hero h1{
-        font-size:44px;
+        font-size:45px;
     }
 
     .hero-description{
-        font-size:14px;
-    }
-
-    .card-top{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .tracking-details{
-        grid-template-columns:1fr;
-        gap:25px;
-    }
-
-    .additional-information{
-        order:2;
+        font-size:13px;
     }
 
     .features-box{
@@ -830,63 +910,61 @@ footer li{
         max-width:calc(100% - 24px);
     }
 
-    .logo-name{
+    .logo{
         font-size:20px;
     }
 
-    .logo-tagline{
-        font-size:7px;
-        letter-spacing:.8px;
-    }
-
     .hero{
-        padding:40px 0 35px;
+        padding:43px 0 38px;
     }
 
     .hero-badge{
-        font-size:10px;
+        font-size:9px;
+        padding:8px 13px;
     }
 
     .hero h1{
         font-size:37px;
-        letter-spacing:-1px;
+        letter-spacing:-1.5px;
     }
 
     .hero-description{
-        font-size:13px;
+        font-size:12px;
         margin:17px auto 24px;
     }
 
     .track-form{
-        height:52px;
+        height:54px;
+        padding:4px;
+        border-radius:12px;
     }
 
     .track-form input{
-        padding:0 13px;
-        font-size:13px;
+        padding:0 12px;
+        font-size:12px;
     }
 
     .track-form button{
         width:90px;
-        font-size:12px;
+        font-size:11px;
     }
 
     .multi-track{
-        font-size:11px;
+        font-size:10px;
     }
 
     .tracking-card{
         padding:20px 16px;
-        border-radius:12px;
+        border-radius:15px;
     }
 
     .card-top{
         grid-template-columns:1fr;
-        gap:17px;
+        gap:16px;
     }
 
     .tracking-number{
-        font-size:19px;
+        font-size:18px;
     }
 
     .tracking-details{
@@ -913,7 +991,7 @@ footer li{
     .dot{
         width:27px;
         height:27px;
-        font-size:10px;
+        font-size:9px;
     }
 
     .title{
@@ -922,19 +1000,10 @@ footer li{
 
     .status-detail{
         font-size:9px;
-        padding:6px 8px;
     }
 
     .additional-information{
         padding:19px;
-    }
-
-    .additional-information h3{
-        font-size:17px;
-    }
-
-    .additional-information-content{
-        font-size:11px;
     }
 
     .features-box{
@@ -948,15 +1017,7 @@ footer li{
     .feature-icon{
         width:42px;
         height:42px;
-        font-size:18px;
-    }
-
-    .feature h3{
-        font-size:12px;
-    }
-
-    .feature p{
-        font-size:10px;
+        font-size:17px;
     }
 
     .uk-card{
@@ -983,11 +1044,11 @@ footer li{
 
     .modal-box{
         padding:26px 18px;
-        border-radius:14px;
+        border-radius:15px;
     }
 
     .modal-title{
-        font-size:22px;
+        font-size:21px;
         padding-right:35px;
     }
 
@@ -1013,11 +1074,7 @@ footer li{
     }
 
     .track-form input{
-        font-size:12px;
-    }
-
-    .logo-name{
-        font-size:18px;
+        font-size:11px;
     }
 }
 </style>
@@ -1031,42 +1088,19 @@ footer li{
 <div class="container nav">
 
 <a href="#" class="logo">
-<div>
-<div class="logo-name">
-<span>FAST</span> AIR CARGO
-</div>
-
-<div class="logo-tagline">
-Where Every Shipment Matters!
-</div>
-</div>
+FAST <span>AIR CARGO</span>
 </a>
 
 <nav class="nav-links">
-
 <a href="#">Home</a>
-
-<a href="#track">
-Track Shipment
-</a>
-
-<a onclick="openModal('servicesModal')">
-Services
-</a>
-
-<a onclick="openModal('aboutModal')">
-About Us
-</a>
-
-<a onclick="openModal('contactModal')">
-Contact Us
-</a>
-
+<a href="#track">Track Shipment</a>
+<a onclick="openModal('servicesModal')">Services</a>
+<a onclick="openModal('aboutModal')">About Us</a>
+<a onclick="openModal('contactModal')">Contact Us</a>
 </nav>
 
 </div>
 </header>
-
 
 <!-- ================= HERO ================= -->
 
@@ -1078,14 +1112,10 @@ Contact Us
 FAST AIR CARGO TRACKING SYSTEM
 </div>
 
-<div class="hero-title-row">
-
 <h1>
 TRACK YOUR
 <span>SHIPMENT</span>
 </h1>
-
-</div>
 
 <p class="hero-description">
 Enter your tracking number and get
@@ -1122,7 +1152,6 @@ Secure & COD services available.
 </div>
 </section>
 
-
 <!-- ================= TRACKING RESULT ================= -->
 
 <section class="tracking-section">
@@ -1134,72 +1163,36 @@ Secure & COD services available.
 <div class="card-top">
 
 <div>
-<div class="label">
-Tracking Number
+<div class="label">Tracking Number</div>
+<div class="tracking-number" id="displayNumber">-</div>
 </div>
-
-<div class="tracking-number" id="displayNumber">
--
-</div>
-</div>
-
 
 <div>
-<div class="label">
-Origin
+<div class="label">Origin</div>
+<div class="info-value" id="displayOrigin">-</div>
 </div>
-
-<div class="info-value" id="displayOrigin">
--
-</div>
-</div>
-
 
 <div>
-<div class="label">
-Destination
+<div class="label">Destination</div>
+<div class="info-value" id="displayDestination">-</div>
 </div>
-
-<div class="info-value" id="displayDestination">
--
-</div>
-</div>
-
 
 <div>
-<div class="label">
-Booking Date
+<div class="label">Booking Date</div>
+<div class="info-value" id="displayBookingDate">-</div>
 </div>
-
-<div class="info-value" id="displayBookingDate">
--
-</div>
-</div>
-
 
 <div>
-<div class="label">
-Estimated Delivery
+<div class="label">Estimated Delivery</div>
+<div class="info-value" id="displayDelivery">-</div>
 </div>
-
-<div class="info-value" id="displayDelivery">
--
-</div>
-</div>
-
 
 <div>
-<div class="label">
-Service
-</div>
-
-<div class="info-value" id="displayService">
--
-</div>
+<div class="label">Service</div>
+<div class="info-value" id="displayService">-</div>
 </div>
 
 </div>
-
 
 <!-- ================= TIMELINE ================= -->
 
@@ -1211,7 +1204,6 @@ Service
 
 <div class="timeline-line" id="timelineLine"></div>
 
-
 <!-- STEP 1 -->
 
 <div class="step" id="step1">
@@ -1219,21 +1211,14 @@ Service
 <div class="dot">1</div>
 
 <div>
-
-<div class="title">
-Order Confirmed
-</div>
+<div class="title">Order Confirmed</div>
 
 <div class="status-detail" id="detail1"></div>
 
-<div class="date" id="date1">
--
+<div class="date" id="date1">-</div>
 </div>
 
 </div>
-
-</div>
-
 
 <!-- STEP 2 -->
 
@@ -1242,21 +1227,14 @@ Order Confirmed
 <div class="dot">2</div>
 
 <div>
-
-<div class="title">
-Picked Up
-</div>
+<div class="title">Picked Up</div>
 
 <div class="status-detail" id="detail2"></div>
 
-<div class="date" id="date2">
--
+<div class="date" id="date2">-</div>
 </div>
 
 </div>
-
-</div>
-
 
 <!-- STEP 3 -->
 
@@ -1265,21 +1243,14 @@ Picked Up
 <div class="dot">3</div>
 
 <div>
-
-<div class="title">
-In Transit
-</div>
+<div class="title">In Transit</div>
 
 <div class="status-detail" id="detail3"></div>
 
-<div class="date" id="date3">
--
+<div class="date" id="date3">-</div>
 </div>
 
 </div>
-
-</div>
-
 
 <!-- STEP 4 -->
 
@@ -1288,21 +1259,14 @@ In Transit
 <div class="dot">4</div>
 
 <div>
-
-<div class="title">
-Customs Clearance
-</div>
+<div class="title">Customs Clearance</div>
 
 <div class="status-detail" id="detail4"></div>
 
-<div class="date" id="date4">
--
+<div class="date" id="date4">-</div>
 </div>
 
 </div>
-
-</div>
-
 
 <!-- STEP 5 -->
 
@@ -1311,21 +1275,14 @@ Customs Clearance
 <div class="dot">5</div>
 
 <div>
-
-<div class="title">
-Out for Delivery
-</div>
+<div class="title">Out for Delivery</div>
 
 <div class="status-detail" id="detail5"></div>
 
-<div class="date" id="date5">
--
+<div class="date" id="date5">-</div>
 </div>
 
 </div>
-
-</div>
-
 
 <!-- STEP 6 -->
 
@@ -1334,31 +1291,24 @@ Out for Delivery
 <div class="dot">6</div>
 
 <div>
-
-<div class="title">
-Delivered
-</div>
+<div class="title">Delivered</div>
 
 <div class="status-detail" id="detail6"></div>
 
-<div class="date" id="date6">
--
+<div class="date" id="date6">-</div>
 </div>
 
 </div>
 
 </div>
-
 </div>
-
-</div>
-
 
 <!-- ================= ADDITIONAL INFORMATION ================= -->
 
 <div class="additional-information" id="additionalInformationBox">
 
 <h3>
+<span class="warning-icon">⚠</span>
 Additional Information
 </h3>
 
@@ -1372,12 +1322,9 @@ id="displayAdditionalInformation"
 </div>
 
 </div>
-
 </div>
-
 </div>
 </section>
-
 
 <!-- ================= FEATURES ================= -->
 
@@ -1389,71 +1336,40 @@ id="displayAdditionalInformation"
 
 <div class="feature">
 
-<div class="feature-icon">
-✓
-</div>
+<div class="feature-icon">✓</div>
 
 <div>
-
-<h3>
-SAFE & SECURE
-</h3>
-
-<p>
-Your shipment is handled with care and security.
-</p>
-
+<h3>SAFE & SECURE</h3>
+<p>Your shipment is handled with care and security.</p>
 </div>
 
 </div>
-
 
 <div class="feature">
 
-<div class="feature-icon">
-⚡
-</div>
+<div class="feature-icon">⚡</div>
 
 <div>
-
-<h3>
-FAST DELIVERY
-</h3>
-
-<p>
-Fast and reliable cargo delivery worldwide.
-</p>
-
+<h3>FAST DELIVERY</h3>
+<p>Fast and reliable cargo delivery worldwide.</p>
 </div>
 
 </div>
-
 
 <div class="feature">
 
-<div class="feature-icon">
-24
-</div>
+<div class="feature-icon">24</div>
 
 <div>
-
-<h3>
-24/7 SUPPORT
-</h3>
-
-<p>
-Our team is available to assist you.
-</p>
-
+<h3>24/7 SUPPORT</h3>
+<p>Our team is available to assist you.</p>
 </div>
 
 </div>
 
 </div>
-
 </div>
 </section>
-
 
 <!-- ================= WORLDWIDE ================= -->
 
@@ -1478,9 +1394,7 @@ and dependable international cargo service.
 </div>
 
 </div>
-
 </section>
-
 
 <!-- ================= FOOTER ================= -->
 
@@ -1493,19 +1407,7 @@ and dependable international cargo service.
 <div>
 
 <div class="logo">
-
-<div>
-
-<div class="logo-name">
-<span>FAST</span> AIR CARGO
-</div>
-
-<div class="logo-tagline">
-Where Every Shipment Matters!
-</div>
-
-</div>
-
+FAST <span>AIR CARGO</span>
 </div>
 
 <p class="footer-description">
@@ -1515,18 +1417,13 @@ with professional handling and secure delivery.
 
 </div>
 
-
 <div>
 
-<h4>
-QUICK LINKS
-</h4>
+<h4>QUICK LINKS</h4>
 
 <ul>
 
-<li class="footer-link" onclick="goHome()">
-Home
-</li>
+<li class="footer-link" onclick="goHome()">Home</li>
 
 <li class="footer-link" onclick="goTrack()">
 Track Shipment
@@ -1548,12 +1445,9 @@ Contact Us
 
 </div>
 
-
 <div>
 
-<h4>
-SERVICES
-</h4>
+<h4>SERVICES</h4>
 
 <ul>
 
@@ -1585,44 +1479,32 @@ COD Service
 
 </div>
 
-
 <div>
 
-<h4>
-CONTACT US
-</h4>
+<h4>CONTACT US</h4>
 
 <ul>
 
-<li>
-☎ 03180381586
-</li>
+<li>☎ 03180381586</li>
 
-<li>
-✉ info@fastaircargo.com
-</li>
+<li>✉ info@fastaircargo.com</li>
 
-<li>
-⌖ Pakistan
-</li>
+<li>⌖ Pakistan</li>
 
 </ul>
 
 </div>
 
 </div>
-
 </div>
 
-
 <div class="footer-bottom">
-©️ 2026 Fast Air Cargo. All Rights Reserved.
+© 2026 Fast Air Cargo. All Rights Reserved.
 </div>
 
 </footer>
 
-
-<!-- ================= SERVICES POPUP ================= -->
+<!-- ================= SERVICES MODAL ================= -->
 
 <div class="modal" id="servicesModal">
 
@@ -1653,11 +1535,8 @@ Reliable and economical cargo service.
 </div>
 </div>
 
-<div class="service-days">
-8 WORKING DAYS
+<div class="service-days">8 WORKING DAYS</div>
 </div>
-</div>
-
 
 <div class="service-item">
 <div>
@@ -1667,11 +1546,8 @@ Faster delivery for time-sensitive shipments.
 </div>
 </div>
 
-<div class="service-days">
-6 WORKING DAYS
+<div class="service-days">6 WORKING DAYS</div>
 </div>
-</div>
-
 
 <div class="service-item">
 <div>
@@ -1681,11 +1557,8 @@ Priority handling for important shipments.
 </div>
 </div>
 
-<div class="service-days">
-5 WORKING DAYS
+<div class="service-days">5 WORKING DAYS</div>
 </div>
-</div>
-
 
 <div class="service-item">
 <div>
@@ -1695,11 +1568,8 @@ Our fastest premium cargo service.
 </div>
 </div>
 
-<div class="service-days">
-4 WORKING DAYS
+<div class="service-days">4 WORKING DAYS</div>
 </div>
-</div>
-
 
 <div class="service-item">
 <div>
@@ -1709,11 +1579,8 @@ Secure handling with dependable cargo delivery.
 </div>
 </div>
 
-<div class="service-days">
-5–7 WORKING DAYS
+<div class="service-days">5–7 WORKING DAYS</div>
 </div>
-</div>
-
 
 <div class="service-item">
 <div>
@@ -1723,19 +1590,14 @@ Cash on Delivery cargo service.
 </div>
 </div>
 
-<div class="service-days">
-5–7 WORKING DAYS
-</div>
+<div class="service-days">5–7 WORKING DAYS</div>
 </div>
 
 </div>
-
+</div>
 </div>
 
-</div>
-
-
-<!-- ================= CONTACT POPUP ================= -->
+<!-- ================= CONTACT MODAL ================= -->
 
 <div class="modal" id="contactModal">
 
@@ -1769,9 +1631,7 @@ href="tel:03180381586"
 >
 03180381586
 </a>
-
 </div>
-
 
 <div class="branch-item">
 <div class="branch-city">Mirpur</div>
@@ -1783,9 +1643,7 @@ href="tel:03255987631"
 >
 03255987631
 </a>
-
 </div>
-
 
 <div class="branch-item">
 <div class="branch-city">Jhelum</div>
@@ -1797,9 +1655,7 @@ href="tel:03173681721"
 >
 03173681721
 </a>
-
 </div>
-
 
 <div class="branch-item">
 <div class="branch-city">Gujarkhan</div>
@@ -1811,17 +1667,13 @@ href="tel:03218554919"
 >
 03218554919
 </a>
-
 </div>
 
 </div>
-
+</div>
 </div>
 
-</div>
-
-
-<!-- ================= ABOUT POPUP ================= -->
+<!-- ================= ABOUT MODAL ================= -->
 
 <div class="modal" id="aboutModal">
 
@@ -1857,7 +1709,6 @@ OF CARGO SERVICE EXPERIENCE
 
 </div>
 
-
 <div class="about-box">
 
 <h3>
@@ -1871,7 +1722,6 @@ careful and reliable shipment preparation.
 </p>
 
 </div>
-
 
 <div class="about-box">
 
@@ -1887,7 +1737,6 @@ security and dependable service.
 
 </div>
 
-
 <div class="about-box">
 
 <h3>
@@ -1902,11 +1751,8 @@ with professional support for customers and their shipments.
 </div>
 
 </div>
-
 </div>
-
 </div>
-
 
 <!-- ================= JAVASCRIPT ================= -->
 
@@ -1979,6 +1825,7 @@ document.getElementById(
 
 /* ==================================================
    FORMAT DATE
+   Uses the date from the database.
 ================================================== */
 
 function formatDate(dateValue){
@@ -1987,11 +1834,10 @@ function formatDate(dateValue){
         return "-";
     }
 
-    const date =
-    new Date(dateValue + "T00:00:00");
+    const date = new Date(dateValue);
 
     if(isNaN(date.getTime())){
-        return dateValue;
+        return String(dateValue);
     }
 
     return date.toLocaleDateString(
@@ -2023,7 +1869,7 @@ function normalizeStatus(status){
 
 
 /* ==================================================
-   MAIN STATUS GROUPS
+   STATUS GROUPS
 ================================================== */
 
 const statusGroups = [
@@ -2087,7 +1933,7 @@ const statusGroups = [
 
 
 /* ==================================================
-   RESET ALL STATUS DETAILS
+   RESET STATUS DETAILS
 ================================================== */
 
 function resetStatusDetails(){
@@ -2109,7 +1955,30 @@ function resetStatusDetails(){
 
 
 /* ==================================================
-   SHOW ONLY SELECTED STATUS DETAIL
+   FIND ACTIVE STATUS
+================================================== */
+
+function getActiveStatusIndex(currentStatus){
+
+    const normalized =
+    normalizeStatus(currentStatus);
+
+    let activeIndex = 0;
+
+    statusGroups.forEach(function(group,index){
+
+        if(group.names.includes(normalized)){
+            activeIndex = index;
+        }
+
+    });
+
+    return activeIndex;
+}
+
+
+/* ==================================================
+   SHOW SELECTED STATUS DETAIL
 ================================================== */
 
 function showSelectedStatusDetail(
@@ -2120,19 +1989,8 @@ function showSelectedStatusDetail(
 
     resetStatusDetails();
 
-    const normalizedMainStatus =
-    normalizeStatus(currentStatus);
-
-    let activeIndex = 0;
-
-    statusGroups.forEach(function(group,index){
-
-        if(group.names.includes(normalizedMainStatus)){
-            activeIndex = index;
-        }
-
-    });
-
+    const activeIndex =
+    getActiveStatusIndex(currentStatus);
 
     const detailElement =
     document.getElementById(
@@ -2145,25 +2003,7 @@ function showSelectedStatusDetail(
     );
 
 
-    /*
-       IMPORTANT:
-
-       Sirf selected status_detail yahan show hoga.
-
-       Database mein agar:
-       current_status = Customs Clearance
-       status_detail = Customs Cleared
-
-       to sirf:
-
-       Customs Clearance
-       Customs Cleared
-
-       show hoga.
-
-       Baqi details kabhi frontend par automatically
-       show nahi ki ja rahi.
-    */
+    /* Only current status detail */
 
     if(
         statusDetail !== null &&
@@ -2178,14 +2018,18 @@ function showSelectedStatusDetail(
     }
 
 
+    /* Current status date */
+
     if(statusDate){
 
         dateElement.textContent =
+        "Last Update: " +
         formatDate(statusDate);
 
     }else{
 
-        dateElement.textContent = "-";
+        dateElement.textContent =
+        "Last Update: -";
     }
 }
 
@@ -2200,19 +2044,8 @@ function updateTimeline(
     statusDate
 ){
 
-    const status =
-    normalizeStatus(currentStatus);
-
-    let activeIndex = 0;
-
-
-    statusGroups.forEach(function(group,index){
-
-        if(group.names.includes(status)){
-            activeIndex = index;
-        }
-
-    });
+    const activeIndex =
+    getActiveStatusIndex(currentStatus);
 
 
     statusGroups.forEach(function(group,index){
@@ -2271,21 +2104,16 @@ function updateTimeline(
     document.getElementById(
         "timelineLine"
     ).style.background =
-    "linear-gradient(to bottom, " +
-    "var(--orange) 0%, " +
+    "linear-gradient(to bottom," +
+    "var(--orange) 0%," +
     "var(--orange) " +
     percentage +
-    "%, " +
+    "%," +
     "#ddd " +
     percentage +
-    "%, " +
+    "%," +
     "#ddd 100%)";
 
-
-    /*
-       Yahan sirf currently selected
-       status_detail show ki ja rahi hai.
-    */
 
     showSelectedStatusDetail(
         currentStatus,
@@ -2357,24 +2185,18 @@ function showShipment(shipment){
     shipment.current_status ||
     "Order Confirmed";
 
-
-    /*
-       DATABASE FIELD:
-
-       current_status
-       status_detail
-
-       Optional date:
-
-       status_date
-
-       Agar status_date column nahi hai
-       to booking_date use ho jayegi.
-    */
-
     const statusDetail =
     shipment.status_detail || "";
 
+
+    /* ==================================================
+       LAST UPDATE DATE
+
+       Priority:
+       1. status_date
+       2. updated_at
+       3. booking_date
+    ================================================== */
 
     const statusDate =
     shipment.status_date ||
@@ -2421,7 +2243,10 @@ async function(event){
 
     message.style.display = "none";
 
-    message.classList.remove("error");
+    message.classList.remove(
+        "error",
+        "success"
+    );
 
 
     if(trackingNumber === ""){
@@ -2489,7 +2314,7 @@ async function(event){
 
         message.style.display = "block";
 
-        message.classList.remove("error");
+        message.classList.add("success");
 
         message.textContent =
         "Shipment found successfully.";
