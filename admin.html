@@ -460,6 +460,11 @@ body {
     white-space: nowrap;
 }
 
+
+/* =========================
+   STATUS DETAIL DISPLAY
+========================= */
+
 .status-detail {
     margin-top: -5px;
     margin-bottom: 14px;
@@ -470,6 +475,20 @@ body {
     font-size: 12px;
     font-weight: bold;
     border-radius: 5px;
+}
+
+.status-detail.warning {
+    border-left-color: #d97706;
+}
+
+.caution-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    font-size: 13px;
+    line-height: 1;
+    vertical-align: middle;
 }
 
 
@@ -715,7 +734,9 @@ body {
         <form id="loginForm">
 
             <div class="login-field">
-                <label for="loginEmail">Email</label>
+                <label for="loginEmail">
+                    Email
+                </label>
 
                 <input
                     type="email"
@@ -727,7 +748,9 @@ body {
             </div>
 
             <div class="login-field">
-                <label for="loginPassword">Password</label>
+                <label for="loginPassword">
+                    Password
+                </label>
 
                 <input
                     type="password"
@@ -1004,29 +1027,11 @@ body {
                         </label>
 
                         <select id="status_detail">
-
                         </select>
 
                         <div class="status-help">
                             Select the current detailed shipment update.
                         </div>
-
-                    </div>
-
-
-                    <!-- WEIGHT -->
-
-                    <div class="form-field">
-
-                        <label for="weight">
-                            Weight
-                        </label>
-
-                        <input
-                            type="text"
-                            id="weight"
-                            placeholder="10 KG"
-                        >
 
                     </div>
 
@@ -1190,6 +1195,25 @@ const statusDetails = {
 
 
 /* ==================================================
+   CAUTION STATUS DETAILS
+================================================== */
+
+const cautionDetails = [
+
+    "On Hold Due to Payment",
+
+    "On Hold Due to No Available Flight Schedule",
+
+    "Under Customs Clearance in Pakistan",
+
+    "Held by Border Force",
+
+    "Held by UK Customs"
+
+];
+
+
+/* ==================================================
    ELEMENTS
 ================================================== */
 
@@ -1231,10 +1255,24 @@ document.getElementById("statusDetailField");
 
 
 /* ==================================================
+   CHECK CAUTION DETAIL
+================================================== */
+
+function isCautionDetail(detail) {
+
+    return cautionDetails.includes(detail);
+
+}
+
+
+/* ==================================================
    UPDATE DETAIL DROPDOWN
 ================================================== */
 
-function updateStatusDetails(selectedStatus, selectedDetail = "") {
+function updateStatusDetails(
+    selectedStatus,
+    selectedDetail = ""
+) {
 
     const details =
     statusDetails[selectedStatus] || [];
@@ -1560,13 +1598,6 @@ shipmentForm.addEventListener(
         .trim();
 
 
-        const weight =
-        document
-        .getElementById("weight")
-        .value
-        .trim();
-
-
         if (!statusDetailValue) {
 
             showFormMessage(
@@ -1604,10 +1635,7 @@ shipmentForm.addEventListener(
             statusDetailValue,
 
             package_details:
-            packageDetails,
-
-            weight:
-            weight
+            packageDetails
 
         };
 
@@ -1747,6 +1775,26 @@ async function loadShipments() {
         "shipment";
 
 
+        const detail =
+        shipment.status_detail || "";
+
+
+        const hasCaution =
+        isCautionDetail(detail);
+
+
+        const cautionIcon =
+        hasCaution
+        ? `<span class="caution-symbol" title="Caution">⚠️</span>`
+        : "";
+
+
+        const detailClass =
+        hasCaution
+        ? "status-detail warning"
+        : "status-detail";
+
+
         div.innerHTML = `
 
             <div class="shipment-top">
@@ -1766,11 +1814,11 @@ async function loadShipments() {
             </div>
 
 
-            <div class="status-detail">
+            <div class="${detailClass}">
 
-                ${escapeHtml(
-                    shipment.status_detail || "No detail selected"
-                )}
+                ${escapeHtml(detail || "No detail selected")}
+
+                ${cautionIcon}
 
             </div>
 
@@ -1795,13 +1843,6 @@ async function loadShipments() {
                     <strong>Service:</strong>
                     ${escapeHtml(
                         shipment.service || ""
-                    )}
-                </p>
-
-                <p>
-                    <strong>Weight:</strong>
-                    ${escapeHtml(
-                        shipment.weight || ""
                     )}
                 </p>
 
@@ -1943,12 +1984,6 @@ async function editShipment(id) {
         "Order Confirmed",
         data.status_detail || ""
     );
-
-
-    document
-    .getElementById("weight")
-    .value =
-    data.weight || "";
 
 
     document
