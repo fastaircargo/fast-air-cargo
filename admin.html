@@ -10,11 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
-/* =========================
-   RESET
-========================= */
-
 * {
     margin: 0;
     padding: 0;
@@ -39,7 +34,6 @@ body {
     background: var(--white);
     color: var(--black);
 }
-
 
 /* =========================
    LOGIN SCREEN
@@ -149,7 +143,6 @@ body {
     font-weight: bold;
 }
 
-
 /* =========================
    ADMIN PANEL
 ========================= */
@@ -159,7 +152,6 @@ body {
     min-height: 100vh;
     background: var(--white);
 }
-
 
 /* =========================
    ADMIN HEADER
@@ -197,7 +189,6 @@ body {
     white-space: nowrap;
 }
 
-
 /* =========================
    LOGOUT
 ========================= */
@@ -220,7 +211,6 @@ body {
     color: var(--white);
 }
 
-
 /* =========================
    MAIN CONTAINER
 ========================= */
@@ -230,7 +220,6 @@ body {
     max-width: 1200px;
     margin: 35px auto;
 }
-
 
 /* =========================
    DASHBOARD TITLE
@@ -251,7 +240,6 @@ body {
     margin-top: 6px;
     font-size: 14px;
 }
-
 
 /* =========================
    CARDS
@@ -275,7 +263,6 @@ body {
     font-size: 21px;
     font-weight: 900;
 }
-
 
 /* =========================
    FORM GRID
@@ -326,7 +313,6 @@ body {
     resize: vertical;
 }
 
-
 /* =========================
    STATUS DETAILS
 ========================= */
@@ -355,7 +341,6 @@ body {
     font-size: 11px;
     color: var(--gray);
 }
-
 
 /* =========================
    BUTTON ROW
@@ -406,7 +391,6 @@ body {
     color: var(--white);
 }
 
-
 /* =========================
    FORM MESSAGE
 ========================= */
@@ -417,7 +401,6 @@ body {
     font-size: 13px;
     display: none;
 }
-
 
 /* =========================
    SHIPMENT LIST
@@ -460,7 +443,6 @@ body {
     white-space: nowrap;
 }
 
-
 /* =========================
    STATUS DETAIL DISPLAY
 ========================= */
@@ -468,7 +450,7 @@ body {
 .status-detail {
     margin-top: -5px;
     margin-bottom: 14px;
-    padding: 8px 11px;
+    padding: 9px 11px;
     background: #fff7ef;
     border-left: 3px solid var(--orange);
     color: var(--black);
@@ -477,20 +459,32 @@ body {
     border-radius: 5px;
 }
 
-.status-detail.warning {
-    border-left-color: #d97706;
+.status-detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.caution-symbol {
+.status-detail-name {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    margin-left: 5px;
-    font-size: 13px;
-    line-height: 1;
-    vertical-align: middle;
+    gap: 5px;
 }
 
+.caution-icon {
+    font-size: 13px;
+    line-height: 1;
+    display: inline-block;
+}
+
+.last-update {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--gray);
+    white-space: nowrap;
+}
 
 /* =========================
    SHIPMENT INFO
@@ -511,7 +505,6 @@ body {
 .shipment-info strong {
     color: var(--orange);
 }
-
 
 /* =========================
    ACTION BUTTONS
@@ -554,7 +547,6 @@ body {
     color: var(--white);
 }
 
-
 /* =========================
    EMPTY STATE
 ========================= */
@@ -568,7 +560,6 @@ body {
     font-weight: bold;
 }
 
-
 /* =========================
    FOOTER
 ========================= */
@@ -581,7 +572,6 @@ body {
     font-size: 12px;
     font-weight: bold;
 }
-
 
 /* =========================
    MOBILE
@@ -677,8 +667,17 @@ body {
     .actions {
         flex-wrap: wrap;
     }
-}
 
+    .status-detail-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .last-update {
+        white-space: normal;
+    }
+}
 
 /* =========================
    VERY SMALL MOBILE
@@ -707,12 +706,10 @@ body {
         font-size: 9px;
     }
 }
-
 </style>
 </head>
 
 <body>
-
 
 <!-- ==================================================
      LOGIN SCREEN
@@ -734,9 +731,7 @@ body {
         <form id="loginForm">
 
             <div class="login-field">
-                <label for="loginEmail">
-                    Email
-                </label>
+                <label for="loginEmail">Email</label>
 
                 <input
                     type="email"
@@ -748,9 +743,7 @@ body {
             </div>
 
             <div class="login-field">
-                <label for="loginPassword">
-                    Password
-                </label>
+                <label for="loginPassword">Password</label>
 
                 <input
                     type="password"
@@ -836,7 +829,6 @@ body {
             <form id="shipmentForm">
 
                 <div class="form-grid">
-
 
                     <!-- TRACKING NUMBER -->
 
@@ -1201,66 +1193,52 @@ const statusDetails = {
 const cautionDetails = [
 
     "On Hold Due to Payment",
-
     "On Hold Due to No Available Flight Schedule",
-
-    "Under Customs Clearance in Pakistan",
-
     "Held by Border Force",
-
     "Held by UK Customs"
-
 ];
 
 
 /* ==================================================
-   ELEMENTS
-================================================== */
-
-const loginScreen =
-document.getElementById("loginScreen");
-
-const adminPanel =
-document.getElementById("adminPanel");
-
-const loginForm =
-document.getElementById("loginForm");
-
-const loginBtn =
-document.getElementById("loginBtn");
-
-const logoutBtn =
-document.getElementById("logoutBtn");
-
-const shipmentForm =
-document.getElementById("shipmentForm");
-
-const shipmentList =
-document.getElementById("shipmentList");
-
-const cancelBtn =
-document.getElementById("cancelBtn");
-
-const saveBtn =
-document.getElementById("saveBtn");
-
-const currentStatus =
-document.getElementById("current_status");
-
-const statusDetail =
-document.getElementById("status_detail");
-
-const statusDetailField =
-document.getElementById("statusDetailField");
-
-
-/* ==================================================
-   CHECK CAUTION DETAIL
+   CHECK IF CAUTION IS NEEDED
 ================================================== */
 
 function isCautionDetail(detail) {
 
-    return cautionDetails.includes(detail);
+    return cautionDetails.includes(
+        String(detail || "")
+    );
+
+}
+
+
+/* ==================================================
+   FORMAT LAST UPDATE
+================================================== */
+
+function formatLastUpdate(dateValue) {
+
+    if (!dateValue) {
+        return "Not available";
+    }
+
+    const date =
+    new Date(dateValue);
+
+    if (isNaN(date.getTime())) {
+        return "Not available";
+    }
+
+    const day =
+    String(date.getDate()).padStart(2, "0");
+
+    const month =
+    String(date.getMonth() + 1).padStart(2, "0");
+
+    const year =
+    date.getFullYear();
+
+    return `${day}/${month}/${year}`;
 
 }
 
@@ -1277,9 +1255,7 @@ function updateStatusDetails(
     const details =
     statusDetails[selectedStatus] || [];
 
-
     statusDetail.innerHTML = "";
-
 
     if (details.length === 0) {
 
@@ -1290,11 +1266,9 @@ function updateStatusDetails(
         return;
     }
 
-
     statusDetailField.classList.remove("hidden");
 
     statusDetail.disabled = false;
-
 
     const defaultOption =
     document.createElement("option");
@@ -1304,8 +1278,9 @@ function updateStatusDetails(
     defaultOption.textContent =
     "Select Status Detail";
 
-    statusDetail.appendChild(defaultOption);
-
+    statusDetail.appendChild(
+        defaultOption
+    );
 
     details.forEach(function(detail) {
 
@@ -1314,12 +1289,14 @@ function updateStatusDetails(
 
         option.value = detail;
 
-        option.textContent = detail;
+        option.textContent =
+        isCautionDetail(detail)
+        ? `⚠️ ${detail}`
+        : detail;
 
         statusDetail.appendChild(option);
 
     });
-
 
     if (
         selectedDetail &&
@@ -1368,7 +1345,6 @@ async function checkSession() {
     } =
     await supabaseClient.auth.getSession();
 
-
     if (error) {
 
         console.error(
@@ -1380,7 +1356,6 @@ async function checkSession() {
 
         return;
     }
-
 
     if (session) {
 
@@ -1403,9 +1378,11 @@ async function checkSession() {
 
 function showLoginScreen() {
 
-    loginScreen.style.display = "flex";
+    loginScreen.style.display =
+    "flex";
 
-    adminPanel.style.display = "none";
+    adminPanel.style.display =
+    "none";
 
 }
 
@@ -1416,12 +1393,15 @@ function showLoginScreen() {
 
 function showAdminPanel() {
 
-    loginScreen.style.display = "none";
+    loginScreen.style.display =
+    "none";
 
-    adminPanel.style.display = "block";
+    adminPanel.style.display =
+    "block";
 
     updateStatusDetails(
-        currentStatus.value || "Order Confirmed"
+        currentStatus.value ||
+        "Order Confirmed"
     );
 
 }
@@ -1437,25 +1417,21 @@ loginForm.addEventListener(
 
         event.preventDefault();
 
-
         const email =
         document
         .getElementById("loginEmail")
         .value
         .trim();
 
-
         const password =
         document
         .getElementById("loginPassword")
         .value;
 
-
         const message =
         document.getElementById(
             "loginMessage"
         );
-
 
         loginBtn.disabled = true;
 
@@ -1463,7 +1439,6 @@ loginForm.addEventListener(
         "LOGGING IN...";
 
         message.textContent = "";
-
 
         const {
             error
@@ -1475,7 +1450,6 @@ loginForm.addEventListener(
             password: password
 
         });
-
 
         if (error) {
 
@@ -1490,7 +1464,6 @@ loginForm.addEventListener(
 
             return;
         }
-
 
         message.textContent = "";
 
@@ -1539,13 +1512,11 @@ shipmentForm.addEventListener(
 
         event.preventDefault();
 
-
         const trackingNumber =
         document
         .getElementById("tracking_number")
         .value
         .trim();
-
 
         const origin =
         document
@@ -1553,43 +1524,36 @@ shipmentForm.addEventListener(
         .value
         .trim();
 
-
         const destination =
         document
         .getElementById("destination")
         .value
         .trim();
 
-
         const service =
         document
         .getElementById("service")
         .value;
-
 
         const bookingDate =
         document
         .getElementById("booking_date")
         .value;
 
-
         const estimatedDelivery =
         document
         .getElementById("estimated_delivery")
         .value;
-
 
         const currentStatusValue =
         document
         .getElementById("current_status")
         .value;
 
-
         const statusDetailValue =
         document
         .getElementById("status_detail")
         .value;
-
 
         const packageDetails =
         document
@@ -1641,7 +1605,6 @@ shipmentForm.addEventListener(
 
 
         let result;
-
 
         saveBtn.disabled = true;
 
@@ -1770,29 +1733,36 @@ async function loadShipments() {
         const div =
         document.createElement("div");
 
-
         div.className =
         "shipment";
 
 
         const detail =
-        shipment.status_detail || "";
+        shipment.status_detail ||
+        "No detail selected";
 
 
-        const hasCaution =
-        isCautionDetail(detail);
-
-
-        const cautionIcon =
-        hasCaution
-        ? `<span class="caution-symbol" title="Caution">⚠️</span>`
+        const cautionHTML =
+        isCautionDetail(detail)
+        ? `<span class="caution-icon" title="Caution">⚠️</span>`
         : "";
 
 
-        const detailClass =
-        hasCaution
-        ? "status-detail warning"
-        : "status-detail";
+        /*
+         * If updated_at exists, use it.
+         * Otherwise use created_at.
+         */
+
+        const lastUpdateDate =
+        shipment.updated_at ||
+        shipment.created_at ||
+        null;
+
+
+        const lastUpdate =
+        formatLastUpdate(
+            lastUpdateDate
+        );
 
 
         div.innerHTML = `
@@ -1814,11 +1784,25 @@ async function loadShipments() {
             </div>
 
 
-            <div class="${detailClass}">
+            <div class="status-detail">
 
-                ${escapeHtml(detail || "No detail selected")}
+                <div class="status-detail-row">
 
-                ${cautionIcon}
+                    <div class="status-detail-name">
+
+                        ${cautionHTML}
+
+                        <span>
+                            ${escapeHtml(detail)}
+                        </span>
+
+                    </div>
+
+                    <div class="last-update">
+                        Last Update: ${escapeHtml(lastUpdate)}
+                    </div>
+
+                </div>
 
             </div>
 
