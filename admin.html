@@ -3,579 +3,455 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Fast Air Cargo - Admin Panel</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --orange: #ff7900;
-    --orange-dark: #e66d00;
-    --white: #ffffff;
-    --black: #222222;
-    --gray: #666666;
-    --light-gray: #f7f7f7;
-}
-
-html {
-    scroll-behavior: smooth;
 }
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--white);
-    color: var(--black);
+    background: #f5f6f8;
+    color: #222;
 }
 
-/* =========================
-   LOGIN
-========================= */
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ================= LOGIN ================= */
 
 #loginScreen {
     min-height: 100vh;
-    background: var(--orange);
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, #f58220, #ff9f43);
     padding: 20px;
 }
 
 .login-box {
     width: 100%;
-    max-width: 440px;
-    background: var(--white);
-    padding: 42px 38px;
+    max-width: 420px;
+    background: #fff;
+    padding: 35px;
     border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.18);
 }
 
-.login-logo {
+.logo {
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
-.login-logo h1 {
-    color: var(--orange);
-    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
-    font-size: clamp(27px, 7vw, 38px);
-    line-height: 1;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+.logo h1 {
+    color: #f58220;
+    font-size: 30px;
+    margin-bottom: 5px;
 }
 
-.login-logo p {
-    color: var(--black);
-    margin-top: 9px;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 0.8px;
+.logo p {
+    color: #777;
+    font-size: 14px;
 }
 
-.login-title {
-    text-align: center;
-    color: var(--orange);
-    font-size: 20px;
-    font-weight: 900;
-    margin-bottom: 23px;
+.form-group {
+    margin-bottom: 15px;
 }
 
-.login-field {
-    margin-bottom: 17px;
-}
-
-.login-field label {
+.form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 7px;
     font-size: 14px;
 }
 
-.login-field input {
+input,
+select,
+textarea {
     width: 100%;
-    padding: 13px;
-    border: 2px solid var(--orange);
+    border: 1px solid #ddd;
     border-radius: 8px;
+    padding: 11px 12px;
     outline: none;
-    font-size: 14px;
+    background: #fff;
 }
 
-.login-btn {
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #f58220;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.primary-btn {
     width: 100%;
-    background: var(--orange);
-    color: var(--white);
-    border: 2px solid var(--orange);
-    padding: 13px;
+    border: none;
+    background: #f58220;
+    color: #fff;
+    padding: 12px;
     border-radius: 8px;
-    font-size: 14px;
-    font-weight: 900;
     cursor: pointer;
-}
-
-.login-btn:hover {
-    background: var(--orange-dark);
-}
-
-.login-btn:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-.login-message {
-    margin-top: 14px;
-    text-align: center;
-    font-size: 13px;
     font-weight: bold;
 }
 
-/* =========================
-   ADMIN
-========================= */
+.primary-btn:hover {
+    background: #df6f12;
+}
 
-#adminPanel {
-    display: none;
+.error {
+    background: #ffe7e7;
+    color: #b40000;
+    padding: 10px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* ================= APP HEADER ================= */
+
+#app {
     min-height: 100vh;
-    background: var(--white);
 }
 
-.admin-header {
-    background: var(--orange);
-    color: var(--white);
-    padding: 18px 5%;
+header {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    max-width: 1600px;
+    margin: auto;
+    padding: 14px 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 15px;
 }
 
-.admin-brand h2 {
-    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
-    font-size: clamp(21px, 3vw, 27px);
-    letter-spacing: 0.5px;
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
 }
 
-.admin-brand p {
-    font-size: 10px;
-    margin-top: 6px;
+.header-brand strong {
+    color: #f58220;
+    font-size: 20px;
+}
+
+.header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.header-btn {
+    border: 1px solid #f58220;
+    color: #f58220;
+    background: #fff;
+    padding: 8px 13px;
+    border-radius: 7px;
+    cursor: pointer;
     font-weight: bold;
-    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+.header-btn:hover,
+.header-btn.active {
+    background: #f58220;
+    color: #fff;
 }
 
 .logout-btn {
-    background: var(--white);
-    color: var(--orange);
-    border: 2px solid var(--white);
-    padding: 10px 18px;
+    border: none;
+    background: #222;
+    color: #fff;
+    padding: 8px 13px;
     border-radius: 7px;
-    font-weight: 900;
-    font-size: 12px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .logout-btn:hover {
-    background: var(--orange);
-    color: var(--white);
+    background: #000;
 }
 
-.admin-container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 35px auto;
+/* ================= CONTENT ================= */
+
+.container {
+    max-width: 1600px;
+    margin: auto;
+    padding: 25px 20px;
 }
 
-.dashboard-title {
-    margin-bottom: 24px;
-}
-
-.dashboard-title h1 {
-    font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
-    font-size: 30px;
-    color: var(--orange);
-}
-
-.dashboard-title p {
-    margin-top: 6px;
-    font-size: 14px;
-}
-
-/* =========================
-   CARD
-========================= */
-
-.card {
-    background: var(--white);
-    border: 2px solid var(--orange);
-    border-radius: 14px;
-    padding: 26px;
-    margin-bottom: 24px;
-    box-shadow: 0 7px 22px rgba(0,0,0,0.06);
-}
-
-.card-header {
+.page-title {
     margin-bottom: 20px;
 }
 
-.card-header h2 {
-    color: var(--orange);
-    font-size: 21px;
-    font-weight: 900;
+.page-title h2 {
+    font-size: 25px;
+    margin-bottom: 5px;
 }
 
-/* =========================
-   FORM
-========================= */
+.page-title p {
+    color: #777;
+    font-size: 14px;
+}
+
+/* ================= CARDS ================= */
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    padding: 16px 18px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.card-header h3 {
+    font-size: 18px;
+}
+
+.card-body {
+    padding: 18px;
+}
+
+/* ================= FORMS ================= */
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 17px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
 }
 
-.form-field {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-field.full {
+.full {
     grid-column: 1 / -1;
 }
 
-.form-field label {
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 7px;
+.two {
+    grid-column: span 2;
 }
 
-.form-field input,
-.form-field select,
-.form-field textarea {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid var(--orange);
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    background: var(--white);
-    color: var(--black);
-}
-
-.form-field textarea {
-    min-height: 85px;
-    resize: vertical;
-}
-
-.status-detail-field.hidden {
-    display: none;
-}
-
-.status-detail-field label {
-    color: var(--gray);
-    font-size: 13px;
-}
-
-.status-detail-field select {
-    font-size: 13px;
-    border-color: #ffad66;
-    background: #fffaf5;
-}
-
-.status-help {
-    margin-top: 5px;
-    font-size: 11px;
-    color: var(--gray);
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.button-row {
-    margin-top: 20px;
+.form-actions {
+    margin-top: 18px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
 }
 
-.primary-btn,
+.form-actions button {
+    width: auto;
+    padding: 11px 20px;
+}
+
 .secondary-btn {
-    padding: 12px 22px;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 10px 18px;
     border-radius: 8px;
-    font-weight: 900;
-    font-size: 13px;
     cursor: pointer;
-}
-
-.primary-btn {
-    background: var(--orange);
-    color: var(--white);
-    border: 2px solid var(--orange);
-}
-
-.primary-btn:hover {
-    background: var(--orange-dark);
-}
-
-.primary-btn:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-.secondary-btn {
-    background: var(--white);
-    color: var(--orange);
-    border: 2px solid var(--orange);
 }
 
 .secondary-btn:hover {
-    background: var(--orange);
-    color: var(--white);
+    background: #f5f5f5;
 }
 
-.form-message {
-    margin-top: 14px;
-    font-weight: bold;
-    font-size: 13px;
-    display: none;
-}
+/* ================= TABLE ================= */
 
-/* =========================
-   SHIPMENTS
-========================= */
-
-.shipment-list {
-    display: grid;
-    gap: 15px;
-}
-
-.shipment {
-    border: 2px solid var(--orange);
-    border-radius: 11px;
-    padding: 19px;
-    background: var(--white);
-}
-
-.shipment-top {
+.table-tools {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 14px;
-}
-
-.shipment-top h3 {
-    color: var(--orange);
-    font-size: 19px;
-    font-weight: 900;
-    word-break: break-word;
-}
-
-.status {
-    border: 2px solid var(--orange);
-    color: var(--orange);
-    padding: 5px 11px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 900;
-    white-space: nowrap;
-}
-
-/* =========================
-   LAST UPDATE
-========================= */
-
-.status-detail {
-    margin-top: -5px;
-    margin-bottom: 14px;
-    padding: 9px 11px;
-    background: #fff7ef;
-    border-left: 3px solid var(--orange);
-    color: var(--black);
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-.status-detail-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
-.status-detail-name {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+.search-box {
+    max-width: 400px;
 }
 
-.caution-icon {
-    font-size: 13px;
+.table-wrapper {
+    overflow: auto;
+    border: 1px solid #eee;
+    border-radius: 8px;
 }
 
-.last-update {
-    font-size: 11px;
-    font-weight: bold;
-    color: var(--gray);
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1300px;
+}
+
+th {
+    background: #f58220;
+    color: #fff;
+    padding: 11px 9px;
+    text-align: left;
+    font-size: 12px;
     white-space: nowrap;
 }
 
-/* =========================
-   INFO
-========================= */
-
-.shipment-info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px 20px;
-}
-
-.shipment-info p {
-    line-height: 1.5;
-    font-size: 13px;
-    word-break: break-word;
-}
-
-.shipment-info strong {
-    color: var(--orange);
-}
-
-/* =========================
-   ACTIONS
-========================= */
-
-.actions {
-    margin-top: 17px;
-    display: flex;
-    gap: 9px;
-}
-
-.edit-btn,
-.delete-btn {
-    padding: 8px 16px;
-    border-radius: 7px;
-    font-weight: 900;
+td {
+    padding: 9px;
+    border-bottom: 1px solid #eee;
     font-size: 12px;
+    vertical-align: middle;
+}
+
+tr:hover td {
+    background: #fffaf5;
+}
+
+.status-select {
+    min-width: 145px;
+    padding: 7px;
+    font-size: 12px;
+}
+
+.action-btn {
+    border: none;
+    padding: 7px 9px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 11px;
+    margin: 2px;
 }
 
 .edit-btn {
-    background: var(--orange);
-    color: var(--white);
-    border: 2px solid var(--orange);
+    background: #e9f2ff;
+    color: #0756a3;
 }
 
 .delete-btn {
-    background: var(--white);
-    color: var(--orange);
-    border: 2px solid var(--orange);
+    background: #ffe7e7;
+    color: #b00000;
 }
 
-.delete-btn:hover {
-    background: var(--orange);
-    color: var(--white);
+/* ================= LEDGER ================= */
+
+.ledger-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.empty {
-    text-align: center;
-    padding: 25px;
-    border: 2px dashed var(--orange);
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.admin-footer {
-    text-align: center;
-    padding: 24px;
-    border-top: 2px solid var(--orange);
-    margin-top: 40px;
+.city-badge {
+    display: inline-block;
+    background: #fff0df;
+    color: #d96800;
+    padding: 5px 10px;
+    border-radius: 20px;
     font-size: 12px;
     font-weight: bold;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.balance-positive {
+    color: #008000;
+    font-weight: bold;
+}
+
+.balance-negative {
+    color: #c00000;
+    font-weight: bold;
+}
+
+/* ================= EMPTY ================= */
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    color: #777;
+}
+
+/* ================= TOAST ================= */
+
+#toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #222;
+    color: #fff;
+    padding: 12px 17px;
+    border-radius: 8px;
+    display: none;
+    z-index: 500;
+    max-width: 350px;
+}
+
+#toast.success {
+    background: #16833b;
+}
+
+#toast.error-toast {
+    background: #b00000;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1100px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .two {
+        grid-column: span 1;
+    }
+}
 
 @media (max-width: 700px) {
-
-    .login-box {
-        padding: 35px 22px;
+    .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    .login-logo h1 {
-        font-size: clamp(25px, 8vw, 31px);
-    }
-
-    .login-logo p {
-        font-size: 10px;
-    }
-
-    .admin-header {
-        padding: 14px;
-    }
-
-    .admin-brand h2 {
-        font-size: clamp(18px, 6vw, 23px);
-    }
-
-    .admin-brand p {
-        font-size: 8px;
-    }
-
-    .logout-btn {
-        padding: 8px 11px;
-        font-size: 10px;
-    }
-
-    .admin-container {
-        width: 94%;
-        margin: 25px auto;
-    }
-
-    .dashboard-title h1 {
-        font-size: 26px;
-    }
-
-    .card {
-        padding: 19px;
+    .header-buttons {
+        width: 100%;
+        justify-content: flex-start;
     }
 
     .form-grid {
         grid-template-columns: 1fr;
     }
 
-    .form-field.full {
-        grid-column: auto;
+    .two,
+    .full {
+        grid-column: 1;
     }
 
-    .shipment-info {
-        grid-template-columns: 1fr;
-    }
-
-    .shipment-top {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .status {
-        white-space: normal;
-    }
-
-    .status-detail-row {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .last-update {
-        white-space: normal;
+    .container {
+        padding: 15px;
     }
 }
 </style>
@@ -583,364 +459,384 @@ body {
 
 <body>
 
-<!-- =========================
-     LOGIN
-========================= -->
+<!-- =========================================================
+     LOGIN SCREEN
+========================================================= -->
 
-<section id="loginScreen">
+<div id="loginScreen">
 
     <div class="login-box">
 
-        <div class="login-logo">
+        <div class="logo">
             <h1>FAST AIR CARGO</h1>
-            <p>Where Every Shipment Matters!</p>
+            <p>Admin Panel</p>
         </div>
 
-        <div class="login-title">
-            Admin Panel Login
-        </div>
+        <div id="loginError" class="error hidden"></div>
 
         <form id="loginForm">
 
-            <div class="login-field">
+            <div class="form-group">
                 <label for="loginEmail">Email</label>
-
                 <input
                     type="email"
                     id="loginEmail"
                     placeholder="Enter admin email"
-                    autocomplete="username"
                     required
                 >
             </div>
 
-            <div class="login-field">
+            <div class="form-group">
                 <label for="loginPassword">Password</label>
-
                 <input
                     type="password"
                     id="loginPassword"
                     placeholder="Enter password"
-                    autocomplete="current-password"
                     required
                 >
             </div>
 
-            <button
-                type="submit"
-                class="login-btn"
-                id="loginBtn"
-            >
-                LOGIN TO ADMIN PANEL
+            <button class="primary-btn" type="submit">
+                Login
             </button>
 
         </form>
 
-        <div id="loginMessage" class="login-message"></div>
-
     </div>
 
-</section>
+</div>
 
 
-<!-- =========================
-     ADMIN PANEL
-========================= -->
+<!-- =========================================================
+     MAIN APPLICATION
+========================================================= -->
 
-<section id="adminPanel">
+<div id="app" class="hidden">
 
-    <header class="admin-header">
+    <header>
 
-        <div class="admin-brand">
-            <h2>FAST AIR CARGO</h2>
-            <p>Where Every Shipment Matters!</p>
+        <div class="header-inner">
+
+            <div class="header-brand">
+                <strong>FAST AIR CARGO</strong>
+            </div>
+
+            <div class="header-buttons">
+
+                <button
+                    class="header-btn active"
+                    id="shipmentTabBtn"
+                    onclick="showShipmentManagement()"
+                >
+                    Shipment Management
+                </button>
+
+                <button
+                    class="header-btn"
+                    onclick="openLedger('Dina')"
+                >
+                    DINA
+                </button>
+
+                <button
+                    class="header-btn"
+                    onclick="openLedger('Jhelum')"
+                >
+                    JHELUM
+                </button>
+
+                <button
+                    class="header-btn"
+                    onclick="openLedger('Mirpur')"
+                >
+                    MIRPUR
+                </button>
+
+                <button
+                    class="logout-btn"
+                    onclick="logout()"
+                >
+                    Logout
+                </button>
+
+            </div>
+
         </div>
-
-        <button
-            id="logoutBtn"
-            class="logout-btn"
-            type="button"
-        >
-            LOGOUT
-        </button>
 
     </header>
 
 
-    <main class="admin-container">
+    <!-- =====================================================
+         SHIPMENT MANAGEMENT
+    ====================================================== -->
 
-        <div class="dashboard-title">
+    <main id="shipmentManagement" class="container">
 
-            <h1>Shipment Management</h1>
+        <div class="page-title">
+
+            <h2>Shipment Management</h2>
 
             <p>
-                Add, update and manage customer shipments.
+                Manage customer shipments, tracking information,
+                shipment status, and latest updates.
             </p>
 
         </div>
 
 
-        <!-- =========================
-             ADD / EDIT SHIPMENT
-        ========================= -->
+        <!-- SHIPMENT FORM -->
 
         <div class="card">
 
             <div class="card-header">
-                <h2 id="formTitle">
+
+                <h3 id="shipmentFormTitle">
                     Add New Shipment
-                </h2>
+                </h3>
+
             </div>
 
-            <form id="shipmentForm">
+            <div class="card-body">
 
-                <div class="form-grid">
+                <form id="shipmentForm">
 
-                    <div class="form-field">
-
-                        <label for="tracking_number">
-                            Tracking Number
-                        </label>
-
-                        <input
-                            type="text"
-                            id="tracking_number"
-                            placeholder="FAC123456789PK"
-                            autocomplete="off"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-field">
-
-                        <label for="origin">
-                            Origin
-                        </label>
-
-                        <input
-                            type="text"
-                            id="origin"
-                            placeholder="Dina, Pakistan"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-field">
-
-                        <label for="destination">
-                            Destination
-                        </label>
-
-                        <input
-                            type="text"
-                            id="destination"
-                            placeholder="London, United Kingdom"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-field">
-
-                        <label for="service">
-                            Service
-                        </label>
-
-                        <select id="service" required>
-
-                            <option value="">
-                                Select Service
-                            </option>
-
-                            <option value="Regular Cargo">
-                                Regular Cargo
-                            </option>
-
-                            <option value="Express Cargo">
-                                Express Cargo
-                            </option>
-
-                            <option value="Priority Cargo">
-                                Priority Cargo
-                            </option>
-
-                            <option value="Premium Cargo">
-                                Premium Cargo
-                            </option>
-
-                            <option value="Secure Service">
-                                Secure Service
-                            </option>
-
-                            <option value="COD Service">
-                                COD Service
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-field">
-
-                        <label for="booking_date">
-                            Booking Date
-                        </label>
-
-                        <input
-                            type="date"
-                            id="booking_date"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-field">
-
-                        <label for="estimated_delivery">
-                            Estimated Delivery
-                        </label>
-
-                        <input
-                            type="date"
-                            id="estimated_delivery"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-field">
-
-                        <label for="current_status">
-                            Current Status
-                        </label>
-
-                        <select
-                            id="current_status"
-                            required
-                        >
-
-                            <option value="Order Confirmed">
-                                Order Confirmed
-                            </option>
-
-                            <option value="Picked Up">
-                                Picked Up
-                            </option>
-
-                            <option value="In Transit">
-                                In Transit
-                            </option>
-
-                            <option value="Customs Clearance">
-                                Customs Clearance
-                            </option>
-
-                            <option value="Out for Delivery">
-                                Out for Delivery
-                            </option>
-
-                            <option value="Delivered">
-                                Delivered
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div
-                        class="form-field status-detail-field"
-                        id="statusDetailField"
+                    <input
+                        type="hidden"
+                        id="shipmentId"
                     >
 
-                        <label for="status_detail">
-                            Status Detail
-                        </label>
+                    <div class="form-grid">
 
-                        <select id="status_detail"></select>
+                        <div class="form-group">
+                            <label for="trackingNumber">
+                                Tracking Number *
+                            </label>
 
-                        <div class="status-help">
-                            Select the current detailed shipment update.
+                            <input
+                                type="text"
+                                id="trackingNumber"
+                                placeholder="FAC123456"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="origin">
+                                Origin *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="origin"
+                                placeholder="Pakistan"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destination">
+                                Destination *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="destination"
+                                placeholder="United Kingdom"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="service">
+                                Service
+                            </label>
+
+                            <input
+                                type="text"
+                                id="service"
+                                placeholder="Air Cargo"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingDate">
+                                Booking Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="bookingDate"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estimatedDelivery">
+                                Estimated Delivery
+                            </label>
+
+                            <input
+                                type="date"
+                                id="estimatedDelivery"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="shipmentStatus">
+                                Status *
+                            </label>
+
+                            <select
+                                id="shipmentStatus"
+                                required
+                            >
+
+                                <option value="Order Confirmed">
+                                    Order Confirmed
+                                </option>
+
+                                <option value="Picked Up">
+                                    Picked Up
+                                </option>
+
+                                <option value="In Transit">
+                                    In Transit
+                                </option>
+
+                                <option value="Out for Delivery">
+                                    Out for Delivery
+                                </option>
+
+                                <option value="Delivered">
+                                    Delivered
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="statusDetail">
+                                Status Detail
+                            </label>
+
+                            <input
+                                type="text"
+                                id="statusDetail"
+                                placeholder="Shipment is being processed"
+                            >
+                        </div>
+
+                        <div class="form-group two">
+                            <label for="lastUpdate">
+                                Last Update
+                            </label>
+
+                            <input
+                                type="text"
+                                id="lastUpdate"
+                                placeholder="Shipment has departed from the origin facility"
+                            >
+                        </div>
+
+                        <div class="form-group two">
+                            <label for="packageDetails">
+                                Package Details
+                            </label>
+
+                            <textarea
+                                id="packageDetails"
+                                placeholder="Documents, weight, quantity, package information, etc."
+                            ></textarea>
                         </div>
 
                     </div>
 
+                    <div class="form-actions">
 
-                    <div class="form-field full">
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                        >
+                            Save Shipment
+                        </button>
 
-                        <label for="package_details">
-                            Package Details
-                        </label>
-
-                        <textarea
-                            id="package_details"
-                            placeholder="General Cargo"
-                        ></textarea>
+                        <button
+                            type="button"
+                            class="secondary-btn hidden"
+                            id="cancelShipmentEdit"
+                            onclick="resetShipmentForm()"
+                        >
+                            Cancel Edit
+                        </button>
 
                     </div>
 
-                </div>
+                </form>
 
-
-                <div class="button-row">
-
-                    <button
-                        type="submit"
-                        class="primary-btn"
-                        id="saveBtn"
-                    >
-                        ADD SHIPMENT
-                    </button>
-
-                    <button
-                        type="button"
-                        class="secondary-btn"
-                        id="cancelBtn"
-                        style="display:none;"
-                    >
-                        CANCEL
-                    </button>
-
-                </div>
-
-
-                <div
-                    id="formMessage"
-                    class="form-message"
-                ></div>
-
-            </form>
+            </div>
 
         </div>
 
 
-        <!-- =========================
-             ALL SHIPMENTS
-        ========================= -->
+        <!-- SHIPMENT LIST -->
 
         <div class="card">
 
             <div class="card-header">
 
-                <h2>
-                    All Shipments
-                </h2>
+                <h3>All Shipments</h3>
+
+                <span
+                    class="city-badge"
+                    id="shipmentCount"
+                >
+                    0 Shipments
+                </span>
 
             </div>
 
-            <div
-                id="shipmentList"
-                class="shipment-list"
-            >
-                Loading shipments...
+            <div class="card-body">
+
+                <div class="table-tools">
+
+                    <input
+                        type="text"
+                        id="shipmentSearch"
+                        class="search-box"
+                        placeholder="Search tracking, origin, destination, status..."
+                        oninput="renderShipments()"
+                    >
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Tracking Number</th>
+                                <th>Origin</th>
+                                <th>Destination</th>
+                                <th>Service</th>
+                                <th>Booking Date</th>
+                                <th>Estimated Delivery</th>
+                                <th>Status</th>
+                                <th>Status Detail</th>
+                                <th>Last Update</th>
+                                <th>Package Details</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="shipmentTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
             </div>
 
         </div>
@@ -948,22 +844,354 @@ body {
     </main>
 
 
-    <footer class="admin-footer">
+    <!-- =====================================================
+         CITY LEDGER
+    ====================================================== -->
 
-        FAST AIR CARGO © 2026
-        <br>
-        Where Every Shipment Matters!
+    <main id="ledgerPage" class="container hidden">
 
-    </footer>
+        <div class="page-title">
 
-</section>
+            <div class="ledger-title">
+
+                <h2 id="ledgerTitle">
+                    City Ledger
+                </h2>
+
+                <span
+                    class="city-badge"
+                    id="currentCityBadge"
+                ></span>
+
+            </div>
+
+            <p>
+                Manage cargo, customer, payment, and shipment records
+                for the selected city.
+            </p>
+
+        </div>
+
+
+        <!-- LEDGER FORM -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3 id="ledgerFormTitle">
+                    Add Ledger Entry
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <form id="ledgerForm">
+
+                    <input
+                        type="hidden"
+                        id="ledgerId"
+                    >
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="ledgerDate">
+                                Date *
+                            </label>
+
+                            <input
+                                type="date"
+                                id="ledgerDate"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerTracking">
+                                Tracking Number *
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerTracking"
+                                placeholder="FAC123456"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerCustomer">
+                                Customer
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerCustomer"
+                                placeholder="Customer name"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerPhone">
+                                Phone
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerPhone"
+                                placeholder="Phone number"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerOrigin">
+                                Origin
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerOrigin"
+                                placeholder="Origin"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerDestination">
+                                Destination
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerDestination"
+                                placeholder="Destination"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerService">
+                                Service
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerService"
+                                placeholder="Air Cargo"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerStatus">
+                                Status
+                            </label>
+
+                            <select id="ledgerStatus">
+
+                                <option value="Order Confirmed">
+                                    Order Confirmed
+                                </option>
+
+                                <option value="Picked Up">
+                                    Picked Up
+                                </option>
+
+                                <option value="In Transit">
+                                    In Transit
+                                </option>
+
+                                <option value="Out for Delivery">
+                                    Out for Delivery
+                                </option>
+
+                                <option value="Delivered">
+                                    Delivered
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group two">
+                            <label for="ledgerPackage">
+                                Package Details
+                            </label>
+
+                            <textarea
+                                id="ledgerPackage"
+                                placeholder="Package information"
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerEstimated">
+                                Estimated Delivery
+                            </label>
+
+                            <input
+                                type="date"
+                                id="ledgerEstimated"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerCharges">
+                                Charges
+                            </label>
+
+                            <input
+                                type="number"
+                                id="ledgerCharges"
+                                min="0"
+                                step="0.01"
+                                value="0"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerPaid">
+                                Paid
+                            </label>
+
+                            <input
+                                type="number"
+                                id="ledgerPaid"
+                                min="0"
+                                step="0.01"
+                                value="0"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ledgerRemarks">
+                                Remarks
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ledgerRemarks"
+                                placeholder="Additional notes"
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button
+                            type="submit"
+                            class="primary-btn"
+                        >
+                            Save Entry
+                        </button>
+
+                        <button
+                            type="button"
+                            class="secondary-btn"
+                            onclick="showShipmentManagement()"
+                        >
+                            Back to Shipment Management
+                        </button>
+
+                        <button
+                            type="button"
+                            class="secondary-btn hidden"
+                            id="cancelLedgerEdit"
+                            onclick="resetLedgerForm()"
+                        >
+                            Cancel Edit
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- LEDGER TABLE -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h3>
+                    <span id="ledgerCityName"></span> Cargo Ledger
+                </h3>
+
+                <span
+                    class="city-badge"
+                    id="ledgerCount"
+                >
+                    0 Entries
+                </span>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-tools">
+
+                    <input
+                        type="text"
+                        id="ledgerSearch"
+                        class="search-box"
+                        placeholder="Search tracking, customer, phone..."
+                        oninput="renderLedger()"
+                    >
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Tracking Number</th>
+                                <th>Customer</th>
+                                <th>Phone</th>
+                                <th>Origin</th>
+                                <th>Destination</th>
+                                <th>Service</th>
+                                <th>Package Details</th>
+                                <th>Status</th>
+                                <th>Estimated Delivery</th>
+                                <th>Charges</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Remarks</th>
+                                <th>Actions</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="ledgerTableBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div id="toast"></div>
 
 
 <script>
 
-/* ==================================================
+/* ============================================================
    SUPABASE CONFIGURATION
-================================================== */
+============================================================ */
 
 const SUPABASE_URL =
     "https://gpkmqcplkzcdjnswbfvo.supabase.co";
@@ -978,890 +1206,718 @@ const supabaseClient =
     );
 
 
-/* ==================================================
-   ELEMENTS
-================================================== */
+/* ============================================================
+   GLOBAL VARIABLES
+============================================================ */
 
-const loginScreen =
-    document.getElementById("loginScreen");
+let shipments = [];
+let ledgerEntries = [];
+let currentCity = null;
 
-const adminPanel =
-    document.getElementById("adminPanel");
 
-const loginForm =
-    document.getElementById("loginForm");
+/* ============================================================
+   AUTHENTICATION
+============================================================ */
 
-const loginBtn =
-    document.getElementById("loginBtn");
+document
+.getElementById("loginForm")
+.addEventListener("submit", async function(event) {
 
-const loginMessage =
-    document.getElementById("loginMessage");
+    event.preventDefault();
 
-const logoutBtn =
-    document.getElementById("logoutBtn");
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
 
-const shipmentForm =
-    document.getElementById("shipmentForm");
+    const password =
+        document
+        .getElementById("loginPassword")
+        .value;
 
-const shipmentList =
-    document.getElementById("shipmentList");
+    const errorBox =
+        document.getElementById("loginError");
 
-const saveBtn =
-    document.getElementById("saveBtn");
-
-const cancelBtn =
-    document.getElementById("cancelBtn");
-
-const currentStatus =
-    document.getElementById("current_status");
-
-const statusDetail =
-    document.getElementById("status_detail");
-
-const statusDetailField =
-    document.getElementById("statusDetailField");
-
-
-/* ==================================================
-   VARIABLES
-================================================== */
-
-let editingId = null;
-let messageTimer = null;
-
-
-/* ==================================================
-   STATUS STRUCTURE
-================================================== */
-
-const statusDetails = {
-
-    "Order Confirmed": [
-        "Shipment Packed",
-        "On Hold Due to Payment",
-        "On Hold Due to No Available Flight Schedule"
-    ],
-
-    "Picked Up": [
-        "Forwarded to Airport",
-        "Under Customs Clearance in Pakistan",
-        "Customs Cleared in Pakistan"
-    ],
-
-    "In Transit": [
-        "Departed from Pakistan",
-        "Arrived at LHR Airport"
-    ],
-
-    "Customs Clearance": [
-        "Held by Border Force",
-        "Held by UK Customs",
-        "Customs Cleared",
-        "Shipment Transferred from the UK to Germany",
-        "Arrived in Germany"
-    ],
-
-    "Out for Delivery": [
-        "Handed Over to Delivery Partner"
-    ],
-
-    "Delivered": [
-        "Thank You for Choosing Fast Air Cargo",
-        "Send Feedback via WhatsApp"
-    ]
-
-};
-
-
-/* ==================================================
-   CAUTION DETAILS
-================================================== */
-
-const cautionDetails = [
-
-    "On Hold Due to Payment",
-    "On Hold Due to No Available Flight Schedule",
-    "Held by Border Force",
-    "Held by UK Customs"
-
-];
-
-
-function isCautionDetail(detail) {
-
-    return cautionDetails.includes(
-        String(detail || "")
-    );
-
-}
-
-
-/* ==================================================
-   FORMAT LAST UPDATE
-================================================== */
-
-function formatLastUpdate(dateValue) {
-
-    if (!dateValue) {
-        return "Not available";
-    }
-
-    const date = new Date(dateValue);
-
-    if (Number.isNaN(date.getTime())) {
-        return "Not available";
-    }
-
-    const day =
-        String(date.getDate()).padStart(2, "0");
-
-    const month =
-        String(date.getMonth() + 1).padStart(2, "0");
-
-    const year =
-        date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-}
-
-
-/* ==================================================
-   UPDATE STATUS DETAILS
-================================================== */
-
-function updateStatusDetails(
-    selectedStatus,
-    selectedDetail = ""
-) {
-
-    const details =
-        statusDetails[selectedStatus] || [];
-
-    statusDetail.innerHTML = "";
-
-    if (details.length === 0) {
-
-        statusDetailField.classList.add("hidden");
-
-        statusDetail.disabled = true;
-
-        return;
-    }
-
-    statusDetailField.classList.remove("hidden");
-
-    statusDetail.disabled = false;
-
-    const defaultOption =
-        document.createElement("option");
-
-    defaultOption.value = "";
-
-    defaultOption.textContent =
-        "Select Status Detail";
-
-    statusDetail.appendChild(
-        defaultOption
-    );
-
-    details.forEach(function(detail) {
-
-        const option =
-            document.createElement("option");
-
-        option.value = detail;
-
-        option.textContent =
-            isCautionDetail(detail)
-                ? `⚠️ ${detail}`
-                : detail;
-
-        statusDetail.appendChild(option);
-
-    });
-
-    if (
-        selectedDetail &&
-        details.includes(selectedDetail)
-    ) {
-
-        statusDetail.value =
-            selectedDetail;
-
-    } else {
-
-        statusDetail.value = "";
-
-    }
-
-}
-
-
-/* ==================================================
-   STATUS CHANGE
-================================================== */
-
-currentStatus.addEventListener(
-    "change",
-    function() {
-
-        updateStatusDetails(
-            currentStatus.value
-        );
-
-    }
-);
-
-
-/* ==================================================
-   SHOW LOGIN
-================================================== */
-
-function showLoginScreen() {
-
-    loginScreen.style.display = "flex";
-
-    adminPanel.style.display = "none";
-
-}
-
-
-/* ==================================================
-   SHOW ADMIN
-================================================== */
-
-function showAdminPanel() {
-
-    loginScreen.style.display = "none";
-
-    adminPanel.style.display = "block";
-
-    updateStatusDetails(
-        currentStatus.value ||
-        "Order Confirmed"
-    );
-
-}
-
-
-/* ==================================================
-   CHECK SESSION
-================================================== */
-
-async function checkSession() {
+    errorBox.classList.add("hidden");
 
     const {
         data,
         error
-    } =
-    await supabaseClient.auth.getSession();
+    } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });
 
     if (error) {
 
-        console.error(
-            "Session error:",
-            error
-        );
+        errorBox.textContent =
+            error.message;
 
-        showLoginScreen();
+        errorBox.classList.remove("hidden");
 
         return;
     }
+
+    showApp();
+
+});
+
+
+async function checkLogin() {
+
+    const {
+        data
+    } = await supabaseClient.auth.getSession();
 
     if (data.session) {
 
-        showAdminPanel();
-
-        await loadShipments();
+        showApp();
 
     } else {
 
-        showLoginScreen();
+        showLogin();
 
     }
 
 }
 
 
-/* ==================================================
-   LOGIN
-================================================== */
+function showLogin() {
 
-loginForm.addEventListener(
-    "submit",
-    async function(event) {
+    document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
 
-        event.preventDefault();
+    document
+        .getElementById("app")
+        .classList.add("hidden");
 
-        const email =
-            document
-            .getElementById("loginEmail")
-            .value
-            .trim();
+}
 
-        const password =
-            document
-            .getElementById("loginPassword")
-            .value;
 
-        loginBtn.disabled = true;
+async function showApp() {
 
-        loginBtn.textContent =
-            "LOGGING IN...";
+    document
+        .getElementById("loginScreen")
+        .classList.add("hidden");
 
-        loginMessage.textContent = "";
+    document
+        .getElementById("app")
+        .classList.remove("hidden");
 
-        const {
-            error
-        } =
-        await supabaseClient.auth.signInWithPassword({
+    showShipmentManagement();
 
-            email: email,
+    await loadShipments();
 
-            password: password
+}
 
-        });
 
-        if (error) {
+async function logout() {
 
-            loginMessage.textContent =
-                "Login failed: " +
-                error.message;
+    await supabaseClient.auth.signOut();
 
-            loginBtn.disabled = false;
+    shipments = [];
+    ledgerEntries = [];
+    currentCity = null;
 
-            loginBtn.textContent =
-                "LOGIN TO ADMIN PANEL";
+    showLogin();
 
-            return;
-        }
+}
 
-        loginForm.reset();
 
-        loginBtn.disabled = false;
+/* ============================================================
+   NAVIGATION
+============================================================ */
 
-        loginBtn.textContent =
-            "LOGIN TO ADMIN PANEL";
+function showShipmentManagement() {
 
-        showAdminPanel();
+    currentCity = null;
 
-        await loadShipments();
+    document
+        .getElementById("shipmentManagement")
+        .classList.remove("hidden");
 
-    }
-);
+    document
+        .getElementById("ledgerPage")
+        .classList.add("hidden");
 
+    document
+        .getElementById("shipmentTabBtn")
+        .classList.add("active");
 
-/* ==================================================
-   LOGOUT
-================================================== */
-
-logoutBtn.addEventListener(
-    "click",
-    async function() {
-
-        await supabaseClient.auth.signOut();
-
-        editingId = null;
-
-        resetForm();
-
-        showLoginScreen();
-
-    }
-);
-
-
-/* ==================================================
-   ADD / UPDATE SHIPMENT
-================================================== */
-
-shipmentForm.addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-        const trackingNumber =
-            document
-            .getElementById("tracking_number")
-            .value
-            .trim();
-
-        const origin =
-            document
-            .getElementById("origin")
-            .value
-            .trim();
-
-        const destination =
-            document
-            .getElementById("destination")
-            .value
-            .trim();
-
-        const service =
-            document
-            .getElementById("service")
-            .value;
-
-        const bookingDate =
-            document
-            .getElementById("booking_date")
-            .value;
-
-        const estimatedDelivery =
-            document
-            .getElementById("estimated_delivery")
-            .value;
-
-        const currentStatusValue =
-            document
-            .getElementById("current_status")
-            .value;
-
-        const statusDetailValue =
-            document
-            .getElementById("status_detail")
-            .value;
-
-        const packageDetails =
-            document
-            .getElementById("package_details")
-            .value
-            .trim();
-
-
-        if (!statusDetailValue) {
-
-            showFormMessage(
-                "Please select a Status Detail."
-            );
-
-            return;
-        }
-
-
-        const shipment = {
-
-            tracking_number:
-                trackingNumber,
-
-            origin:
-                origin,
-
-            destination:
-                destination,
-
-            service:
-                service,
-
-            booking_date:
-                bookingDate,
-
-            estimated_delivery:
-                estimatedDelivery,
-
-            current_status:
-                currentStatusValue,
-
-            status_detail:
-                statusDetailValue,
-
-            package_details:
-                packageDetails
-
-        };
-
-
-        saveBtn.disabled = true;
-
-        saveBtn.textContent =
-            editingId !== null
-                ? "UPDATING..."
-                : "ADDING...";
-
-
-        let result;
-
-
-        /* UPDATE */
-
-        if (editingId !== null) {
-
-            result =
-                await supabaseClient
-                .from("shipments")
-                .update(shipment)
-                .eq("id", editingId);
-
-        }
-
-
-        /* INSERT */
-
-        else {
-
-            result =
-                await supabaseClient
-                .from("shipments")
-                .insert(shipment);
-
-        }
-
-
-        saveBtn.disabled = false;
-
-        saveBtn.textContent =
-            editingId !== null
-                ? "UPDATE SHIPMENT"
-                : "ADD SHIPMENT";
-
-
-        if (result.error) {
-
-            showFormMessage(
-                "Error: " +
-                result.error.message
-            );
-
-            return;
-        }
-
-
-        const wasEditing =
-            editingId !== null;
-
-
-        resetForm();
-
-
-        showFormMessage(
-            wasEditing
-                ? "Shipment updated successfully."
-                : "Shipment added successfully."
-        );
-
-
-        await loadShipments();
-
-    }
-);
-
-
-/* ==================================================
-   LOAD SHIPMENTS
-================================================== */
-
-async function loadShipments() {
-
-    shipmentList.innerHTML =
-        "Loading shipments...";
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-    .from("shipments")
-    .select("*")
-    .order(
-        "created_at",
-        {
-            ascending: false
-        }
-    );
-
-
-    if (error) {
-
-        shipmentList.innerHTML =
-            "Error loading shipments: " +
-            escapeHtml(error.message);
-
-        return;
-    }
-
-
-    if (!data || data.length === 0) {
-
-        shipmentList.innerHTML = `
-            <div class="empty">
-                No shipments found.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    shipmentList.innerHTML = "";
-
-
-    data.forEach(function(shipment) {
-
-        const div =
-            document.createElement("div");
-
-        div.className =
-            "shipment";
-
-
-        const detail =
-            shipment.status_detail ||
-            "No detail selected";
-
-
-        const cautionHTML =
-            isCautionDetail(detail)
-                ? `<span class="caution-icon" title="Caution">⚠️</span>`
-                : "";
-
-
-        /*
-         * LAST UPDATE
-         *
-         * First priority:
-         * updated_at
-         *
-         * If updated_at is missing:
-         * created_at
-         */
-
-        const lastUpdateDate =
-            shipment.updated_at ||
-            shipment.created_at ||
-            null;
-
-
-        const lastUpdate =
-            formatLastUpdate(
-                lastUpdateDate
-            );
-
-
-        div.innerHTML = `
-
-            <div class="shipment-top">
-
-                <h3>
-                    ${escapeHtml(
-                        shipment.tracking_number || ""
-                    )}
-                </h3>
-
-                <span class="status">
-                    ${escapeHtml(
-                        shipment.current_status || ""
-                    )}
-                </span>
-
-            </div>
-
-
-            <div class="status-detail">
-
-                <div class="status-detail-row">
-
-                    <div class="status-detail-name">
-
-                        ${cautionHTML}
-
-                        <span>
-                            ${escapeHtml(detail)}
-                        </span>
-
-                    </div>
-
-                    <div class="last-update">
-                        Last Update: ${escapeHtml(lastUpdate)}
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="shipment-info">
-
-                <p>
-                    <strong>Origin:</strong>
-                    ${escapeHtml(
-                        shipment.origin || ""
-                    )}
-                </p>
-
-                <p>
-                    <strong>Destination:</strong>
-                    ${escapeHtml(
-                        shipment.destination || ""
-                    )}
-                </p>
-
-                <p>
-                    <strong>Service:</strong>
-                    ${escapeHtml(
-                        shipment.service || ""
-                    )}
-                </p>
-
-                <p>
-                    <strong>Booking Date:</strong>
-                    ${escapeHtml(
-                        shipment.booking_date || ""
-                    )}
-                </p>
-
-                <p>
-                    <strong>Estimated Delivery:</strong>
-                    ${escapeHtml(
-                        shipment.estimated_delivery || ""
-                    )}
-                </p>
-
-                <p>
-                    <strong>Package:</strong>
-                    ${escapeHtml(
-                        shipment.package_details || ""
-                    )}
-                </p>
-
-            </div>
-
-
-            <div class="actions">
-
-                <button
-                    type="button"
-                    class="edit-btn"
-                    onclick="editShipment('${escapeJs(
-                        shipment.id
-                    )}')"
-                >
-                    EDIT
-                </button>
-
-                <button
-                    type="button"
-                    class="delete-btn"
-                    onclick="deleteShipment('${escapeJs(
-                        shipment.id
-                    )}')"
-                >
-                    DELETE
-                </button>
-
-            </div>
-
-        `;
-
-
-        shipmentList.appendChild(div);
-
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
     });
 
 }
 
 
-/* ==================================================
-   EDIT SHIPMENT
-================================================== */
+async function openLedger(city) {
 
-async function editShipment(id) {
+    currentCity = city;
+
+    document
+        .getElementById("shipmentManagement")
+        .classList.add("hidden");
+
+    document
+        .getElementById("ledgerPage")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("shipmentTabBtn")
+        .classList.remove("active");
+
+    document
+        .getElementById("ledgerTitle")
+        .textContent =
+            city + " Ledger";
+
+    document
+        .getElementById("ledgerCityName")
+        .textContent =
+            city;
+
+    document
+        .getElementById("currentCityBadge")
+        .textContent =
+            city;
+
+    resetLedgerForm();
+
+    await loadLedger();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* ============================================================
+   TOAST
+============================================================ */
+
+function showToast(
+    message,
+    type = "success"
+) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.className = "";
+
+    if (type === "success") {
+
+        toast.classList.add("success");
+
+    } else {
+
+        toast.classList.add("error-toast");
+
+    }
+
+    toast.style.display = "block";
+
+    setTimeout(function() {
+
+        toast.style.display = "none";
+
+    }, 3000);
+
+}
+
+
+/* ============================================================
+   SHIPMENT MANAGEMENT
+============================================================ */
+
+async function loadShipments() {
 
     const {
         data,
         error
-    } =
-    await supabaseClient
-    .from("shipments")
-    .select("*")
-    .eq("id", id)
-    .single();
-
+    } = await supabaseClient
+        .from("shipments")
+        .select("*")
+        .order(
+            "created_at",
+            { ascending: false }
+        );
 
     if (error) {
 
-        alert(
-            "Error loading shipment: " +
-            error.message
+        console.error(error);
+
+        showToast(
+            "Unable to load shipments: " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    shipments = data || [];
+
+    renderShipments();
+
+}
+
+
+function renderShipments() {
+
+    const tbody =
+        document.getElementById(
+            "shipmentTableBody"
+        );
+
+    const search =
+        document
+        .getElementById("shipmentSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filtered =
+        shipments.filter(function(shipment) {
+
+            if (!search) {
+                return true;
+            }
+
+            const text = [
+                shipment.tracking_number,
+                shipment.origin,
+                shipment.destination,
+                shipment.service,
+                shipment.current_status,
+                shipment.status_detail,
+                shipment.last_update,
+                shipment.package_details
+            ]
+            .join(" ")
+            .toLowerCase();
+
+            return text.includes(search);
+
+        });
+
+
+    document
+        .getElementById("shipmentCount")
+        .textContent =
+            filtered.length +
+            (
+                filtered.length === 1
+                    ? " Shipment"
+                    : " Shipments"
+            );
+
+
+    if (filtered.length === 0) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="12" class="empty">
+                    No shipments found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    tbody.innerHTML =
+        filtered
+        .map(function(shipment) {
+
+            const updated =
+                shipment.updated_at
+                    ? new Date(
+                        shipment.updated_at
+                    ).toLocaleString()
+                    : "-";
+
+
+            return `
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(
+                                shipment.tracking_number || ""
+                            )}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.origin || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.destination || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.service || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.booking_date || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.estimated_delivery || ""
+                        )}
+                    </td>
+
+                    <td>
+
+                        <select
+                            class="status-select"
+                            onchange="
+                                quickShipmentStatus(
+                                    '${shipment.id}',
+                                    this.value
+                                )
+                            "
+                        >
+
+                            ${statusOption(
+                                "Order Confirmed",
+                                shipment.current_status
+                            )}
+
+                            ${statusOption(
+                                "Picked Up",
+                                shipment.current_status
+                            )}
+
+                            ${statusOption(
+                                "In Transit",
+                                shipment.current_status
+                            )}
+
+                            ${statusOption(
+                                "Out for Delivery",
+                                shipment.current_status
+                            )}
+
+                            ${statusOption(
+                                "Delivered",
+                                shipment.current_status
+                            )}
+
+                        </select>
+
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.status_detail || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.last_update || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.package_details || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(updated)}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="
+                                editShipment(
+                                    '${shipment.id}'
+                                )
+                            "
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="
+                                deleteShipment(
+                                    '${shipment.id}'
+                                )
+                            "
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+function statusOption(
+    value,
+    current
+) {
+
+    return `
+        <option
+            value="${escapeHtml(value)}"
+            ${
+                value === current
+                    ? "selected"
+                    : ""
+            }
+        >
+            ${escapeHtml(value)}
+        </option>
+    `;
+
+}
+
+
+/* ============================================================
+   SAVE SHIPMENT
+============================================================ */
+
+document
+.getElementById("shipmentForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const id =
+        document
+        .getElementById("shipmentId")
+        .value;
+
+
+    const shipmentData = {
+
+        tracking_number:
+            document
+            .getElementById("trackingNumber")
+            .value
+            .trim(),
+
+        origin:
+            document
+            .getElementById("origin")
+            .value
+            .trim(),
+
+        destination:
+            document
+            .getElementById("destination")
+            .value
+            .trim(),
+
+        service:
+            document
+            .getElementById("service")
+            .value
+            .trim(),
+
+        booking_date:
+            document
+            .getElementById("bookingDate")
+            .value ||
+            null,
+
+        estimated_delivery:
+            document
+            .getElementById("estimatedDelivery")
+            .value ||
+            null,
+
+        current_status:
+            document
+            .getElementById("shipmentStatus")
+            .value,
+
+        status_detail:
+            document
+            .getElementById("statusDetail")
+            .value
+            .trim(),
+
+        last_update:
+            document
+            .getElementById("lastUpdate")
+            .value
+            .trim(),
+
+        package_details:
+            document
+            .getElementById("packageDetails")
+            .value
+            .trim()
+
+    };
+
+
+    let result;
+
+
+    if (id) {
+
+        result =
+            await supabaseClient
+            .from("shipments")
+            .update(shipmentData)
+            .eq("id", id);
+
+    } else {
+
+        result =
+            await supabaseClient
+            .from("shipments")
+            .insert(shipmentData);
+
+    }
+
+
+    if (result.error) {
+
+        showToast(
+            "Unable to save shipment: " +
+            result.error.message,
+            "error"
         );
 
         return;
     }
 
 
-    editingId = id;
-
-
-    document
-    .getElementById("tracking_number")
-    .value =
-        data.tracking_number || "";
-
-
-    document
-    .getElementById("origin")
-    .value =
-        data.origin || "";
-
-
-    document
-    .getElementById("destination")
-    .value =
-        data.destination || "";
-
-
-    document
-    .getElementById("service")
-    .value =
-        data.service || "";
-
-
-    document
-    .getElementById("booking_date")
-    .value =
-        data.booking_date || "";
-
-
-    document
-    .getElementById("estimated_delivery")
-    .value =
-        data.estimated_delivery || "";
-
-
-    document
-    .getElementById("current_status")
-    .value =
-        data.current_status ||
-        "Order Confirmed";
-
-
-    updateStatusDetails(
-        data.current_status ||
-        "Order Confirmed",
-        data.status_detail || ""
+    showToast(
+        id
+            ? "Shipment successfully updated."
+            : "Shipment successfully added."
     );
 
 
-    document
-    .getElementById("package_details")
-    .value =
-        data.package_details || "";
+    resetShipmentForm();
+
+    await loadShipments();
+
+});
+
+
+/* ============================================================
+   EDIT SHIPMENT
+============================================================ */
+
+function editShipment(id) {
+
+    const shipment =
+        shipments.find(
+            item => item.id === id
+        );
+
+    if (!shipment) {
+        return;
+    }
 
 
     document
-    .getElementById("formTitle")
-    .textContent =
-        "Edit Shipment";
+        .getElementById("shipmentId")
+        .value =
+            shipment.id;
+
+    document
+        .getElementById("trackingNumber")
+        .value =
+            shipment.tracking_number || "";
+
+    document
+        .getElementById("origin")
+        .value =
+            shipment.origin || "";
+
+    document
+        .getElementById("destination")
+        .value =
+            shipment.destination || "";
+
+    document
+        .getElementById("service")
+        .value =
+            shipment.service || "";
+
+    document
+        .getElementById("bookingDate")
+        .value =
+            shipment.booking_date || "";
+
+    document
+        .getElementById("estimatedDelivery")
+        .value =
+            shipment.estimated_delivery || "";
+
+    document
+        .getElementById("shipmentStatus")
+        .value =
+            shipment.current_status ||
+            "Order Confirmed";
+
+    document
+        .getElementById("statusDetail")
+        .value =
+            shipment.status_detail || "";
+
+    document
+        .getElementById("lastUpdate")
+        .value =
+            shipment.last_update || "";
+
+    document
+        .getElementById("packageDetails")
+        .value =
+            shipment.package_details || "";
 
 
-    saveBtn.textContent =
-        "UPDATE SHIPMENT";
+    document
+        .getElementById("shipmentFormTitle")
+        .textContent =
+            "Edit Shipment";
 
-
-    cancelBtn.style.display =
-        "inline-block";
+    document
+        .getElementById("cancelShipmentEdit")
+        .classList.remove("hidden");
 
 
     window.scrollTo({
@@ -1872,15 +1928,99 @@ async function editShipment(id) {
 }
 
 
-/* ==================================================
+/* ============================================================
+   RESET SHIPMENT FORM
+============================================================ */
+
+function resetShipmentForm() {
+
+    document
+        .getElementById("shipmentForm")
+        .reset();
+
+    document
+        .getElementById("shipmentId")
+        .value = "";
+
+    document
+        .getElementById("shipmentFormTitle")
+        .textContent =
+            "Add New Shipment";
+
+    document
+        .getElementById("cancelShipmentEdit")
+        .classList.add("hidden");
+
+    document
+        .getElementById("shipmentStatus")
+        .value =
+            "Order Confirmed";
+
+}
+
+
+/* ============================================================
+   QUICK SHIPMENT STATUS UPDATE
+============================================================ */
+
+async function quickShipmentStatus(
+    id,
+    status
+) {
+
+    const result =
+        await supabaseClient
+        .from("shipments")
+        .update({
+            current_status: status
+        })
+        .eq("id", id);
+
+
+    if (result.error) {
+
+        showToast(
+            "Unable to update shipment status: " +
+            result.error.message,
+            "error"
+        );
+
+        await loadShipments();
+
+        return;
+    }
+
+
+    showToast(
+        "Shipment status successfully updated."
+    );
+
+    await loadShipments();
+
+}
+
+
+/* ============================================================
    DELETE SHIPMENT
-================================================== */
+============================================================ */
 
 async function deleteShipment(id) {
 
+    const shipment =
+        shipments.find(
+            item => item.id === id
+        );
+
+    if (!shipment) {
+        return;
+    }
+
+
     const confirmed =
         confirm(
-            "Are you sure you want to delete this shipment?"
+            "Are you sure you want to delete shipment " +
+            shipment.tracking_number +
+            "?"
         );
 
 
@@ -1889,125 +2029,770 @@ async function deleteShipment(id) {
     }
 
 
-    const {
-        error
-    } =
-    await supabaseClient
-    .from("shipments")
-    .delete()
-    .eq("id", id);
+    const result =
+        await supabaseClient
+        .from("shipments")
+        .delete()
+        .eq("id", id);
 
 
-    if (error) {
+    if (result.error) {
 
-        alert(
-            "Delete failed: " +
-            error.message
+        showToast(
+            "Unable to delete shipment: " +
+            result.error.message,
+            "error"
         );
 
         return;
     }
 
 
+    showToast(
+        "Shipment successfully deleted."
+    );
+
     await loadShipments();
 
 }
 
 
-/* ==================================================
-   CANCEL EDIT
-================================================== */
+/* ============================================================
+   CITY LEDGER
+============================================================ */
 
-cancelBtn.addEventListener(
-    "click",
-    function() {
+async function loadLedger() {
 
-        resetForm();
-
+    if (!currentCity) {
+        return;
     }
-);
 
 
-/* ==================================================
-   RESET FORM
-================================================== */
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("cargo_ledger")
+        .select("*")
+        .eq("city", currentCity)
+        .order(
+            "shipment_date",
+            { ascending: false }
+        )
+        .order(
+            "created_at",
+            { ascending: false }
+        );
 
-function resetForm() {
 
-    editingId = null;
+    if (error) {
 
-    shipmentForm.reset();
+        console.error(error);
+
+        showToast(
+            "Unable to load ledger: " +
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    ledgerEntries = data || [];
+
+    renderLedger();
+
+}
+
+
+/* ============================================================
+   RENDER LEDGER
+============================================================ */
+
+function renderLedger() {
+
+    const tbody =
+        document.getElementById(
+            "ledgerTableBody"
+        );
+
+    const search =
+        document
+        .getElementById("ledgerSearch")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        ledgerEntries.filter(function(entry) {
+
+            if (!search) {
+                return true;
+            }
+
+
+            const text = [
+
+                entry.shipment_date,
+                entry.tracking_number,
+                entry.customer_name,
+                entry.phone,
+                entry.origin,
+                entry.destination,
+                entry.service,
+                entry.package_details,
+                entry.status,
+                entry.estimated_delivery,
+                entry.charges,
+                entry.paid,
+                entry.balance,
+                entry.remarks
+
+            ]
+            .join(" ")
+            .toLowerCase();
+
+
+            return text.includes(search);
+
+        });
 
 
     document
-    .getElementById("formTitle")
-    .textContent =
-        "Add New Shipment";
+        .getElementById("ledgerCount")
+        .textContent =
+            filtered.length +
+            (
+                filtered.length === 1
+                    ? " Entry"
+                    : " Entries"
+            );
 
 
-    saveBtn.textContent =
-        "ADD SHIPMENT";
+    if (filtered.length === 0) {
 
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="15" class="empty">
+                    No entries found for this city.
+                </td>
+            </tr>
+        `;
 
-    cancelBtn.style.display =
-        "none";
-
-
-    currentStatus.value =
-        "Order Confirmed";
-
-
-    updateStatusDetails(
-        "Order Confirmed"
-    );
-
-}
-
-
-/* ==================================================
-   FORM MESSAGE
-================================================== */
-
-function showFormMessage(text) {
-
-    const message =
-        document.getElementById(
-            "formMessage"
-        );
-
-
-    if (messageTimer) {
-        clearTimeout(messageTimer);
+        return;
     }
 
 
-    message.style.display =
-        "block";
+    tbody.innerHTML =
+        filtered
+        .map(function(entry) {
+
+            const balance =
+                Number(entry.balance || 0);
+
+            const balanceClass =
+                balance > 0
+                    ? "balance-negative"
+                    : "balance-positive";
 
 
-    message.textContent =
-        text;
+            return `
 
+                <tr>
 
-    messageTimer =
-        setTimeout(
-            function() {
+                    <td>
+                        ${escapeHtml(
+                            entry.shipment_date || ""
+                        )}
+                    </td>
 
-                message.style.display =
-                    "none";
+                    <td>
+                        <strong>
+                            ${escapeHtml(
+                                entry.tracking_number || ""
+                            )}
+                        </strong>
+                    </td>
 
-            },
-            4000
-        );
+                    <td>
+                        ${escapeHtml(
+                            entry.customer_name || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.phone || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.origin || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.destination || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.service || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.package_details || ""
+                        )}
+                    </td>
+
+                    <td>
+
+                        <select
+                            class="status-select"
+                            onchange="
+                                quickLedgerStatus(
+                                    '${entry.id}',
+                                    this.value
+                                )
+                            "
+                        >
+
+                            ${statusOption(
+                                "Order Confirmed",
+                                entry.status
+                            )}
+
+                            ${statusOption(
+                                "Picked Up",
+                                entry.status
+                            )}
+
+                            ${statusOption(
+                                "In Transit",
+                                entry.status
+                            )}
+
+                            ${statusOption(
+                                "Out for Delivery",
+                                entry.status
+                            )}
+
+                            ${statusOption(
+                                "Delivered",
+                                entry.status
+                            )}
+
+                        </select>
+
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.estimated_delivery || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatMoney(
+                            entry.charges
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatMoney(
+                            entry.paid
+                        )}
+                    </td>
+
+                    <td class="${balanceClass}">
+                        ${formatMoney(
+                            balance
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            entry.remarks || ""
+                        )}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="action-btn edit-btn"
+                            onclick="
+                                editLedger(
+                                    '${entry.id}'
+                                )
+                            "
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="
+                                deleteLedger(
+                                    '${entry.id}'
+                                )
+                            "
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        })
+        .join("");
 
 }
 
 
-/* ==================================================
-   HTML SECURITY
-================================================== */
+/* ============================================================
+   SAVE LEDGER ENTRY
+============================================================ */
+
+document
+.getElementById("ledgerForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    if (!currentCity) {
+
+        showToast(
+            "Please select a city first.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const id =
+        document
+        .getElementById("ledgerId")
+        .value;
+
+
+    const ledgerData = {
+
+        city:
+            currentCity,
+
+        shipment_date:
+            document
+            .getElementById("ledgerDate")
+            .value,
+
+        tracking_number:
+            document
+            .getElementById("ledgerTracking")
+            .value
+            .trim(),
+
+        customer_name:
+            document
+            .getElementById("ledgerCustomer")
+            .value
+            .trim(),
+
+        phone:
+            document
+            .getElementById("ledgerPhone")
+            .value
+            .trim(),
+
+        origin:
+            document
+            .getElementById("ledgerOrigin")
+            .value
+            .trim(),
+
+        destination:
+            document
+            .getElementById("ledgerDestination")
+            .value
+            .trim(),
+
+        service:
+            document
+            .getElementById("ledgerService")
+            .value
+            .trim(),
+
+        package_details:
+            document
+            .getElementById("ledgerPackage")
+            .value
+            .trim(),
+
+        status:
+            document
+            .getElementById("ledgerStatus")
+            .value,
+
+        estimated_delivery:
+            document
+            .getElementById("ledgerEstimated")
+            .value ||
+            null,
+
+        charges:
+            Number(
+                document
+                .getElementById("ledgerCharges")
+                .value || 0
+            ),
+
+        paid:
+            Number(
+                document
+                .getElementById("ledgerPaid")
+                .value || 0
+            ),
+
+        remarks:
+            document
+            .getElementById("ledgerRemarks")
+            .value
+            .trim()
+
+    };
+
+
+    let result;
+
+
+    if (id) {
+
+        result =
+            await supabaseClient
+            .from("cargo_ledger")
+            .update(ledgerData)
+            .eq("id", id);
+
+    } else {
+
+        result =
+            await supabaseClient
+            .from("cargo_ledger")
+            .insert(ledgerData);
+
+    }
+
+
+    if (result.error) {
+
+        showToast(
+            "Unable to save ledger entry: " +
+            result.error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    showToast(
+        id
+            ? "Ledger entry successfully updated."
+            : "Ledger entry successfully added."
+    );
+
+
+    resetLedgerForm();
+
+    await loadLedger();
+
+});
+
+
+/* ============================================================
+   EDIT LEDGER ENTRY
+============================================================ */
+
+function editLedger(id) {
+
+    const entry =
+        ledgerEntries.find(
+            item => item.id === id
+        );
+
+    if (!entry) {
+        return;
+    }
+
+
+    document
+        .getElementById("ledgerId")
+        .value =
+            entry.id;
+
+    document
+        .getElementById("ledgerDate")
+        .value =
+            entry.shipment_date || "";
+
+    document
+        .getElementById("ledgerTracking")
+        .value =
+            entry.tracking_number || "";
+
+    document
+        .getElementById("ledgerCustomer")
+        .value =
+            entry.customer_name || "";
+
+    document
+        .getElementById("ledgerPhone")
+        .value =
+            entry.phone || "";
+
+    document
+        .getElementById("ledgerOrigin")
+        .value =
+            entry.origin || "";
+
+    document
+        .getElementById("ledgerDestination")
+        .value =
+            entry.destination || "";
+
+    document
+        .getElementById("ledgerService")
+        .value =
+            entry.service || "";
+
+    document
+        .getElementById("ledgerPackage")
+        .value =
+            entry.package_details || "";
+
+    document
+        .getElementById("ledgerStatus")
+        .value =
+            entry.status ||
+            "Order Confirmed";
+
+    document
+        .getElementById("ledgerEstimated")
+        .value =
+            entry.estimated_delivery || "";
+
+    document
+        .getElementById("ledgerCharges")
+        .value =
+            entry.charges || 0;
+
+    document
+        .getElementById("ledgerPaid")
+        .value =
+            entry.paid || 0;
+
+    document
+        .getElementById("ledgerRemarks")
+        .value =
+            entry.remarks || "";
+
+
+    document
+        .getElementById("ledgerFormTitle")
+        .textContent =
+            "Edit Ledger Entry";
+
+    document
+        .getElementById("cancelLedgerEdit")
+        .classList.remove("hidden");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* ============================================================
+   RESET LEDGER FORM
+============================================================ */
+
+function resetLedgerForm() {
+
+    document
+        .getElementById("ledgerForm")
+        .reset();
+
+    document
+        .getElementById("ledgerId")
+        .value = "";
+
+    document
+        .getElementById("ledgerFormTitle")
+        .textContent =
+            "Add Ledger Entry";
+
+    document
+        .getElementById("cancelLedgerEdit")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("ledgerDate")
+        .value =
+            new Date()
+            .toISOString()
+            .split("T")[0];
+
+    document
+        .getElementById("ledgerStatus")
+        .value =
+            "Order Confirmed";
+
+    document
+        .getElementById("ledgerCharges")
+        .value = 0;
+
+    document
+        .getElementById("ledgerPaid")
+        .value = 0;
+
+}
+
+
+/* ============================================================
+   QUICK LEDGER STATUS UPDATE
+============================================================ */
+
+async function quickLedgerStatus(
+    id,
+    status
+) {
+
+    const result =
+        await supabaseClient
+        .from("cargo_ledger")
+        .update({
+            status: status
+        })
+        .eq("id", id);
+
+
+    if (result.error) {
+
+        showToast(
+            "Unable to update ledger status: " +
+            result.error.message,
+            "error"
+        );
+
+        await loadLedger();
+
+        return;
+    }
+
+
+    showToast(
+        "Ledger status successfully updated."
+    );
+
+    await loadLedger();
+
+}
+
+
+/* ============================================================
+   DELETE LEDGER ENTRY
+============================================================ */
+
+async function deleteLedger(id) {
+
+    const entry =
+        ledgerEntries.find(
+            item => item.id === id
+        );
+
+    if (!entry) {
+        return;
+    }
+
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete the ledger entry for tracking number " +
+            entry.tracking_number +
+            "?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const result =
+        await supabaseClient
+        .from("cargo_ledger")
+        .delete()
+        .eq("id", id);
+
+
+    if (result.error) {
+
+        showToast(
+            "Unable to delete ledger entry: " +
+            result.error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    showToast(
+        "Ledger entry successfully deleted."
+    );
+
+    await loadLedger();
+
+}
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
+
+function formatMoney(value) {
+
+    const number =
+        Number(value || 0);
+
+    return number.toFixed(2);
+
+}
+
 
 function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
 
     return String(value)
         .replace(/&/g, "&amp;")
@@ -2019,48 +2804,11 @@ function escapeHtml(value) {
 }
 
 
-function escapeJs(value) {
+/* ============================================================
+   START APPLICATION
+============================================================ */
 
-    return String(value)
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'")
-        .replace(/"/g, '\\"')
-        .replace(/\r/g, "\\r")
-        .replace(/\n/g, "\\n");
-
-}
-
-
-/* ==================================================
-   AUTH STATE
-================================================== */
-
-supabaseClient.auth.onAuthStateChange(
-    function(event, session) {
-
-        if (session) {
-
-            showAdminPanel();
-
-        } else {
-
-            showLoginScreen();
-
-        }
-
-    }
-);
-
-
-/* ==================================================
-   START
-================================================== */
-
-updateStatusDetails(
-    "Order Confirmed"
-);
-
-checkSession();
+checkLogin();
 
 </script>
 
