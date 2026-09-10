@@ -418,6 +418,175 @@ tr:hover td {
     background: #b00000;
 }
 
+/* ================= REPORTS ================= */
+
+.report-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.report-summary-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    padding: 18px;
+    border-left: 4px solid #f58220;
+}
+
+.report-summary-card span {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.report-summary-card strong {
+    display: block;
+    font-size: 20px;
+}
+
+.report-table {
+    min-width: 1450px;
+}
+
+.report-profit-positive {
+    color: #16833b;
+    font-weight: bold;
+}
+
+.report-profit-negative {
+    color: #b00000;
+    font-weight: bold;
+}
+
+/* ================= PRINT ================= */
+
+.print-report {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+    padding: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.print-report-header {
+    border-bottom: 3px solid #f58220;
+    padding-bottom: 15px;
+    margin-bottom: 18px;
+}
+
+.print-report-header h1 {
+    margin: 0;
+    color: #f58220;
+    font-size: 28px;
+}
+
+.print-report-header p {
+    margin: 4px 0;
+    color: #555;
+    font-size: 13px;
+}
+
+.print-report-title {
+    margin: 18px 0 12px;
+    font-size: 20px;
+}
+
+.print-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.print-meta-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.print-meta-box span {
+    display: block;
+    color: #666;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.print-meta-box strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+}
+
+.print-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.print-kpi {
+    border: 1px solid #ddd;
+    padding: 11px;
+    border-radius: 5px;
+}
+
+.print-kpi span {
+    display: block;
+    color: #666;
+    font-size: 10px;
+}
+
+.print-kpi strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+.print-report table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 9px;
+}
+
+.print-report th {
+    background: #f58220;
+    color: #fff;
+    padding: 7px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.print-report td {
+    padding: 6px;
+    border: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.print-report .right {
+    text-align: right;
+}
+
+.print-total-row td {
+    font-weight: bold;
+    background: #f7f7f7;
+}
+
+.print-footer {
+    margin-top: 24px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    font-size: 10px;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 1100px) {
@@ -453,7 +622,83 @@ tr:hover td {
     .container {
         padding: 15px;
     }
+
+    .report-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
+
+/* ================= CITY SECURITY MODAL ================= */
+.city-security-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 9999;
+}
+.city-security-box {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.city-security-box h3 {
+    margin-bottom: 8px;
+    color: #f58220;
+}
+.city-security-box p {
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+.city-security-error {
+    background: #ffe7e7;
+    color: #b40000;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+.city-security-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+.city-security-actions button {
+    flex: 1;
+}
+.city-security-open {
+    width: 100%;
+    border: none;
+    background: #f58220;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.city-security-open:hover {
+    background: #df6f12;
+}
+.city-security-cancel {
+    width: 100%;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #333;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.city-security-cancel:hover {
+    background: #f5f5f5;
+}
+
 </style>
 </head>
 
@@ -507,6 +752,40 @@ tr:hover td {
 </div>
 
 
+
+<!-- =========================================================
+     CITY SECURITY MODAL
+========================================================= -->
+<div id="citySecurityModal" class="city-security-overlay hidden">
+    <div class="city-security-box">
+        <h3 id="citySecurityTitle">City Security</h3>
+        <p id="citySecurityMessage">Enter the security code to open this city.</p>
+        <div id="citySecurityError" class="city-security-error hidden"></div>
+        <form id="citySecurityForm">
+            <div class="form-group">
+                <label for="citySecurityCode">Security Code</label>
+                <input
+                    type="password"
+                    id="citySecurityCode"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    maxlength="4"
+                    placeholder="Enter 4-digit security code"
+                    required
+                >
+            </div>
+            <div class="city-security-actions">
+                <button type="button" class="city-security-cancel" onclick="closeCitySecurity()">
+                    Cancel
+                </button>
+                <button type="submit" class="city-security-open">
+                    Open
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- =========================================================
      MAIN APPLICATION
 ========================================================= -->
@@ -550,6 +829,14 @@ tr:hover td {
                     onclick="openLedger('Mirpur')"
                 >
                     MIRPUR
+                </button>
+
+                <button
+                    class="header-btn"
+                    id="reportsTabBtn"
+                    onclick="openReports()"
+                >
+                    Reports
                 </button>
 
                 <button
@@ -1062,6 +1349,21 @@ tr:hover td {
                         </div>
 
                         <div class="form-group">
+                            <label for="ledgerCost">
+                                Cost
+                            </label>
+
+                            <input
+                                type="number"
+                                id="ledgerCost"
+                                min="0"
+                                step="0.01"
+                                value="0"
+                                placeholder="Actual cargo / operating cost"
+                            >
+                        </div>
+
+                        <div class="form-group">
                             <label for="ledgerRemarks">
                                 Remarks
                             </label>
@@ -1162,7 +1464,9 @@ tr:hover td {
                                 <th>Estimated Delivery</th>
                                 <th>Charges</th>
                                 <th>Paid</th>
+                                <th>Cost</th>
                                 <th>Balance</th>
+                                <th>Profit</th>
                                 <th>Remarks</th>
                                 <th>Actions</th>
                             </tr>
@@ -1177,6 +1481,113 @@ tr:hover td {
 
             </div>
 
+        </div>
+
+    </main>
+
+    <!-- =====================================================
+         MONTHLY REPORTS
+    ====================================================== -->
+
+    <main id="reportsPage" class="container hidden">
+
+        <div class="page-title">
+            <h2>Monthly Sales & Profit Reports</h2>
+            <p>
+                View city-wise monthly sales, profit, payment, and balance.
+                Reports can be printed in a professional Fast Air Cargo format.
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Report Controls</h3>
+            </div>
+
+            <div class="card-body">
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="reportCity">City</label>
+                        <select id="reportCity" onchange="handleReportCityChange()">
+                            <option value="Dina">Dina</option>
+                            <option value="Jhelum">Jhelum</option>
+                            <option value="Mirpur">Mirpur</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reportMonth">Month</label>
+                        <input
+                            type="month"
+                            id="reportMonth"
+                            onchange="loadMonthlyReport()"
+                        >
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="primary-btn" onclick="printMonthlySalesReport()">
+                        Print Monthly Sales Report
+                    </button>
+
+                    <button type="button" class="secondary-btn" onclick="printMonthlyProfitReport()">
+                        Print Monthly Profit Report
+                    </button>
+
+                    <button type="button" class="secondary-btn" onclick="printAllCitiesProfitReport()">
+                        Print All Cities Profit Report
+                    </button>
+
+                    <button type="button" class="secondary-btn" onclick="showShipmentManagement()">
+                        Back to Shipment Management
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-summary-grid">
+            <div class="report-summary-card"><span>City</span><strong id="reportCitySummary">Dina</strong></div>
+            <div class="report-summary-card"><span>Month</span><strong id="reportMonthSummary">-</strong></div>
+            <div class="report-summary-card"><span>Total Entries</span><strong id="reportEntriesSummary">0</strong></div>
+            <div class="report-summary-card"><span>Total Sales</span><strong id="reportSalesSummary">0.00</strong></div>
+            <div class="report-summary-card"><span>Total Paid</span><strong id="reportPaidSummary">0.00</strong></div>
+            <div class="report-summary-card"><span>Total Balance</span><strong id="reportBalanceSummary">0.00</strong></div>
+            <div class="report-summary-card"><span>Total Cost</span><strong id="reportCostSummary">0.00</strong></div>
+            <div class="report-summary-card"><span>Total Profit</span><strong id="reportProfitSummary">0.00</strong></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3 id="monthlyReportTitle">Dina Monthly Sales Report</h3>
+                <span class="city-badge" id="monthlyReportCount">0 Entries</span>
+            </div>
+
+            <div class="card-body">
+                <div class="table-wrapper">
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Tracking Number</th>
+                                <th>Customer</th>
+                                <th>Phone</th>
+                                <th>Origin</th>
+                                <th>Destination</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Charges</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Cost</th>
+                                <th>Profit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyReportTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
     </main>
@@ -1213,6 +1624,10 @@ const supabaseClient =
 let shipments = [];
 let ledgerEntries = [];
 let currentCity = null;
+let cityAccess = new Set();
+let pendingCity = null;
+let pendingCityAction = null;
+let previousReportCity = "Dina";
 
 
 /* ============================================================
@@ -1319,7 +1734,12 @@ async function logout() {
 
     shipments = [];
     ledgerEntries = [];
+    monthlyReportEntries = [];
+    currentReportMonth = "";
     currentCity = null;
+    cityAccess.clear();
+    pendingCity = null;
+    pendingCityAction = null;
 
     showLogin();
 
@@ -1335,6 +1755,10 @@ function showShipmentManagement() {
     currentCity = null;
 
     document
+        .getElementById("reportsPage")
+        .classList.add("hidden");
+
+    document
         .getElementById("shipmentManagement")
         .classList.remove("hidden");
 
@@ -1346,6 +1770,10 @@ function showShipmentManagement() {
         .getElementById("shipmentTabBtn")
         .classList.add("active");
 
+    document
+        .getElementById("reportsTabBtn")
+        .classList.remove("active");
+
     window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -1355,46 +1783,98 @@ function showShipmentManagement() {
 
 
 async function openLedger(city) {
+    requestCityAccess(city, "ledger");
+}
 
+async function openLedgerAfterAccess(city) {
     currentCity = city;
 
-    document
-        .getElementById("shipmentManagement")
-        .classList.add("hidden");
+    document.getElementById("reportsPage").classList.add("hidden");
+    document.getElementById("shipmentManagement").classList.add("hidden");
+    document.getElementById("ledgerPage").classList.remove("hidden");
 
-    document
-        .getElementById("ledgerPage")
-        .classList.remove("hidden");
+    document.getElementById("shipmentTabBtn").classList.remove("active");
+    document.getElementById("reportsTabBtn").classList.remove("active");
 
-    document
-        .getElementById("shipmentTabBtn")
-        .classList.remove("active");
-
-    document
-        .getElementById("ledgerTitle")
-        .textContent =
-            city + " Ledger";
-
-    document
-        .getElementById("ledgerCityName")
-        .textContent =
-            city;
-
-    document
-        .getElementById("currentCityBadge")
-        .textContent =
-            city;
+    document.getElementById("ledgerTitle").textContent = city + " Ledger";
+    document.getElementById("ledgerCityName").textContent = city;
+    document.getElementById("currentCityBadge").textContent = city;
 
     resetLedgerForm();
-
     await loadLedger();
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function requestCityAccess(city, action) {
+    pendingCity = city;
+    pendingCityAction = action;
+
+    document.getElementById("citySecurityTitle").textContent = city + " Security";
+    document.getElementById("citySecurityMessage").textContent =
+        "Enter the security code to open the " + city + " " + (action === "reports" ? "reports" : "ledger") + ".";
+    document.getElementById("citySecurityCode").value = "";
+    document.getElementById("citySecurityError").classList.add("hidden");
+    document.getElementById("citySecurityModal").classList.remove("hidden");
+
+    setTimeout(function() {
+        document.getElementById("citySecurityCode").focus();
+    }, 50);
+}
+
+function closeCitySecurity() {
+    document.getElementById("citySecurityModal").classList.add("hidden");
+    document.getElementById("citySecurityCode").value = "";
+    document.getElementById("citySecurityError").classList.add("hidden");
+    pendingCity = null;
+    pendingCityAction = null;
+}
+
+document.getElementById("citySecurityForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const city = pendingCity;
+    const action = pendingCityAction;
+    const code = document.getElementById("citySecurityCode").value.trim();
+    const errorBox = document.getElementById("citySecurityError");
+
+    if (!city || !action) return;
+
+    errorBox.classList.add("hidden");
+
+    if (!/^\d{4}$/.test(code)) {
+        errorBox.textContent = "Please enter a valid 4-digit security code.";
+        errorBox.classList.remove("hidden");
+        return;
+    }
+
+    const { data, error } = await supabaseClient.rpc("verify_city_security_code", {
+        p_city: city,
+        p_code: code
     });
 
-}
+    if (error) {
+        console.error(error);
+        errorBox.textContent = "Unable to verify security code. Please run the Supabase security SQL provided below.";
+        errorBox.classList.remove("hidden");
+        return;
+    }
+
+    if (data !== true) {
+        errorBox.textContent = "Wrong security code.";
+        errorBox.classList.remove("hidden");
+        document.getElementById("citySecurityCode").select();
+        return;
+    }
+
+    closeCitySecurity();
+
+    if (action === "ledger") {
+        await openLedgerAfterAccess(city);
+    } else if (action === "reports") {
+        await openReportsAfterAccess(city);
+    }
+});
 
 
 /* ============================================================
@@ -2117,6 +2597,7 @@ function renderLedger() {
                 entry.estimated_delivery,
                 entry.charges,
                 entry.paid,
+                entry.cost,
                 entry.balance,
                 entry.remarks
 
@@ -2145,7 +2626,7 @@ function renderLedger() {
 
         tbody.innerHTML = `
             <tr>
-                <td colspan="15" class="empty">
+                <td colspan="17" class="empty">
                     No entries found for this city.
                 </td>
             </tr>
@@ -2281,9 +2762,25 @@ function renderLedger() {
                         )}
                     </td>
 
+                    <td>
+                        ${formatMoney(
+                            entry.cost
+                        )}
+                    </td>
+
                     <td class="${balanceClass}">
                         ${formatMoney(
                             balance
+                        )}
+                    </td>
+
+                    <td class="${
+                        (Number(entry.charges || 0) - Number(entry.cost || 0)) >= 0
+                            ? "report-profit-positive"
+                            : "report-profit-negative"
+                    }">
+                        ${formatMoney(
+                            Number(entry.charges || 0) - Number(entry.cost || 0)
                         )}
                     </td>
 
@@ -2296,6 +2793,7 @@ function renderLedger() {
                     <td>
 
                         <button
+                            type="button"
                             class="action-btn edit-btn"
                             onclick="
                                 editLedger(
@@ -2307,6 +2805,7 @@ function renderLedger() {
                         </button>
 
                         <button
+                            type="button"
                             class="action-btn delete-btn"
                             onclick="
                                 deleteLedger(
@@ -2431,6 +2930,13 @@ document
             Number(
                 document
                 .getElementById("ledgerPaid")
+                .value || 0
+            ),
+
+        cost:
+            Number(
+                document
+                .getElementById("ledgerCost")
                 .value || 0
             ),
 
@@ -2572,6 +3078,12 @@ function editLedger(id) {
         .value =
             entry.paid || 0;
 
+
+    document
+        .getElementById("ledgerCost")
+        .value =
+        entry.cost || 0;
+
     document
         .getElementById("ledgerRemarks")
         .value =
@@ -2638,6 +3150,10 @@ function resetLedgerForm() {
 
     document
         .getElementById("ledgerPaid")
+        .value = 0;
+
+    document
+        .getElementById("ledgerCost")
         .value = 0;
 
 }
@@ -2740,6 +3256,693 @@ async function deleteLedger(id) {
 
 }
 
+
+
+/* ============================================================
+   MONTHLY REPORTS
+============================================================ */
+
+let monthlyReportEntries = [];
+let currentReportMonth = "";
+
+function openReports() {
+    const city = document.getElementById("reportCity").value || "Dina";
+    requestCityAccess(city, "reports");
+}
+
+async function openReportsAfterAccess(city) {
+    currentCity = null;
+
+    document.getElementById("shipmentManagement").classList.add("hidden");
+    document.getElementById("ledgerPage").classList.add("hidden");
+    document.getElementById("reportsPage").classList.remove("hidden");
+
+    document.getElementById("shipmentTabBtn").classList.remove("active");
+    document.getElementById("reportsTabBtn").classList.add("active");
+
+    const citySelect = document.getElementById("reportCity");
+    citySelect.value = city;
+    previousReportCity = city;
+
+    const monthInput = document.getElementById("reportMonth");
+
+    if (!monthInput.value) {
+        const now = new Date();
+        monthInput.value = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+    }
+
+    await loadMonthlyReport();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function handleReportCityChange() {
+    const citySelect = document.getElementById("reportCity");
+    const city = citySelect.value;
+
+    citySelect.value = previousReportCity;
+    requestCityAccess(city, "reports");
+}
+
+
+function getReportMonthLabel(monthValue) {
+    if (!monthValue) return "-";
+
+    const parts = monthValue.split("-");
+    if (parts.length !== 2) return monthValue;
+
+    return new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        1
+    ).toLocaleString("en-US", {
+        month: "long",
+        year: "numeric"
+    });
+}
+
+async function loadMonthlyReport() {
+    const city = document.getElementById("reportCity").value;
+    const month = document.getElementById("reportMonth").value;
+
+    if (!city || !month) return;
+
+    currentReportMonth = month;
+
+    const [year, monthNumber] = month.split("-").map(Number);
+    const startDate =
+        `${year}-${String(monthNumber).padStart(2, "0")}-01`;
+
+    const nextMonth = new Date(year, monthNumber, 1);
+    const endDate =
+        nextMonth.getFullYear() +
+        "-" +
+        String(nextMonth.getMonth() + 1).padStart(2, "0") +
+        "-01";
+
+    const { data, error } =
+        await supabaseClient
+        .from("cargo_ledger")
+        .select("*")
+        .eq("city", city)
+        .gte("shipment_date", startDate)
+        .lt("shipment_date", endDate)
+        .order("shipment_date", { ascending: true })
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error("Monthly report error:", error);
+        showToast(
+            "Unable to load monthly report: " + error.message,
+            "error"
+        );
+        return;
+    }
+
+    monthlyReportEntries = data || [];
+    renderMonthlyReport(city, month, monthlyReportEntries);
+}
+
+function calculateReportTotals(entries) {
+    return entries.reduce(function(total, entry) {
+        const charges = Number(entry.charges || 0);
+        const paid = Number(entry.paid || 0);
+        const balance = Number(
+            entry.balance ?? (charges - paid)
+        );
+        const cost = Number(entry.cost || 0);
+
+        total.sales += charges;
+        total.paid += paid;
+        total.balance += balance;
+        total.cost += cost;
+        total.profit += charges - cost;
+
+        return total;
+    }, {
+        sales: 0,
+        paid: 0,
+        balance: 0,
+        cost: 0,
+        profit: 0
+    });
+}
+
+function renderMonthlyReport(city, month, entries) {
+    const totals = calculateReportTotals(entries);
+
+    document.getElementById("reportCitySummary").textContent = city;
+    document.getElementById("reportMonthSummary").textContent =
+        getReportMonthLabel(month);
+    document.getElementById("reportEntriesSummary").textContent =
+        entries.length;
+    document.getElementById("reportSalesSummary").textContent =
+        formatMoney(totals.sales);
+    document.getElementById("reportPaidSummary").textContent =
+        formatMoney(totals.paid);
+    document.getElementById("reportBalanceSummary").textContent =
+        formatMoney(totals.balance);
+    document.getElementById("reportCostSummary").textContent =
+        formatMoney(totals.cost);
+    document.getElementById("reportProfitSummary").textContent =
+        formatMoney(totals.profit);
+
+    document.getElementById("monthlyReportTitle").textContent =
+        city + " Monthly Sales Report - " +
+        getReportMonthLabel(month);
+
+    document.getElementById("monthlyReportCount").textContent =
+        entries.length +
+        (entries.length === 1 ? " Entry" : " Entries");
+
+    const tbody =
+        document.getElementById("monthlyReportTableBody");
+
+    if (!entries.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="13" class="empty">
+                    No ledger entries found for this city and month.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML =
+        entries.map(function(entry) {
+            const charges = Number(entry.charges || 0);
+            const paid = Number(entry.paid || 0);
+            const balance = Number(
+                entry.balance ?? (charges - paid)
+            );
+            const cost = Number(entry.cost || 0);
+            const profit = charges - cost;
+
+            return `
+                <tr>
+                    <td>${escapeHtml(entry.shipment_date || "")}</td>
+                    <td><strong>${escapeHtml(entry.tracking_number || "")}</strong></td>
+                    <td>${escapeHtml(entry.customer_name || "")}</td>
+                    <td>${escapeHtml(entry.phone || "")}</td>
+                    <td>${escapeHtml(entry.origin || "")}</td>
+                    <td>${escapeHtml(entry.destination || "")}</td>
+                    <td>${escapeHtml(entry.service || "")}</td>
+                    <td>${escapeHtml(entry.status || "")}</td>
+                    <td>${formatMoney(charges)}</td>
+                    <td>${formatMoney(paid)}</td>
+                    <td>${formatMoney(balance)}</td>
+                    <td>${formatMoney(cost)}</td>
+                    <td class="${
+                        profit >= 0
+                            ? "report-profit-positive"
+                            : "report-profit-negative"
+                    }">${formatMoney(profit)}</td>
+                </tr>
+            `;
+        }).join("");
+}
+
+function buildPrintReportShell(
+    title,
+    city,
+    month,
+    reportType,
+    bodyHtml,
+    totals,
+    entriesCount
+) {
+    return `
+        <div class="print-report">
+            <div class="print-report-header">
+                <h1>FAST AIR CARGO</h1>
+                <p>Professional Cargo Management & Reporting</p>
+                <p>${escapeHtml(reportType)}</p>
+            </div>
+
+            <h2 class="print-report-title">
+                ${escapeHtml(title)}
+            </h2>
+
+            <div class="print-meta">
+                <div class="print-meta-box">
+                    <span>City</span>
+                    <strong>${escapeHtml(city)}</strong>
+                </div>
+                <div class="print-meta-box">
+                    <span>Reporting Month</span>
+                    <strong>${escapeHtml(getReportMonthLabel(month))}</strong>
+                </div>
+                <div class="print-meta-box">
+                    <span>Report Date</span>
+                    <strong>${escapeHtml(new Date().toLocaleDateString("en-US"))}</strong>
+                </div>
+            </div>
+
+            <div class="print-kpi-grid">
+                <div class="print-kpi"><span>Total Entries</span><strong>${entriesCount}</strong></div>
+                <div class="print-kpi"><span>Total Sales</span><strong>${formatMoney(totals.sales)}</strong></div>
+                <div class="print-kpi"><span>Total Paid</span><strong>${formatMoney(totals.paid)}</strong></div>
+                <div class="print-kpi"><span>Total Balance</span><strong>${formatMoney(totals.balance)}</strong></div>
+                <div class="print-kpi"><span>Total Cost</span><strong>${formatMoney(totals.cost)}</strong></div>
+                <div class="print-kpi"><span>Total Profit</span><strong>${formatMoney(totals.profit)}</strong></div>
+            </div>
+
+            ${bodyHtml}
+
+            <div class="print-footer">
+                <span>FAST AIR CARGO</span>
+                <span>Generated from Admin Panel</span>
+            </div>
+        </div>
+    `;
+}
+
+function openPrintWindow(htmlContent) {
+    const printWindow =
+        window.open("", "_blank", "width=1200,height=850");
+
+    if (!printWindow) {
+        showToast(
+            "Please allow pop-ups to print reports.",
+            "error"
+        );
+        return;
+    }
+
+    printWindow.document.open();
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Fast Air Cargo Report</title>
+            <style>
+                * { box-sizing: border-box; }
+                body {
+                    margin: 0;
+                    background: #fff;
+                    font-family: Arial, Helvetica, sans-serif;
+                    color: #222;
+                }
+                .print-report {
+                    padding: 28px;
+                    max-width: 1100px;
+                    margin: 0 auto;
+                }
+                .print-report-header {
+                    border-bottom: 3px solid #f58220;
+                    padding-bottom: 15px;
+                    margin-bottom: 18px;
+                }
+                .print-report-header h1 {
+                    margin: 0;
+                    color: #f58220;
+                    font-size: 28px;
+                }
+                .print-report-header p {
+                    margin: 4px 0;
+                    color: #555;
+                    font-size: 13px;
+                }
+                .print-report-title {
+                    margin: 18px 0 12px;
+                    font-size: 20px;
+                }
+                .print-meta {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 10px;
+                    margin-bottom: 18px;
+                }
+                .print-meta-box {
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+                .print-meta-box span {
+                    display: block;
+                    color: #666;
+                    font-size: 10px;
+                    text-transform: uppercase;
+                }
+                .print-meta-box strong {
+                    display: block;
+                    margin-top: 4px;
+                    font-size: 14px;
+                }
+                .print-kpi-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 10px;
+                    margin-bottom: 18px;
+                }
+                .print-kpi {
+                    border: 1px solid #ddd;
+                    padding: 11px;
+                    border-radius: 5px;
+                }
+                .print-kpi span {
+                    display: block;
+                    color: #666;
+                    font-size: 10px;
+                }
+                .print-kpi strong {
+                    display: block;
+                    margin-top: 4px;
+                    font-size: 15px;
+                }
+                .print-report table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 12px;
+                    font-size: 9px;
+                }
+                .print-report th {
+                    background: #f58220;
+                    color: #fff;
+                    padding: 7px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                }
+                .print-report td {
+                    padding: 6px;
+                    border: 1px solid #ddd;
+                    vertical-align: top;
+                }
+                .print-report .right { text-align: right; }
+                .print-total-row td {
+                    font-weight: bold;
+                    background: #f7f7f7;
+                }
+                .print-footer {
+                    margin-top: 24px;
+                    border-top: 1px solid #ddd;
+                    padding-top: 10px;
+                    font-size: 10px;
+                    color: #666;
+                    display: flex;
+                    justify-content: space-between;
+                }
+                @page {
+                    size: A4 landscape;
+                    margin: 10mm;
+                }
+            </style>
+        </head>
+        <body>
+            ${htmlContent}
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+
+    setTimeout(function() {
+        printWindow.print();
+    }, 400);
+}
+
+function buildSalesPrintTable(entries, totals) {
+    const rows = entries.length
+        ? entries.map(function(entry) {
+            const charges = Number(entry.charges || 0);
+            const paid = Number(entry.paid || 0);
+            const balance = Number(
+                entry.balance ?? (charges - paid)
+            );
+
+            return `
+                <tr>
+                    <td>${escapeHtml(entry.shipment_date || "")}</td>
+                    <td>${escapeHtml(entry.tracking_number || "")}</td>
+                    <td>${escapeHtml(entry.customer_name || "")}</td>
+                    <td>${escapeHtml(entry.phone || "")}</td>
+                    <td>${escapeHtml(entry.origin || "")}</td>
+                    <td>${escapeHtml(entry.destination || "")}</td>
+                    <td>${escapeHtml(entry.service || "")}</td>
+                    <td>${escapeHtml(entry.status || "")}</td>
+                    <td class="right">${formatMoney(charges)}</td>
+                    <td class="right">${formatMoney(paid)}</td>
+                    <td class="right">${formatMoney(balance)}</td>
+                </tr>
+            `;
+        }).join("")
+        : `<tr><td colspan="11">No entries found for this city and month.</td></tr>`;
+
+    return `
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Tracking No.</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Sales</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+                <tr class="print-total-row">
+                    <td colspan="8">TOTAL</td>
+                    <td class="right">${formatMoney(totals.sales)}</td>
+                    <td class="right">${formatMoney(totals.paid)}</td>
+                    <td class="right">${formatMoney(totals.balance)}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+function buildProfitPrintTable(entries, totals) {
+    const rows = entries.length
+        ? entries.map(function(entry) {
+            const charges = Number(entry.charges || 0);
+            const cost = Number(entry.cost || 0);
+            const profit = charges - cost;
+
+            return `
+                <tr>
+                    <td>${escapeHtml(entry.shipment_date || "")}</td>
+                    <td>${escapeHtml(entry.tracking_number || "")}</td>
+                    <td>${escapeHtml(entry.customer_name || "")}</td>
+                    <td>${escapeHtml(entry.service || "")}</td>
+                    <td class="right">${formatMoney(charges)}</td>
+                    <td class="right">${formatMoney(cost)}</td>
+                    <td class="right">${formatMoney(profit)}</td>
+                </tr>
+            `;
+        }).join("")
+        : `<tr><td colspan="7">No entries found for this city and month.</td></tr>`;
+
+    return `
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Tracking No.</th>
+                    <th>Customer</th>
+                    <th>Service</th>
+                    <th>Sales</th>
+                    <th>Cost</th>
+                    <th>Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+                <tr class="print-total-row">
+                    <td colspan="4">TOTAL</td>
+                    <td class="right">${formatMoney(totals.sales)}</td>
+                    <td class="right">${formatMoney(totals.cost)}</td>
+                    <td class="right">${formatMoney(totals.profit)}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+function printMonthlySalesReport() {
+    if (!currentReportMonth) {
+        showToast("Please select a month first.", "error");
+        return;
+    }
+
+    const city =
+        document.getElementById("reportCity").value;
+
+    const totals =
+        calculateReportTotals(monthlyReportEntries);
+
+    const body =
+        buildSalesPrintTable(
+            monthlyReportEntries,
+            totals
+        );
+
+    openPrintWindow(
+        buildPrintReportShell(
+            city + " Monthly Sales Report",
+            city,
+            currentReportMonth,
+            "Monthly Sales Report",
+            body,
+            totals,
+            monthlyReportEntries.length
+        )
+    );
+}
+
+function printMonthlyProfitReport() {
+    if (!currentReportMonth) {
+        showToast("Please select a month first.", "error");
+        return;
+    }
+
+    const city =
+        document.getElementById("reportCity").value;
+
+    const totals =
+        calculateReportTotals(monthlyReportEntries);
+
+    const body =
+        buildProfitPrintTable(
+            monthlyReportEntries,
+            totals
+        );
+
+    openPrintWindow(
+        buildPrintReportShell(
+            city + " Monthly Profit Report",
+            city,
+            currentReportMonth,
+            "Monthly Profit Report",
+            body,
+            totals,
+            monthlyReportEntries.length
+        )
+    );
+}
+
+async function printAllCitiesProfitReport() {
+    if (!currentReportMonth) {
+        showToast("Please select a month first.", "error");
+        return;
+    }
+
+    const month = currentReportMonth;
+    const [year, monthNumber] = month.split("-").map(Number);
+
+    const startDate =
+        `${year}-${String(monthNumber).padStart(2, "0")}-01`;
+
+    const nextMonth = new Date(year, monthNumber, 1);
+    const endDate =
+        nextMonth.getFullYear() +
+        "-" +
+        String(nextMonth.getMonth() + 1).padStart(2, "0") +
+        "-01";
+
+    const { data, error } =
+        await supabaseClient
+        .from("cargo_ledger")
+        .select("*")
+        .in("city", ["Dina", "Jhelum", "Mirpur"])
+        .gte("shipment_date", startDate)
+        .lt("shipment_date", endDate)
+        .order("city", { ascending: true })
+        .order("shipment_date", { ascending: true });
+
+    if (error) {
+        showToast(
+            "Unable to load all cities profit report: " +
+            error.message,
+            "error"
+        );
+        return;
+    }
+
+    const allEntries = data || [];
+    const overallTotals = calculateReportTotals(allEntries);
+
+    let sections = "";
+
+    ["Dina", "Jhelum", "Mirpur"].forEach(function(city) {
+        const entries =
+            allEntries.filter(
+                entry => entry.city === city
+            );
+
+        const totals =
+            calculateReportTotals(entries);
+
+        sections += `
+            <h2 class="print-report-title">
+                ${escapeHtml(city)} Profit Summary
+            </h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Entries</th>
+                        <th>Sales</th>
+                        <th>Cost</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${escapeHtml(city)}</td>
+                        <td>${entries.length}</td>
+                        <td class="right">${formatMoney(totals.sales)}</td>
+                        <td class="right">${formatMoney(totals.cost)}</td>
+                        <td class="right">${formatMoney(totals.profit)}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    });
+
+    sections += `
+        <h2 class="print-report-title">All Cities Total</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Total Entries</th>
+                    <th>Total Sales</th>
+                    <th>Total Cost</th>
+                    <th>Total Profit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="print-total-row">
+                    <td>${allEntries.length}</td>
+                    <td class="right">${formatMoney(overallTotals.sales)}</td>
+                    <td class="right">${formatMoney(overallTotals.cost)}</td>
+                    <td class="right">${formatMoney(overallTotals.profit)}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+
+    openPrintWindow(
+        buildPrintReportShell(
+            "All Cities Monthly Profit Report",
+            "Dina / Jhelum / Mirpur",
+            month,
+            "All Cities Monthly Profit Report",
+            sections,
+            overallTotals,
+            allEntries.length
+        )
+    );
+}
 
 /* ============================================================
    HELPERS
