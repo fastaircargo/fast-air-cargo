@@ -466,125 +466,104 @@ tr:hover td {
 /* ================= PRINT ================= */
 
 .print-report {
-    font-family: Arial, Helvetica, sans-serif;
-    color: #222;
-    padding: 28px;
-    max-width: 1100px;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    color: #18212b;
+    max-width: 190mm;
     margin: 0 auto;
+    padding: 0;
+    font-size: 10px;
 }
 
-.print-report-header {
-    border-bottom: 3px solid #f58220;
-    padding-bottom: 15px;
-    margin-bottom: 18px;
+.print-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f58220, #ff9d45);
+    color: #fff;
+    margin-bottom: 14px;
 }
-
-.print-report-header h1 {
-    margin: 0;
-    color: #f58220;
-    font-size: 28px;
+.print-brand-left { display:flex; align-items:center; gap:12px; }
+.print-logo {
+    width: 42px; height:42px; border-radius:10px;
+    background:#fff; color:#f58220; display:flex;
+    align-items:center; justify-content:center; font-weight:900; font-size:18px;
 }
-
-.print-report-header p {
-    margin: 4px 0;
-    color: #555;
-    font-size: 13px;
-}
+.print-brand h1 { margin:0; font-size:22px; letter-spacing:1.5px; }
+.print-brand p { margin:3px 0 0; font-size:9px; opacity:.92; }
+.print-doc { text-align:right; }
+.print-doc strong { display:block; font-size:13px; }
+.print-doc span { font-size:9px; opacity:.9; }
 
 .print-report-title {
-    margin: 18px 0 12px;
-    font-size: 20px;
+    margin: 8px 0 12px;
+    font-size: 17px;
+    color:#17202a;
+    letter-spacing:.2px;
+}
+.print-report-title:after {
+    content:""; display:block; width:38px; height:3px;
+    background:#f58220; margin-top:5px; border-radius:4px;
 }
 
 .print-meta {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 18px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px;
 }
-
 .print-meta-box {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
+    border:1px solid #e6e9ed; border-radius:8px; padding:8px 10px; background:#fafbfc;
 }
-
-.print-meta-box span {
-    display: block;
-    color: #666;
-    font-size: 10px;
-    text-transform: uppercase;
-}
-
-.print-meta-box strong {
-    display: block;
-    margin-top: 4px;
-    font-size: 14px;
-}
+.print-meta-box span { display:block; color:#7a838d; font-size:8px; text-transform:uppercase; letter-spacing:.7px; }
+.print-meta-box strong { display:block; margin-top:3px; font-size:11px; color:#202b36; }
 
 .print-kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 18px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:13px;
 }
-
 .print-kpi {
-    border: 1px solid #ddd;
-    padding: 11px;
-    border-radius: 5px;
+    border:1px solid #e5e8ec; border-left:3px solid #f58220;
+    border-radius:8px; padding:8px 10px; background:#fff;
 }
+.print-kpi span { display:block; color:#7a838d; font-size:8px; text-transform:uppercase; letter-spacing:.5px; }
+.print-kpi strong { display:block; margin-top:3px; font-size:13px; color:#17202a; }
 
-.print-kpi span {
-    display: block;
-    color: #666;
-    font-size: 10px;
+.print-section-label {
+    margin:13px 0 6px; font-size:9px; font-weight:800; color:#66717c;
+    text-transform:uppercase; letter-spacing:1px;
 }
-
-.print-kpi strong {
-    display: block;
-    margin-top: 4px;
-    font-size: 15px;
-}
-
 .print-report table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 12px;
-    font-size: 9px;
+    width:100%; border-collapse:separate; border-spacing:0; margin-top:6px;
+    font-size:8.5px; border:1px solid #e2e6ea; border-radius:8px; overflow:hidden;
 }
-
 .print-report th {
-    background: #f58220;
-    color: #fff;
-    padding: 7px;
-    border: 1px solid #ddd;
-    text-align: left;
+    background:#202b36; color:#fff; padding:6px 5px; border:none;
+    text-align:left; font-size:8px; text-transform:uppercase; letter-spacing:.35px;
 }
+.print-report td { padding:6px 5px; border-top:1px solid #edf0f2; vertical-align:top; }
+.print-report tbody tr:nth-child(even) td { background:#fafbfc; }
+.print-report .right { text-align:right; white-space:nowrap; }
+.print-total-row td { font-weight:800; background:#fff3e8 !important; border-top:2px solid #f58220; }
+.print-status { display:inline-block; padding:3px 5px; border-radius:10px; background:#eef2f5; font-size:7px; white-space:nowrap; }
+.print-profit-positive { color:#138a4b; font-weight:800; }
+.print-profit-negative { color:#c0392b; font-weight:800; }
 
-.print-report td {
-    padding: 6px;
-    border: 1px solid #ddd;
-    vertical-align: top;
+.print-note {
+    margin-top:12px; padding:8px 10px; border-left:3px solid #f58220;
+    background:#fff8f2; color:#68727c; font-size:8.5px; line-height:1.45;
 }
-
-.print-report .right {
-    text-align: right;
-}
-
-.print-total-row td {
-    font-weight: bold;
-    background: #f7f7f7;
-}
-
 .print-footer {
-    margin-top: 24px;
-    border-top: 1px solid #ddd;
-    padding-top: 10px;
-    font-size: 10px;
-    color: #666;
-    display: flex;
-    justify-content: space-between;
+    margin-top:18px; padding-top:9px; border-top:1px solid #dfe3e7;
+    display:flex; justify-content:space-between; color:#7a838d; font-size:8px;
+}
+.print-signatures { display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:24px; }
+.print-signature { border-top:1px solid #9aa3ab; padding-top:5px; color:#69737d; font-size:8px; }
+
+@page { size: A4 portrait; margin: 9mm; }
+@media print {
+    body { margin:0; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .print-report { max-width:none; }
+    .print-report table { page-break-inside:auto; }
+    .print-report tr { page-break-inside:avoid; page-break-after:auto; }
+    .print-report thead { display:table-header-group; }
 }
 
 /* ================= RESPONSIVE ================= */
@@ -1349,17 +1328,16 @@ tr:hover td {
                         </div>
 
                         <div class="form-group">
-                            <label for="ledgerCost">
-                                Cost
+                            <label for="ledgerBalance">
+                                Balance
                             </label>
 
                             <input
                                 type="number"
-                                id="ledgerCost"
-                                min="0"
-                                step="0.01"
-                                value="0"
-                                placeholder="Actual cargo / operating cost"
+                                id="ledgerBalance"
+                                value="0.00"
+                                readonly
+                                aria-readonly="true"
                             >
                         </div>
 
@@ -1464,9 +1442,7 @@ tr:hover td {
                                 <th>Estimated Delivery</th>
                                 <th>Charges</th>
                                 <th>Paid</th>
-                                <th>Cost</th>
                                 <th>Balance</th>
-                                <th>Profit</th>
                                 <th>Remarks</th>
                                 <th>Actions</th>
                             </tr>
@@ -2597,7 +2573,6 @@ function renderLedger() {
                 entry.estimated_delivery,
                 entry.charges,
                 entry.paid,
-                entry.cost,
                 entry.balance,
                 entry.remarks
 
@@ -2762,25 +2737,9 @@ function renderLedger() {
                         )}
                     </td>
 
-                    <td>
-                        ${formatMoney(
-                            entry.cost
-                        )}
-                    </td>
-
                     <td class="${balanceClass}">
                         ${formatMoney(
                             balance
-                        )}
-                    </td>
-
-                    <td class="${
-                        (Number(entry.charges || 0) - Number(entry.cost || 0)) >= 0
-                            ? "report-profit-positive"
-                            : "report-profit-negative"
-                    }">
-                        ${formatMoney(
-                            Number(entry.charges || 0) - Number(entry.cost || 0)
                         )}
                     </td>
 
@@ -2933,13 +2892,6 @@ document
                 .value || 0
             ),
 
-        cost:
-            Number(
-                document
-                .getElementById("ledgerCost")
-                .value || 0
-            ),
-
         remarks:
             document
             .getElementById("ledgerRemarks")
@@ -3079,10 +3031,7 @@ function editLedger(id) {
             entry.paid || 0;
 
 
-    document
-        .getElementById("ledgerCost")
-        .value =
-        entry.cost || 0;
+    updateLedgerBalance();
 
     document
         .getElementById("ledgerRemarks")
@@ -3105,6 +3054,25 @@ function editLedger(id) {
         behavior: "smooth"
     });
 
+}
+
+
+/* ============================================================
+   LEDGER BALANCE CALCULATION
+============================================================ */
+
+function updateLedgerBalance() {
+    const charges = Number(
+        document.getElementById("ledgerCharges").value || 0
+    );
+
+    const paid = Number(
+        document.getElementById("ledgerPaid").value || 0
+    );
+
+    const balance = charges - paid;
+
+    document.getElementById("ledgerBalance").value = balance.toFixed(2);
 }
 
 
@@ -3152,11 +3120,54 @@ function resetLedgerForm() {
         .getElementById("ledgerPaid")
         .value = 0;
 
-    document
-        .getElementById("ledgerCost")
-        .value = 0;
+    updateLedgerBalance();
 
 }
+
+
+document.getElementById("ledgerCharges").addEventListener("input", updateLedgerBalance);
+document.getElementById("ledgerPaid").addEventListener("input", updateLedgerBalance);
+
+
+/* ============================================================
+   ENTER KEY NAVIGATION
+   Pressing Enter moves to the next ledger field instead of
+   submitting the form. The last field moves to Save Entry.
+============================================================ */
+
+(function setupLedgerEnterNavigation() {
+    const form = document.getElementById("ledgerForm");
+    if (!form) return;
+
+    const fields = Array.from(
+        form.querySelectorAll("input, select, textarea")
+    ).filter(function(field) {
+        return field.type !== "hidden" && !field.disabled;
+    });
+
+    fields.forEach(function(field, index) {
+        field.addEventListener("keydown", function(event) {
+            if (event.key !== "Enter") return;
+
+            event.preventDefault();
+
+            const nextField = fields[index + 1];
+
+            if (nextField) {
+                nextField.focus();
+
+                if (typeof nextField.select === "function" &&
+                    nextField.type !== "date" &&
+                    nextField.type !== "select-one") {
+                    nextField.select();
+                }
+            } else {
+                const saveButton = form.querySelector('button[type="submit"]');
+                if (saveButton) saveButton.focus();
+            }
+        });
+    });
+})();
 
 
 /* ============================================================
@@ -3473,45 +3484,50 @@ function buildPrintReportShell(
 ) {
     return `
         <div class="print-report">
-            <div class="print-report-header">
-                <h1>FAST AIR CARGO</h1>
-                <p>Professional Cargo Management & Reporting</p>
-                <p>${escapeHtml(reportType)}</p>
+            <div class="print-brand">
+                <div class="print-brand-left">
+                    <div class="print-logo">FA</div>
+                    <div>
+                        <h1>FAST AIR CARGO</h1>
+                        <p>Professional Cargo Management & Reporting</p>
+                    </div>
+                </div>
+                <div class="print-doc">
+                    <strong>${escapeHtml(reportType)}</strong>
+                    <span>Official Monthly Report</span>
+                </div>
             </div>
 
-            <h2 class="print-report-title">
-                ${escapeHtml(title)}
-            </h2>
+            <h2 class="print-report-title">${escapeHtml(title)}</h2>
 
             <div class="print-meta">
-                <div class="print-meta-box">
-                    <span>City</span>
-                    <strong>${escapeHtml(city)}</strong>
-                </div>
-                <div class="print-meta-box">
-                    <span>Reporting Month</span>
-                    <strong>${escapeHtml(getReportMonthLabel(month))}</strong>
-                </div>
-                <div class="print-meta-box">
-                    <span>Report Date</span>
-                    <strong>${escapeHtml(new Date().toLocaleDateString("en-US"))}</strong>
-                </div>
+                <div class="print-meta-box"><span>Branch / City</span><strong>${escapeHtml(city)}</strong></div>
+                <div class="print-meta-box"><span>Reporting Period</span><strong>${escapeHtml(getReportMonthLabel(month))}</strong></div>
+                <div class="print-meta-box"><span>Generated On</span><strong>${escapeHtml(new Date().toLocaleDateString("en-US"))}</strong></div>
             </div>
 
             <div class="print-kpi-grid">
                 <div class="print-kpi"><span>Total Entries</span><strong>${entriesCount}</strong></div>
                 <div class="print-kpi"><span>Total Sales</span><strong>${formatMoney(totals.sales)}</strong></div>
                 <div class="print-kpi"><span>Total Paid</span><strong>${formatMoney(totals.paid)}</strong></div>
-                <div class="print-kpi"><span>Total Balance</span><strong>${formatMoney(totals.balance)}</strong></div>
+                <div class="print-kpi"><span>Outstanding Balance</span><strong>${formatMoney(totals.balance)}</strong></div>
                 <div class="print-kpi"><span>Total Cost</span><strong>${formatMoney(totals.cost)}</strong></div>
-                <div class="print-kpi"><span>Total Profit</span><strong>${formatMoney(totals.profit)}</strong></div>
+                <div class="print-kpi"><span>Net Profit</span><strong>${formatMoney(totals.profit)}</strong></div>
             </div>
 
+            <div class="print-section-label">Transaction Summary</div>
             ${bodyHtml}
 
+            <div class="print-note">This report is generated from the Fast Air Cargo administration system for the selected branch and reporting month. Amounts are shown in the system's configured currency.</div>
+
+            <div class="print-signatures">
+                <div class="print-signature">Prepared By</div>
+                <div class="print-signature">Authorized Signature</div>
+            </div>
+
             <div class="print-footer">
-                <span>FAST AIR CARGO</span>
-                <span>Generated from Admin Panel</span>
+                <span><strong>FAST AIR CARGO</strong> &nbsp;|&nbsp; Monthly Financial Report</span>
+                <span>Confidential Business Document</span>
             </div>
         </div>
     `;
@@ -3666,28 +3682,19 @@ function buildSalesPrintTable(entries, totals) {
     const rows = entries.length
         ? entries.map(function(entry) {
             const charges = Number(entry.charges || 0);
-            const paid = Number(entry.paid || 0);
-            const balance = Number(
-                entry.balance ?? (charges - paid)
-            );
-
             return `
                 <tr>
                     <td>${escapeHtml(entry.shipment_date || "")}</td>
-                    <td>${escapeHtml(entry.tracking_number || "")}</td>
+                    <td><strong>${escapeHtml(entry.tracking_number || "")}</strong></td>
                     <td>${escapeHtml(entry.customer_name || "")}</td>
-                    <td>${escapeHtml(entry.phone || "")}</td>
-                    <td>${escapeHtml(entry.origin || "")}</td>
-                    <td>${escapeHtml(entry.destination || "")}</td>
+                    <td>${escapeHtml((entry.origin || "") + " → " + (entry.destination || ""))}</td>
                     <td>${escapeHtml(entry.service || "")}</td>
-                    <td>${escapeHtml(entry.status || "")}</td>
+                    <td><span class="print-status">${escapeHtml(entry.status || "")}</span></td>
                     <td class="right">${formatMoney(charges)}</td>
-                    <td class="right">${formatMoney(paid)}</td>
-                    <td class="right">${formatMoney(balance)}</td>
                 </tr>
             `;
         }).join("")
-        : `<tr><td colspan="11">No entries found for this city and month.</td></tr>`;
+        : `<tr><td colspan="7">No entries found for this city and month.</td></tr>`;
 
     return `
         <table>
@@ -3696,26 +3703,21 @@ function buildSalesPrintTable(entries, totals) {
                     <th>Date</th>
                     <th>Tracking No.</th>
                     <th>Customer</th>
-                    <th>Phone</th>
-                    <th>Origin</th>
-                    <th>Destination</th>
+                    <th>Route</th>
                     <th>Service</th>
                     <th>Status</th>
                     <th>Sales</th>
-                    <th>Paid</th>
-                    <th>Balance</th>
                 </tr>
             </thead>
             <tbody>
                 ${rows}
                 <tr class="print-total-row">
-                    <td colspan="8">TOTAL</td>
+                    <td colspan="6">TOTAL SALES</td>
                     <td class="right">${formatMoney(totals.sales)}</td>
-                    <td class="right">${formatMoney(totals.paid)}</td>
-                    <td class="right">${formatMoney(totals.balance)}</td>
                 </tr>
             </tbody>
         </table>
+        <div class="print-note">Payment received: <strong>${formatMoney(totals.paid)}</strong> &nbsp;&nbsp; Outstanding balance: <strong>${formatMoney(totals.balance)}</strong></div>
     `;
 }
 
@@ -3734,7 +3736,7 @@ function buildProfitPrintTable(entries, totals) {
                     <td>${escapeHtml(entry.service || "")}</td>
                     <td class="right">${formatMoney(charges)}</td>
                     <td class="right">${formatMoney(cost)}</td>
-                    <td class="right">${formatMoney(profit)}</td>
+                    <td class="right ${profit >= 0 ? "print-profit-positive" : "print-profit-negative"}">${formatMoney(profit)}</td>
                 </tr>
             `;
         }).join("")
