@@ -1656,23 +1656,17 @@ function renderShipments() {
                     <td>
 
                         <button
+                            type="button"
                             class="action-btn edit-btn"
-                            onclick="
-                                editShipment(
-                                    '${shipment.id}'
-                                )
-                            "
+                            onclick="editShipment('${shipment.id}')"
                         >
                             Edit
                         </button>
 
                         <button
+                            type="button"
                             class="action-btn delete-btn"
-                            onclick="
-                                deleteShipment(
-                                    '${shipment.id}'
-                                )
-                            "
+                            onclick="deleteShipment('${shipment.id}')"
                         >
                             Delete
                         </button>
@@ -1841,90 +1835,55 @@ document
    EDIT SHIPMENT
 ============================================================ */
 
-function editShipment(id) {
+async function editShipment(id) {
 
-    const shipment =
-        shipments.find(
-            item => item.id === id
-        );
-
-    if (!shipment) {
+    if (!id) {
+        showToast("Invalid shipment ID.", "error");
         return;
     }
 
+    const { data: shipment, error } =
+        await supabaseClient
+        .from("shipments")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
 
-    document
-        .getElementById("shipmentId")
-        .value =
-            shipment.id;
+    if (error) {
+        console.error("Edit shipment error:", error);
+        showToast(
+            "Unable to load shipment for editing: " + error.message,
+            "error"
+        );
+        return;
+    }
 
-    document
-        .getElementById("trackingNumber")
-        .value =
-            shipment.tracking_number || "";
+    if (!shipment) {
+        showToast("Shipment was not found.", "error");
+        await loadShipments();
+        return;
+    }
 
-    document
-        .getElementById("origin")
-        .value =
-            shipment.origin || "";
+    document.getElementById("shipmentId").value = shipment.id || "";
+    document.getElementById("trackingNumber").value = shipment.tracking_number || "";
+    document.getElementById("origin").value = shipment.origin || "";
+    document.getElementById("destination").value = shipment.destination || "";
+    document.getElementById("service").value = shipment.service || "";
+    document.getElementById("bookingDate").value = shipment.booking_date || "";
+    document.getElementById("estimatedDelivery").value = shipment.estimated_delivery || "";
+    document.getElementById("shipmentStatus").value =
+        shipment.current_status || "Order Confirmed";
+    document.getElementById("statusDetail").value = shipment.status_detail || "";
+    document.getElementById("lastUpdate").value = shipment.last_update || "";
+    document.getElementById("packageDetails").value = shipment.package_details || "";
 
-    document
-        .getElementById("destination")
-        .value =
-            shipment.destination || "";
-
-    document
-        .getElementById("service")
-        .value =
-            shipment.service || "";
-
-    document
-        .getElementById("bookingDate")
-        .value =
-            shipment.booking_date || "";
-
-    document
-        .getElementById("estimatedDelivery")
-        .value =
-            shipment.estimated_delivery || "";
-
-    document
-        .getElementById("shipmentStatus")
-        .value =
-            shipment.current_status ||
-            "Order Confirmed";
-
-    document
-        .getElementById("statusDetail")
-        .value =
-            shipment.status_detail || "";
-
-    document
-        .getElementById("lastUpdate")
-        .value =
-            shipment.last_update || "";
-
-    document
-        .getElementById("packageDetails")
-        .value =
-            shipment.package_details || "";
-
-
-    document
-        .getElementById("shipmentFormTitle")
-        .textContent =
-            "Edit Shipment";
-
-    document
-        .getElementById("cancelShipmentEdit")
-        .classList.remove("hidden");
-
+    document.getElementById("shipmentFormTitle").textContent = "Edit Shipment";
+    document.getElementById("cancelShipmentEdit").classList.remove("hidden");
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
@@ -2006,54 +1965,65 @@ async function quickShipmentStatus(
 
 async function deleteShipment(id) {
 
-    const shipment =
-        shipments.find(
-            item => item.id === id
-        );
-
-    if (!shipment) {
+    if (!id) {
+        showToast("Invalid shipment ID.", "error");
         return;
     }
 
+    const { data: shipment, error: findError } =
+        await supabaseClient
+        .from("shipments")
+        .select("id, tracking_number")
+        .eq("id", id)
+        .maybeSingle();
 
-    const confirmed =
-        confirm(
-            "Are you sure you want to delete shipment " +
-            shipment.tracking_number +
-            "?"
+    if (findError) {
+        console.error("Find shipment error:", findError);
+        showToast(
+            "Unable to find shipment: " + findError.message,
+            "error"
         );
+        return;
+    }
 
+    if (!shipment) {
+        showToast("Shipment was not found.", "error");
+        await loadShipments();
+        return;
+    }
+
+    const confirmed = confirm(
+        "Are you sure you want to delete shipment " +
+        (shipment.tracking_number || "this shipment") +
+        "?"
+    );
 
     if (!confirmed) {
         return;
     }
 
-
-    const result =
+    const { error: deleteError } =
         await supabaseClient
         .from("shipments")
         .delete()
         .eq("id", id);
 
-
-    if (result.error) {
-
+    if (deleteError) {
+        console.error("Delete shipment error:", deleteError);
         showToast(
-            "Unable to delete shipment: " +
-            result.error.message,
+            "Unable to delete shipment: " + deleteError.message,
             "error"
         );
-
         return;
     }
 
+    showToast("Shipment successfully deleted.");
 
-    showToast(
-        "Shipment successfully deleted."
-    );
+    if (document.getElementById("shipmentId").value === id) {
+        resetShipmentForm();
+    }
 
     await loadShipments();
-
 }
 
 
