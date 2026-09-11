@@ -3154,15 +3154,92 @@ async function deleteAccountTransaction(id){
 }
 
 function buildDailyCashPrintHtml(city, month, entries){
-    const cashIn=entries.filter(t=>t.transaction_type==="Cash In"||t.transaction_type==="Other Income").reduce((a,t)=>a+Number(t.amount||0),0);
-    const cashOut=entries.filter(t=>t.transaction_type==="Cash Out"||t.transaction_type==="Expense").reduce((a,t)=>a+Number(t.amount||0),0);
+    const cashIn=entries
+        .filter(t=>t.transaction_type==="Cash In"||t.transaction_type==="Other Income")
+        .reduce((a,t)=>a+Number(t.amount||0),0);
+    const cashOut=entries
+        .filter(t=>t.transaction_type==="Cash Out"||t.transaction_type==="Expense")
+        .reduce((a,t)=>a+Number(t.amount||0),0);
+    const netCash=cashIn-cashOut;
+
+    const shipmentCount=entries.filter(t=>
+        (t.transaction_type==="Cash In"||t.transaction_type==="Other Income") &&
+        (t.category==="Shipment" || t.awb_number)
+    ).length;
+
     const rows=entries.map(t=>{
         const isIn=t.transaction_type==="Cash In"||t.transaction_type==="Other Income";
-        return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td><span class="flow ${isIn?"in":"out"}">${isIn?"Cash In":"Cash Out"}</span></td><td>${escapeHtml(t.category||"")}</td><td>${escapeHtml(t.description||"")}</td><td>${escapeHtml(t.payment_method||"")}</td><td>${escapeHtml(t.reference||"")}</td><td class="right amount ${isIn?"in":"out"}">${formatMoney(t.amount)}</td></tr>`;
+        const isShipment=isIn && (t.category==="Shipment" || t.awb_number);
+        const category=isShipment ? "Shipment" : (isIn && t.transaction_type==="Cash In" ? `Other Cash In — ${t.category||"Other Income"}` : (t.category||""));
+        const description=t.description|| (isShipment && t.awb_number ? `Shipment — AWB ${t.awb_number}` : "");
+        const reference=t.reference || t.awb_number || "";
+        const detail=isShipment
+            ? `AWB: ${t.awb_number||"—"}<br>Actual: ${t.actual_weight!=null?Number(t.actual_weight).toFixed(2):"—"} kg<br>Dimensional: ${t.dimensional_weight!=null?Number(t.dimensional_weight).toFixed(2):"—"} kg`
+            : escapeHtml(t.payment_method||"");
+        return `<tr>
+            <td>${escapeHtml(t.transaction_date||"")}</td>
+            <td><span class="flow ${isIn?"in":"out"}">${isIn?"Cash In":"Cash Out"}</span></td>
+            <td>${escapeHtml(category)}</td>
+            <td>${escapeHtml(description)}</td>
+            <td>${detail}</td>
+            <td>${escapeHtml(reference)}</td>
+            <td class="right amount ${isIn?"in":"out"}">${formatMoney(t.amount)}</td>
+        </tr>`;
     }).join("");
-    return `<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(city)} Daily Cash In / Out</title><style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#20252b;font-family:Arial,Helvetica,sans-serif}.page{width:100%;max-width:190mm;margin:0 auto}.brand{text-align:center;border-bottom:3px solid #f58220;padding:0 0 8px;margin-bottom:8px}.brand h1{font-size:26px;letter-spacing:1.6px;margin:0;color:#f58220}.brand p{font-size:11px;margin:3px 0 0;color:#555;font-style:italic}.title{text-align:center;font-size:15px;font-weight:800;margin:8px 0}.meta{display:flex;justify-content:space-between;font-size:8.5px;margin-bottom:8px;color:#555}.summary{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin-bottom:8px}.box{border:1px solid #ddd;padding:7px}.box span{display:block;font-size:7px;text-transform:uppercase;color:#777}.box strong{font-size:11px;font-weight:800}.box.cash-in{border-top:2px solid #168a3a}.box.cash-in strong{color:#168a3a}.box.cash-out{border-top:2px solid #c0392b}.box.cash-out strong{color:#c0392b}.section{font-size:10px;font-weight:800;margin:8px 0 5px}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:7px}th,td{border:1px solid #cfd4d9;padding:4px 3px;vertical-align:top;word-break:break-word}th{background:#f58220;color:#fff;font-size:6.6px;text-transform:uppercase}th:nth-child(1){width:11%}th:nth-child(2){width:12%}th:nth-child(3){width:18%}th:nth-child(4){width:27%}th:nth-child(5){width:12%}th:nth-child(6){width:10%}th:nth-child(7){width:10%}.right{text-align:right;white-space:nowrap}.amount{font-weight:800}.flow{display:inline-block;padding:2px 5px;border-radius:10px;font-weight:800;font-size:6.5px}.flow.in{background:#eaf7ee;color:#168a3a}.flow.out{background:#fdecec;color:#c0392b}.amount.in{color:#168a3a}.amount.out{color:#c0392b}.total td{font-weight:800;background:#fff3e8;border-top:2px solid #f58220}.footer{margin-top:8px;border-top:1px solid #ddd;padding-top:5px;display:flex;justify-content:space-between;font-size:7px;color:#777}@page{size:A4 portrait;margin:8mm}@media print{html,body{width:210mm;background:#fff}thead{display:table-header-group}tr{page-break-inside:avoid}}</style></head><body><div class="page"><div class="brand"><h1>FAST AIR CARGO</h1><p>Where Every Shipment Matters!</p></div><div class="title">${escapeHtml(city)} Daily Cash In / Out</div><div class="meta"><span>Period: ${escapeHtml(getReportMonthLabel(month))}</span><span>Printed: ${escapeHtml(new Date().toLocaleDateString("en-US"))}</span></div><div class="summary"><div class="box cash-in"><span>Cash In</span><strong>${formatMoney(cashIn)}</strong></div><div class="box cash-out"><span>Cash Out</span><strong>${formatMoney(cashOut)}</strong></div></div><div class="section">Detailed Daily Office Transactions</div><table><thead><tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Payment Method</th><th>Reference</th><th>Amount</th></tr></thead><tbody>${rows||'<tr><td colspan="7">No cash transactions found.</td></tr>'}<tr class="total"><td colspan="6">TOTAL CASH MOVEMENT</td><td class="right amount">${formatMoney(cashIn+cashOut)}</td></tr></tbody></table><div class="footer"><span>FAST AIR CARGO — Where Every Shipment Matters!</span><span>Confidential Business Document</span></div></div></body></html>`;
-}
 
+    const netClass=netCash>=0?"positive":"negative";
+    const netLabel=netCash>=0?"Net Cash Available":"Net Cash Deficit";
+
+    return `<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(city)} Daily Cash Report</title>
+    <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#fff;color:#20252b;font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .page{width:100%;max-width:190mm;margin:0 auto}
+    .brand{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #f58220;padding:0 0 9px;margin-bottom:10px}
+    .brand-main h1{font-size:25px;letter-spacing:1.8px;margin:0;color:#f58220;font-weight:900}
+    .brand-main p{font-size:9px;margin:3px 0 0;color:#66717c;letter-spacing:.2px}
+    .report-chip{text-align:right;font-size:8px;color:#66717c;text-transform:uppercase;letter-spacing:.7px;font-weight:800}
+    .report-chip strong{display:block;color:#20252b;font-size:10px;margin-top:2px}
+    .title{font-size:17px;font-weight:900;margin:7px 0 3px;color:#20252b}
+    .subtitle{font-size:8.5px;color:#68737d;margin-bottom:10px}
+    .meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px}
+    .meta-box{border:1px solid #e1e5e9;border-radius:5px;padding:6px 7px;background:#fafbfc}
+    .meta-box span{display:block;font-size:6.5px;text-transform:uppercase;letter-spacing:.5px;color:#7b858e;font-weight:800}
+    .meta-box strong{display:block;font-size:8.5px;margin-top:2px;color:#27313a}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:11px}
+    .box{border:1px solid #dfe4e8;border-radius:6px;padding:8px 9px;background:#fff;min-height:45px}
+    .box span{display:block;font-size:6.7px;text-transform:uppercase;letter-spacing:.55px;color:#727c85;font-weight:800}
+    .box strong{display:block;font-size:12px;margin-top:4px;font-weight:900}
+    .box.cash-in{border-top:3px solid #168a3a}.box.cash-in strong{color:#168a3a}
+    .box.cash-out{border-top:3px solid #c0392b}.box.cash-out strong{color:#c0392b}
+    .box.net{border-top:3px solid #f58220}.box.net strong.positive{color:#168a3a}.box.net strong.negative{color:#c0392b}
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:8px 0 5px;padding-bottom:4px;border-bottom:1px solid #e0e4e8}
+    .section{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.6px}
+    .section-note{font-size:7px;color:#77818a}
+    table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:6.8px}
+    th,td{border:1px solid #d5dadd;padding:4px 3px;vertical-align:top;word-break:break-word}
+    th{background:#f58220;color:#fff;font-size:6.4px;text-transform:uppercase;letter-spacing:.2px;font-weight:900}
+    th:nth-child(1){width:10%}th:nth-child(2){width:11%}th:nth-child(3){width:17%}th:nth-child(4){width:21%}th:nth-child(5){width:18%}th:nth-child(6){width:11%}th:nth-child(7){width:12%}
+    tbody tr:nth-child(even){background:#fafbfc}
+    .right{text-align:right;white-space:nowrap}.amount{font-weight:900}.flow{display:inline-block;padding:2px 5px;border-radius:10px;font-weight:900;font-size:6px;letter-spacing:.2px}.flow.in{background:#eaf7ee;color:#168a3a;border:1px solid #bfe5ca}.flow.out{background:#fdecec;color:#c0392b;border:1px solid #efb5b5}.amount.in{color:#168a3a}.amount.out{color:#c0392b}
+    .total-row td{background:#fff4e9;font-weight:900;border-top:2px solid #f58220}.total-row .net-cell{color:${netCash>=0?'#168a3a':'#c0392b'};font-size:8px}
+    .formula{margin-top:8px;padding:7px 9px;border:1px solid #e1e5e9;border-radius:5px;background:#fafbfc;font-size:7.5px;color:#59646d}.formula strong{color:#20252b}
+    .footer{margin-top:10px;border-top:1px solid #ddd;padding-top:6px;display:flex;justify-content:space-between;gap:10px;font-size:6.7px;color:#7a838b}
+    .page-break{page-break-before:always}
+    @page{size:A4 portrait;margin:8mm}
+    @media print{html,body{width:210mm;background:#fff}thead{display:table-header-group}tr{page-break-inside:avoid}.page{max-width:none}}
+    </style></head><body><div class="page">
+    <div class="brand"><div class="brand-main"><h1>FAST AIR CARGO</h1><p>Where Every Shipment Matters!</p></div><div class="report-chip">Financial Control Report<strong>Daily Cash In / Out</strong></div></div>
+    <div class="title">${escapeHtml(city)} — Daily Cash Report</div>
+    <div class="subtitle">Clear view of money received, money spent, and the resulting net cash movement for the selected month.</div>
+    <div class="meta"><div class="meta-box"><span>Reporting Period</span><strong>${escapeHtml(getReportMonthLabel(month))}</strong></div><div class="meta-box"><span>Station</span><strong>${escapeHtml(city)}</strong></div><div class="meta-box"><span>Transactions</span><strong>${entries.length} total${shipmentCount?` · ${shipmentCount} shipment${shipmentCount===1?"":"s"}`:""}</strong></div></div>
+    <div class="summary"><div class="box cash-in"><span>Total Cash In</span><strong>${formatMoney(cashIn)}</strong></div><div class="box cash-out"><span>Total Cash Out</span><strong>${formatMoney(cashOut)}</strong></div><div class="box net"><span>${netLabel}</span><strong class="${netClass}">${formatMoney(netCash)}</strong></div></div>
+    <div class="section-head"><div class="section">Transaction Register</div><div class="section-note">All figures in account currency</div></div>
+    <table><thead><tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Payment / Shipment Details</th><th>Reference</th><th>Amount</th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;padding:10px">No cash transactions found for this period.</td></tr>'}<tr class="total-row"><td colspan="6">NET CASH MOVEMENT &nbsp; (CASH IN − CASH OUT)</td><td class="right net-cell">${formatMoney(netCash)}</td></tr></tbody></table>
+    <div class="formula"><strong>Cash control:</strong> ${formatMoney(cashIn)} Cash In − ${formatMoney(cashOut)} Cash Out = <strong>${formatMoney(netCash)} Net Cash Movement</strong></div>
+    <div class="footer"><span>FAST AIR CARGO · Where Every Shipment Matters!</span><span>Confidential Business Document · Generated ${escapeHtml(new Date().toLocaleString("en-US"))}</span></div>
+    </div></body></html>`;
+}
 function printDailyCashReport(){
     if(!currentAccountsCity){showToast("Please open a station first.","error");return;}
     const month=document.getElementById("accountMonth").value||new Date().toISOString().slice(0,7);
