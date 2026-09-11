@@ -693,7 +693,9 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
 .ledger-month-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 18px}.ledger-summary-card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:16px;box-shadow:0 4px 18px rgba(0,0,0,.04)}.ledger-summary-card span{display:block;color:#777;font-size:12px;font-weight:800;text-transform:uppercase}.ledger-summary-card strong{display:block;margin-top:6px;font-size:24px}.ledger-summary-card.profit strong,.profit-positive{color:#168a3a!important}.ledger-summary-actions{display:flex;justify-content:flex-end;gap:10px;margin-bottom:18px}.monthly-caution{background:#fff8e8;border:1px solid #f1cf75;color:#805d00;border-radius:10px;padding:12px 14px;margin:0 0 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.monthly-caution p{margin:3px 0 0;font-size:13px}@media(max-width:700px){.ledger-month-summary{grid-template-columns:1fr}.monthly-caution{display:block}.monthly-caution button,.ledger-summary-actions button{width:100%;margin-top:8px}}
 
 .city-selection-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:18px 0}.city-selection-btn{border:1px solid #f58220;background:#fff;color:#d96800;padding:13px;border-radius:9px;cursor:pointer;font-weight:800;font-size:15px}.city-selection-btn:hover{background:#f58220;color:#fff}.city-selection-cancel{margin-top:2px}.accounts-section-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:18px}.accounts-action-card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:20px;box-shadow:0 4px 18px rgba(0,0,0,.04);cursor:pointer;transition:.15s}.accounts-action-card:hover{border-color:#f58220;transform:translateY(-1px)}.accounts-action-card h3{margin-bottom:7px}.accounts-action-card p{color:#777;font-size:13px;line-height:1.5}.accounts-action-card .action-label{display:inline-block;margin-top:14px;color:#f58220;font-weight:800;font-size:13px}.reports-archive-list{display:flex;flex-direction:column;gap:10px}.report-archive-row{display:flex;align-items:center;justify-content:space-between;gap:15px;border:1px solid #ececec;border-radius:10px;padding:14px 16px;background:#fff}.report-archive-month{font-weight:800}.report-archive-meta{color:#777;font-size:12px;margin-top:4px}.report-archive-row .secondary-btn{white-space:nowrap}@media(max-width:700px){.accounts-section-grid{grid-template-columns:1fr}.report-archive-row{align-items:flex-start;flex-direction:column}.report-archive-row .secondary-btn{width:100%}}
+.company-manager-card{margin-bottom:18px}.company-manager-card .card-header{align-items:center}.company-manager-card .card-header p{max-width:720px}.company-ledger-card{cursor:pointer;transition:.2s}.company-ledger-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}.company-ledger-card.selected{border:2px solid var(--orange)}.company-card-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 </style>
+<!-- FAST AIR CARGO: Daily Office is a separate page. Accounts contains only Ledger and 3rd Party Ledger. Existing Supabase data is preserved. -->
 </head>
 
 <body>
@@ -822,6 +824,14 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
 
                 <button
                     class="header-btn"
+                    id="dailyOfficeTabBtn"
+                    onclick="openDailyOfficeEntry()"
+                >
+                    Daily Office Management
+                </button>
+
+                <button
+                    class="header-btn"
                     id="shipmentTabBtn"
                     onclick="showShipmentManagement()"
                 >
@@ -899,7 +909,7 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
     <main id="accountsPage" class="container hidden">
         <div class="page-title">
             <div class="ledger-title"><h2 id="accountsTitle">Accounts</h2><span class="city-badge" id="accountsCityBadge"></span></div>
-            <p>Station accounts overview and daily office management.</p>
+            <p>Manage the selected city's Ledger and 3rd Party Ledger.</p>
         </div>
 
         <div class="account-summary-grid">
@@ -915,14 +925,87 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
                 <p>Open the selected city's cargo ledger, sales, payments and profit records.</p>
                 <span class="action-label">Open Ledger →</span>
             </div>
-            <div class="accounts-action-card" onclick="openDailyOfficeManagement()">
-                <h3>Daily Office Management</h3>
-                <p>Manage daily office expenses and other income for the selected city.</p>
-                <span class="action-label">Open Daily Office Management →</span>
+            <div class="accounts-action-card" onclick="openThirdPartyLedger()">
+                <h3>3rd Party Ledger</h3>
+                <p>Manage third-party shipments, credits, debits and running balances for the selected city.</p>
+                <span class="action-label">Open 3rd Party Ledger →</span>
             </div>
         </div>
 
-        <div id="dailyOfficeSection" class="hidden">
+<div id="thirdPartyLedgerSection" class="hidden">
+<div class="card company-manager-card">
+<div class="card-header"><div><h3>3rd Party Companies</h3><p style="margin:4px 0 0;color:#68737d;font-size:13px">Create separate company ledgers. Each company has its own Credit, Debit and running Balance.</p></div><button type="button" class="primary-btn" onclick="showCompanyCreateForm()">+ Create More Companies Ledger</button></div>
+<div id="companyCreateForm" class="card-body hidden"><form id="companyForm"><input type="hidden" id="companyId"><div class="form-grid"><div class="form-group"><label for="companyName">Company Name *</label><input type="text" id="companyName" placeholder="Company name" required></div></div><div class="form-actions"><button type="submit" class="primary-btn">Save Company Ledger</button><button type="button" class="secondary-btn" onclick="hideCompanyCreateForm()">Cancel</button></div></form></div>
+<div class="card-body"><div id="companyLedgerCards" class="accounts-section-grid"></div></div>
+</div>
+
+<div class="third-party-summary">
+<div class="third-party-summary-card"><span>Total Credit</span><strong id="thirdPartyTotalCredit">0.00</strong></div>
+<div class="third-party-summary-card debit"><span>Total Debit</span><strong id="thirdPartyTotalDebit">0.00</strong></div>
+<div class="third-party-summary-card balance"><span>Closing Balance</span><strong id="thirdPartyClosingBalance">0.00</strong></div>
+<div class="third-party-summary-card"><span>Entries</span><strong id="thirdPartyCount">0</strong></div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div><h3 id="thirdPartyFormTitle">Add 3rd Party Ledger Entry</h3><p id="thirdPartyCompanyLabel" style="margin:4px 0 0;color:#68737d;font-size:13px">General 3rd Party Ledger</p></div>
+<span class="city-badge" id="thirdPartyCityBadge"></span>
+</div>
+<div class="card-body">
+<form id="thirdPartyForm">
+<input type="hidden" id="thirdPartyId">
+<div class="form-grid">
+<div class="form-group"><label for="thirdPartyDate">Date *</label><input type="date" id="thirdPartyDate" required></div>
+<div class="form-group"><label for="thirdPartyAwb">AWB Number *</label><input type="text" id="thirdPartyAwb" placeholder="AWB number" required></div>
+<div class="form-group"><label for="thirdPartyCountry">Country *</label><input type="text" id="thirdPartyCountry" placeholder="Destination country" required></div>
+<div class="form-group"><label for="thirdPartyWeight">Weight (kg)</label><input type="number" id="thirdPartyWeight" min="0" step="0.01" value="0"></div>
+<div class="form-group"><label for="thirdPartyPcs">Pcs</label><input type="number" id="thirdPartyPcs" min="0" step="1" value="1"></div>
+<div class="form-group"><label for="thirdPartyCredit">Credit</label><input type="number" id="thirdPartyCredit" min="0" step="0.01" value="0"></div>
+<div class="form-group"><label for="thirdPartyDebit">Debit</label><input type="number" id="thirdPartyDebit" min="0" step="0.01" value="0"></div>
+</div>
+<div class="third-party-balance-note">Balance is calculated automatically as <strong>Credit − Debit</strong> on a running basis.</div>
+<div class="form-actions">
+<button type="submit" class="primary-btn">Save Ledger Entry</button>
+<button type="button" class="secondary-btn hidden" id="cancelThirdPartyEdit" onclick="resetThirdPartyForm()">Cancel Edit</button>
+<button type="button" class="secondary-btn" onclick="openAccountsHome()">Back to Accounts</button>
+</div>
+</form>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<h3>3rd Party Ledger</h3>
+<div class="third-party-toolbar-actions">
+<span class="city-badge" id="thirdPartyPeriodLabel">Current Month</span>
+<button type="button" class="secondary-btn ledger-print-btn" onclick="printThirdPartyLedger()">Print 3rd Party Ledger</button>
+</div>
+</div>
+<div class="card-body">
+<div class="account-tools">
+<input type="text" id="thirdPartySearch" class="search-box" placeholder="Search AWB number or country..." oninput="renderThirdPartyLedger()">
+<input type="month" id="thirdPartyMonth" onchange="renderThirdPartyLedger()">
+</div>
+<div class="table-wrapper">
+<table>
+<thead><tr><th>Date</th><th>AWB Number</th><th>Country</th><th>Weight</th><th>Pcs</th><th>Credit</th><th>Debit</th><th>Balance</th><th>Actions</th></tr></thead>
+<tbody id="thirdPartyTableBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+
+    <!-- =====================================================
+         DAILY OFFICE MANAGEMENT
+    ====================================================== -->
+    <main id="dailyOfficePage" class="container hidden">
+        <div class="page-title">
+            <div class="ledger-title"><h2 id="dailyOfficeTitle">Daily Office Management</h2><span class="city-badge" id="dailyOfficeCityBadge"></span></div>
+            <p>Manage daily office Cash In, Cash Out and office transactions for the selected city.</p>
+        </div>
+<div id="dailyOfficeSection">
             <div class="daily-cash-summary">
                 <div class="daily-cash-card cash-in-card"><span>Cash In</span><strong id="dailyCashIn">0.00</strong></div>
                 <div class="daily-cash-card cash-out-card"><span>Cash Out</span><strong id="dailyCashOut">0.00</strong></div>
@@ -957,7 +1040,7 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
                                 </div>
                             </div>
                         </div>
-                        <div class="form-actions"><button type="submit" class="primary-btn">Save Transaction</button><button type="button" class="secondary-btn hidden" id="cancelAccountEdit" onclick="resetAccountForm()">Cancel Edit</button><button type="button" class="secondary-btn" onclick="openAccountsHome()">Back to Accounts</button></div>
+                        <div class="form-actions"><button type="submit" class="primary-btn">Save Transaction</button><button type="button" class="secondary-btn hidden" id="cancelAccountEdit" onclick="resetAccountForm()">Cancel Edit</button></div>
                     </form>
                 </div>
             </div>
@@ -969,6 +1052,7 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
                 </div>
             </div>
         </div>
+    
     </main>
 
     <!-- =====================================================
@@ -1344,6 +1428,11 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
                         placeholder="Search tracking, customer, phone..."
                         oninput="renderLedger()"
                     >
+                    <input
+                        type="month"
+                        id="ledgerMonth"
+                        onchange="loadLedger()"
+                    >
 
                 </div>
 
@@ -1422,7 +1511,12 @@ let pendingSection = null;
 let reportsArchiveEntries = [];
 let previousReportCity = "Dina";
 let accountTransactions = [];
+let thirdPartyEntries = [];
+let thirdPartyLoading = false;
 let currentAccountsCity = null;
+let currentThirdPartyCompanyId = null;
+let currentThirdPartyCompanyName = "General 3rd Party";
+let thirdPartyCompanies = [];
 let currentShipmentCity = null;
 let dashboardData = {};
 let dashboardLoading = false;
@@ -1539,6 +1633,7 @@ async function logout() {
     currentCity = null;
     currentAccountsCity = null;
     accountTransactions = [];
+    thirdPartyEntries = [];
     dashboardData = {};
     cityAccess.clear();
     pendingCity = null;
@@ -1554,14 +1649,14 @@ async function logout() {
 ============================================================ */
 
 function setActiveNav(activeId) {
-    ["dashboardTabBtn","shipmentTabBtn","accountsTabBtn","reportsTabBtn"].forEach(function(id) {
+    ["dashboardTabBtn","dailyOfficeTabBtn","shipmentTabBtn","accountsTabBtn","reportsTabBtn"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.classList.toggle("active", id === activeId);
     });
 }
 
 function hideAllPages() {
-    ["dashboardPage","shipmentManagement","ledgerPage","accountsPage","reportsPage"].forEach(function(id) {
+    ["dashboardPage","dailyOfficePage","shipmentManagement","ledgerPage","accountsPage","reportsPage"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.classList.add("hidden");
     });
@@ -1608,17 +1703,62 @@ async function openAccountsHome() {
     if (badge) badge.textContent = currentAccountsCity;
 
     // Return to the selected city's Accounts home, not the city-selection screen.
-    document.getElementById("dailyOfficeSection").classList.add("hidden");
     resetAccountForm();
+    resetThirdPartyForm();
+    document.getElementById("thirdPartyLedgerSection").classList.add("hidden");
     await loadAccounts();
     window.scrollTo({top:0, behavior:"smooth"});
 }
 
+function openDailyOfficeEntry(){
+    pendingSection="dailyOffice";
+    openCitySelection("Select City for Daily Office Management","Select a city to open its Daily Office Management.");
+}
+
 function openDailyOfficeManagement(){
-    if(!currentAccountsCity){ return openAccounts(); }
-    document.getElementById("dailyOfficeSection").classList.remove("hidden");
+    if(!currentAccountsCity){ return openDailyOfficeEntry(); }
+    hideAllPages();
+    document.getElementById("dailyOfficePage").classList.remove("hidden");
+    setActiveNav("dailyOfficeTabBtn");
+    document.getElementById("dailyOfficeTitle").textContent=currentAccountsCity+" Daily Office Management";
+    document.getElementById("dailyOfficeCityBadge").textContent=currentAccountsCity;
+    if(!document.getElementById("accountMonth").value) document.getElementById("accountMonth").value=new Date().toISOString().slice(0,7);
+    setAccountCategories();
+    resetAccountForm();
     loadAccounts();
-    document.getElementById("dailyOfficeSection").scrollIntoView({behavior:"smooth",block:"start"});
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function openDailyOfficeAfterAccess(city){
+    currentCity=null;
+    currentShipmentCity=null;
+    currentAccountsCity=city;
+    hideAllPages();
+    document.getElementById("dailyOfficePage").classList.remove("hidden");
+    setActiveNav("dailyOfficeTabBtn");
+    document.getElementById("dailyOfficeTitle").textContent=city+" Daily Office Management";
+    document.getElementById("dailyOfficeCityBadge").textContent=city;
+    if(!document.getElementById("accountMonth").value) document.getElementById("accountMonth").value=new Date().toISOString().slice(0,7);
+    setAccountCategories();
+    resetAccountForm();
+    resetThirdPartyForm();
+    await loadAccounts();
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function openThirdPartyLedger(){
+    if(!currentAccountsCity){ return openAccounts(); }
+    hideAllPages();
+    document.getElementById("accountsPage").classList.remove("hidden");
+    setActiveNav("accountsTabBtn");
+    document.getElementById("accountsTitle").textContent=currentAccountsCity+" Accounts";
+    document.getElementById("accountsCityBadge").textContent=currentAccountsCity;
+    document.getElementById("thirdPartyLedgerSection").classList.remove("hidden");
+    if(!document.getElementById("thirdPartyMonth").value) document.getElementById("thirdPartyMonth").value=new Date().toISOString().slice(0,7);
+    await loadThirdPartyCompanies();
+    resetThirdPartyForm();
+    loadThirdPartyLedger();
+    document.getElementById("thirdPartyLedgerSection").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 function openAccountsLedger(){
@@ -1634,10 +1774,11 @@ async function openAccountsAfterAccess(city) {
     setActiveNav("accountsTabBtn");
     document.getElementById("accountsTitle").textContent = city + " Accounts";
     document.getElementById("accountsCityBadge").textContent = city;
-    document.getElementById("dailyOfficeSection").classList.add("hidden");
     if (!document.getElementById("accountMonth").value) document.getElementById("accountMonth").value = new Date().toISOString().slice(0,7);
     setAccountCategories();
     resetAccountForm();
+    resetThirdPartyForm();
+    document.getElementById("thirdPartyLedgerSection").classList.add("hidden");
     await loadAccounts();
     window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1673,6 +1814,7 @@ async function openLedgerAfterAccess(city) {
     document.getElementById("ledgerTitle").textContent = city + " Ledger";
     document.getElementById("ledgerCityName").textContent = city;
     document.getElementById("currentCityBadge").textContent = city;
+    if(!document.getElementById("ledgerMonth").value) document.getElementById("ledgerMonth").value=new Date().toISOString().slice(0,7);
 
     resetLedgerForm();
     await loadLedger();
@@ -1695,6 +1837,7 @@ function selectCityForAccess(city){
     const section=pendingSection;
     closeCitySelection();
     if(section==="accounts") requestCityAccess(city,"accounts");
+    else if(section==="dailyOffice") requestCityAccess(city,"dailyOffice");
     else if(section==="reports") requestCityAccess(city,"reports");
     else if(section==="shipments") requestCityAccess(city,"shipments");
 }
@@ -1704,7 +1847,7 @@ function requestCityAccess(city, action) {
     pendingCityAction = action;
 
     document.getElementById("citySecurityTitle").textContent = city + " Security";
-    const actionLabel = action === "reports" ? "reports" : action === "accounts" ? "accounts" : action === "shipments" ? "Shipment Management" : "ledger";
+    const actionLabel = action === "reports" ? "reports" : action === "accounts" ? "accounts" : action === "dailyOffice" ? "Daily Office Management" : action === "shipments" ? "Shipment Management" : "ledger";
     document.getElementById("citySecurityMessage").textContent =
         "Enter the security code to open the " + city + " " + actionLabel + ".";
     document.getElementById("citySecurityCode").value = "";
@@ -1765,6 +1908,8 @@ document.getElementById("citySecurityForm").addEventListener("submit", async fun
 
     if (action === "ledger") {
         await openLedgerAfterAccess(city);
+    } else if (action === "dailyOffice") {
+        await openDailyOfficeAfterAccess(city);
     } else if (action === "shipments") {
         await openShipmentManagementAfterAccess(city);
     } else if (action === "reports") {
@@ -2471,8 +2616,18 @@ async function deleteShipment(id) {
 ============================================================ */
 
 async function loadLedger(){
- if(!currentCity)return; const {data,error}=await supabaseClient.from("cargo_ledger").select("*").eq("city",currentCity).order("shipment_date",{ascending:false}).order("created_at",{ascending:false});
- if(error){console.error(error);showToast("Unable to load ledger: "+error.message,"error");return;} ledgerEntries=data||[]; document.getElementById("ledgerStation").value=currentCity; renderLedger(); updateLedgerMonthSummary(); checkMonthlyCaution();
+ if(!currentCity)return;
+ const monthEl=document.getElementById("ledgerMonth");
+ if(monthEl && !monthEl.value) monthEl.value=new Date().toISOString().slice(0,7);
+ const month=monthEl ? monthEl.value : new Date().toISOString().slice(0,7);
+ const range=monthRange(month);
+ const {data,error}=await supabaseClient.from("cargo_ledger").select("*").eq("city",currentCity).gte("shipment_date",range.start).lt("shipment_date",range.end).order("shipment_date",{ascending:false}).order("created_at",{ascending:false});
+ if(error){console.error(error);showToast("Unable to load ledger: "+error.message,"error");return;}
+ ledgerEntries=data||[];
+ document.getElementById("ledgerStation").value=currentCity;
+ renderLedger();
+ updateLedgerMonthSummary();
+ checkMonthlyCaution();
 }
 function ledgerProfit(e){return Number(e.charges||0)-Number(e.paid||0)}
 function renderLedger(){const tbody=document.getElementById("ledgerTableBody"),search=(document.getElementById("ledgerSearch").value||"").toLowerCase().trim();const list=ledgerEntries.filter(e=>!search||[e.shipment_date,e.tracking_number,e.customer_name,e.phone,e.city,e.destination,e.service,e.paid,e.package_details,e.charges,ledgerProfit(e)].join(" ").toLowerCase().includes(search));document.getElementById("ledgerCount").textContent=list.length+(list.length===1?" Entry":" Entries");if(!list.length){tbody.innerHTML='<tr><td colspan="12" class="empty">No entries found for this station.</td></tr>';return;}tbody.innerHTML=list.map(e=>`<tr><td>${escapeHtml(e.shipment_date||"")}</td><td><strong>${escapeHtml(e.tracking_number||"")}</strong></td><td>${escapeHtml(e.customer_name||"")}</td><td>${escapeHtml(e.phone||"")}</td><td><strong>${escapeHtml(e.city||currentCity||"")}</strong></td><td>${escapeHtml(e.destination||"")}</td><td>${escapeHtml(e.service||"")}</td><td>${formatMoney(e.paid)}</td><td>${escapeHtml(e.package_details||e.remarks||"")}</td><td>${formatMoney(e.charges)}</td><td class="profit-positive">+ ${formatMoney(ledgerProfit(e))}</td><td><button type="button" class="action-btn edit-btn" onclick="editLedger('${e.id}')">Edit</button> <button type="button" class="action-btn delete-btn" onclick="deleteLedger('${e.id}')">Delete</button></td></tr>`).join("");}
@@ -2482,7 +2637,7 @@ document.getElementById("ledgerCharges").addEventListener("input",updateLedgerPr
 document.getElementById("ledgerForm").addEventListener("submit",async function(e){e.preventDefault();if(!currentCity){showToast("Please open a station first.","error");return;}const id=document.getElementById("ledgerId").value,selected=document.getElementById("ledgerService").value,service=selected==="Manual Entry"?(document.getElementById("ledgerManualService").value.trim()||"Manual Entry"):selected;const payload={city:currentCity,shipment_date:document.getElementById("ledgerDate").value,tracking_number:document.getElementById("ledgerTracking").value.trim(),customer_name:document.getElementById("ledgerCustomer").value.trim(),phone:document.getElementById("ledgerPhone").value.trim(),origin:currentCity,destination:document.getElementById("ledgerDestination").value.trim(),service,package_details:document.getElementById("ledgerPackage").value.trim(),status:"Order Confirmed",estimated_delivery:null,charges:Number(document.getElementById("ledgerCharges").value||0),paid:Number(document.getElementById("ledgerPaid").value||0),remarks:"",weight:Number(document.getElementById("ledgerWeight").value||0)};const result=id?await supabaseClient.from("cargo_ledger").update(payload).eq("id",id):await supabaseClient.from("cargo_ledger").insert(payload);if(result.error){showToast("Unable to save ledger entry: "+result.error.message,"error");return;}showToast(id?"Ledger entry updated successfully.":"Ledger entry added successfully.");resetLedgerForm();await loadLedger();});
 (function(){const form=document.getElementById("ledgerForm");if(!form)return;const fields=Array.from(form.querySelectorAll("input,select,textarea")).filter(f=>f.type!=="hidden"&&!f.disabled);fields.forEach((f,i)=>f.addEventListener("keydown",e=>{if(e.key!=="Enter")return;e.preventDefault();const n=fields[i+1];if(n){n.focus();if(typeof n.select==="function"&&!['date','select-one'].includes(n.type))n.select();}else{const b=form.querySelector('button[type="submit"]');if(b)b.focus();}}));})();
 function editLedger(id){const e=ledgerEntries.find(x=>x.id===id);if(!e)return;document.getElementById("ledgerId").value=e.id;document.getElementById("ledgerDate").value=e.shipment_date||"";document.getElementById("ledgerTracking").value=e.tracking_number||"";document.getElementById("ledgerCustomer").value=e.customer_name||"";document.getElementById("ledgerPhone").value=e.phone||"";document.getElementById("ledgerStation").value=e.city||currentCity||"";document.getElementById("ledgerDestination").value=e.destination||"";const known=["DHL","UPS","DPD STD","DPD ECM","FEDEX","Manual Entry","DPD EU"];document.getElementById("ledgerService").value=known.includes(e.service)?e.service:"Manual Entry";document.getElementById("ledgerManualService").value=known.includes(e.service)?"":(e.service||"");document.getElementById("manualServiceGroup").classList.toggle("hidden",known.includes(e.service));document.getElementById("ledgerPaid").value=e.paid||0;document.getElementById("ledgerCharges").value=e.charges||0;document.getElementById("ledgerWeight").value=e.weight||0;document.getElementById("ledgerPackage").value=e.package_details||e.remarks||"";updateLedgerProfit();document.getElementById("ledgerFormTitle").textContent="Edit Ledger Entry";document.getElementById("cancelLedgerEdit").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});}
-function resetLedgerForm(){document.getElementById("ledgerForm").reset();document.getElementById("ledgerId").value="";document.getElementById("ledgerFormTitle").textContent="Add Ledger Entry";document.getElementById("cancelLedgerEdit").classList.add("hidden");document.getElementById("ledgerDate").value=new Date().toISOString().split("T")[0];document.getElementById("ledgerStation").value=currentCity||"";document.getElementById("ledgerService").value="DHL";document.getElementById("manualServiceGroup").classList.add("hidden");document.getElementById("ledgerCharges").value=0;document.getElementById("ledgerPaid").value=0;document.getElementById("ledgerWeight").value=0;updateLedgerProfit();}
+function resetLedgerForm(){document.getElementById("ledgerForm").reset();if(document.getElementById("ledgerMonth")&&!document.getElementById("ledgerMonth").value)document.getElementById("ledgerMonth").value=new Date().toISOString().slice(0,7);document.getElementById("ledgerId").value="";document.getElementById("ledgerFormTitle").textContent="Add Ledger Entry";document.getElementById("cancelLedgerEdit").classList.add("hidden");document.getElementById("ledgerDate").value=new Date().toISOString().split("T")[0];document.getElementById("ledgerStation").value=currentCity||"";document.getElementById("ledgerService").value="DHL";document.getElementById("manualServiceGroup").classList.add("hidden");document.getElementById("ledgerCharges").value=0;document.getElementById("ledgerPaid").value=0;document.getElementById("ledgerWeight").value=0;updateLedgerProfit();}
 async function deleteLedger(id){const e=ledgerEntries.find(x=>x.id===id);if(!e)return;if(!confirm("Are you sure you want to delete the ledger entry for tracking number "+e.tracking_number+"?"))return;const {error}=await supabaseClient.from("cargo_ledger").delete().eq("id",id);if(error){showToast("Unable to delete ledger entry: "+error.message,"error");return;}showToast("Ledger entry deleted successfully.");await loadLedger();}
 function buildLedgerPrintHtml(city,entries){
     const sale=entries.reduce((a,x)=>a+Number(x.charges||0),0),paid=entries.reduce((a,x)=>a+Number(x.paid||0),0),profit=entries.reduce((a,x)=>a+ledgerProfit(x),0),weight=entries.reduce((a,x)=>a+Number(x.weight||0),0);
@@ -3294,6 +3449,118 @@ function printDailyCashReport(){
     const w=window.open("","_blank","width=900,height=900");
     if(!w){showToast("Please allow pop-ups to print the cash report.","error");return;}
     w.document.open();w.document.write(buildDailyCashPrintHtml(currentAccountsCity,month,entries));w.document.close();w.focus();setTimeout(()=>w.print(),300);
+}
+
+async function loadThirdPartyCompanies(){
+    if(!currentAccountsCity) return;
+    const {data,error}=await supabaseClient.from("third_party_companies").select("*").eq("city",currentAccountsCity).order("company_name",{ascending:true});
+    if(error){console.error(error);showToast("Unable to load 3rd Party companies: "+error.message,"error");return;}
+    thirdPartyCompanies=data||[]; renderThirdPartyCompanies();
+}
+function renderThirdPartyCompanies(){
+    const box=document.getElementById("companyLedgerCards"); if(!box)return;
+    let html=`<div class="accounts-action-card company-ledger-card ${!currentThirdPartyCompanyId?'selected':''}" onclick="selectThirdPartyCompany(null,'General 3rd Party')"><h3>General 3rd Party</h3><p>Existing entries without a company remain safely in this ledger.</p><span class="action-label">Open Ledger →</span></div>`;
+    html+=thirdPartyCompanies.map(c=>`<div class="accounts-action-card company-ledger-card ${String(currentThirdPartyCompanyId)===String(c.id)?'selected':''}" onclick="selectThirdPartyCompany('${c.id}',${JSON.stringify(c.company_name)})"><h3>${escapeHtml(c.company_name)}</h3><p>Separate Credit, Debit and running Balance ledger for this company.</p><div class="company-card-actions"><span class="action-label">Open Ledger →</span><button type="button" class="secondary-btn" onclick="event.stopPropagation();editThirdPartyCompany('${c.id}')">Edit</button><button type="button" class="secondary-btn" onclick="event.stopPropagation();deleteThirdPartyCompany('${c.id}')">Delete</button></div></div>`).join('');
+    box.innerHTML=html;
+}
+function selectThirdPartyCompany(id,name){currentThirdPartyCompanyId=id||null;currentThirdPartyCompanyName=name||"General 3rd Party";renderThirdPartyCompanies();resetThirdPartyForm();loadThirdPartyLedger();window.scrollTo({top:0,behavior:"smooth"});}
+function showCompanyCreateForm(){document.getElementById("companyCreateForm").classList.remove("hidden");document.getElementById("companyId").value="";document.getElementById("companyName").value="";document.getElementById("companyName").focus();}
+function hideCompanyCreateForm(){document.getElementById("companyCreateForm").classList.add("hidden");document.getElementById("companyId").value="";document.getElementById("companyName").value="";}
+function editThirdPartyCompany(id){const c=thirdPartyCompanies.find(x=>String(x.id)===String(id));if(!c)return;document.getElementById("companyCreateForm").classList.remove("hidden");document.getElementById("companyId").value=c.id;document.getElementById("companyName").value=c.company_name||"";document.getElementById("companyName").focus();}
+document.getElementById("companyForm").addEventListener("submit",async function(e){e.preventDefault();if(!currentAccountsCity)return;const id=document.getElementById("companyId").value;const name=document.getElementById("companyName").value.trim();if(!name){showToast("Please enter a company name.","error");return;}const duplicate=thirdPartyCompanies.find(c=>c.company_name.trim().toLowerCase()===name.toLowerCase()&&String(c.id)!==String(id));if(duplicate){showToast("This company already exists for this city.","error");return;}const payload={city:currentAccountsCity,company_name:name};const result=id?await supabaseClient.from("third_party_companies").update(payload).eq("id",id).eq("city",currentAccountsCity):await supabaseClient.from("third_party_companies").insert(payload).select().single();if(result.error){showToast("Unable to save company ledger: "+result.error.message,"error");return;}const saved=result.data;hideCompanyCreateForm();showToast(id?"Company ledger updated successfully.":"Company ledger created successfully.");await loadThirdPartyCompanies();if(saved){selectThirdPartyCompany(saved.id,saved.company_name);}else{await loadThirdPartyLedger();}});
+async function deleteThirdPartyCompany(id){const c=thirdPartyCompanies.find(x=>String(x.id)===String(id));if(!c)return;if(!confirm("Delete company ledger "+c.company_name+"? Its ledger entries will NOT be deleted; they will be kept safely and become unassigned."))return;const d=await supabaseClient.from("third_party_ledger").update({company_id:null}).eq("company_id",id).eq("city",currentAccountsCity);if(d.error){showToast("Unable to detach company entries: "+d.error.message,"error");return;}const r=await supabaseClient.from("third_party_companies").delete().eq("id",id).eq("city",currentAccountsCity);if(r.error){showToast("Unable to delete company: "+r.error.message,"error");return;}if(String(currentThirdPartyCompanyId)===String(id)){currentThirdPartyCompanyId=null;currentThirdPartyCompanyName="General 3rd Party";}showToast("Company ledger deleted. Existing entries were preserved.");await loadThirdPartyCompanies();await loadThirdPartyLedger();}
+
+function calculateThirdPartyBalances(entries){
+let running=0;
+return [...entries].sort((a,b)=>{
+const d=String(a.entry_date||"").localeCompare(String(b.entry_date||""));
+if(d!==0)return d;
+const ca=String(a.created_at||"").localeCompare(String(b.created_at||""));
+if(ca!==0)return ca;
+return String(a.id||"").localeCompare(String(b.id||""));
+}).map(e=>{running+=Number(e.credit||0)-Number(e.debit||0);return {...e,calculated_balance:running};});
+}
+
+async function loadThirdPartyLedger(){
+if(!currentAccountsCity||thirdPartyLoading)return;
+thirdPartyLoading=true;
+try{
+let query=supabaseClient.from("third_party_ledger").select("*").eq("city",currentAccountsCity).order("entry_date",{ascending:true}).order("created_at",{ascending:true});
+if(currentThirdPartyCompanyId) query=query.eq("company_id",currentThirdPartyCompanyId); else query=query.is("company_id",null);
+const {data,error}=await query;
+if(error)throw error;
+thirdPartyEntries=data||[];
+renderThirdPartyLedger();
+}catch(e){console.error(e);showToast("Unable to load 3rd Party Ledger: "+e.message,"error");}
+finally{thirdPartyLoading=false;}
+}
+
+function renderThirdPartyLedger(){
+const month=document.getElementById("thirdPartyMonth").value||new Date().toISOString().slice(0,7);
+const search=(document.getElementById("thirdPartySearch").value||"").toLowerCase().trim();
+const calculated=calculateThirdPartyBalances(thirdPartyEntries);
+const monthEntries=calculated.filter(e=>(e.entry_date||"").slice(0,7)===month);
+const filtered=monthEntries.filter(e=>!search||[e.awb_number,e.country].join(" ").toLowerCase().includes(search));
+const credit=monthEntries.reduce((a,e)=>a+Number(e.credit||0),0);
+const debit=monthEntries.reduce((a,e)=>a+Number(e.debit||0),0);
+const closing=monthEntries.length?Number(monthEntries[monthEntries.length-1].calculated_balance):Number(calculated.filter(e=>(e.entry_date||"").slice(0,7)<month).at(-1)?.calculated_balance||0);
+document.getElementById("thirdPartyPeriodLabel").textContent=getReportMonthLabel(month);
+document.getElementById("thirdPartyCityBadge").textContent=currentAccountsCity||"";
+const companyLabel=document.getElementById("thirdPartyCompanyLabel"); if(companyLabel) companyLabel.textContent=(currentThirdPartyCompanyName||"General 3rd Party")+" Ledger";
+document.getElementById("thirdPartyTotalCredit").textContent=formatMoney(credit);
+document.getElementById("thirdPartyTotalDebit").textContent=formatMoney(debit);
+const balanceEl=document.getElementById("thirdPartyClosingBalance"); balanceEl.textContent=formatMoney(closing); balanceEl.className=closing>=0?"third-party-balance-positive":"third-party-balance-negative";
+document.getElementById("thirdPartyCount").textContent=monthEntries.length;
+document.getElementById("thirdPartyTableBody").innerHTML=filtered.length?filtered.map(e=>{const b=Number(e.calculated_balance||0);return `<tr><td>${escapeHtml(e.entry_date||"")}</td><td><strong>${escapeHtml(e.awb_number||"")}</strong></td><td>${escapeHtml(e.country||"")}</td><td class="right">${Number(e.weight||0).toFixed(2)}</td><td class="right">${Number(e.pcs||0)}</td><td class="right third-party-credit">${formatMoney(e.credit)}</td><td class="right third-party-debit">${formatMoney(e.debit)}</td><td class="right ${b>=0?"third-party-balance-positive":"third-party-balance-negative"}">${formatMoney(b)}</td><td><button type="button" class="action-btn edit-btn" onclick="editThirdPartyEntry('${e.id}')">Edit</button> <button type="button" class="action-btn delete-btn" onclick="deleteThirdPartyEntry('${e.id}')">Delete</button></td></tr>`}).join(""):'<tr><td colspan="9" class="empty">No 3rd Party Ledger entries found for this month.</td></tr>';
+}
+
+document.getElementById("thirdPartyForm").addEventListener("submit",async function(e){
+e.preventDefault();
+if(!currentAccountsCity){showToast("Please open a station first.","error");return;}
+const id=document.getElementById("thirdPartyId").value;
+const credit=Number(document.getElementById("thirdPartyCredit").value||0),debit=Number(document.getElementById("thirdPartyDebit").value||0),weight=Number(document.getElementById("thirdPartyWeight").value||0),pcs=Number(document.getElementById("thirdPartyPcs").value||0);
+const awb=document.getElementById("thirdPartyAwb").value.trim(),country=document.getElementById("thirdPartyCountry").value.trim();
+if(!awb||!country||weight<0||pcs<0||credit<0||debit<0){showToast("Please complete the ledger fields correctly.","error");return;}
+if(credit>0&&debit>0){showToast("Enter either Credit or Debit for one ledger entry, not both.","error");return;}
+if(credit===0&&debit===0){showToast("Enter a Credit or Debit amount.","error");return;}
+const payload={city:currentAccountsCity,company_id:currentThirdPartyCompanyId||null,entry_date:document.getElementById("thirdPartyDate").value,awb_number:awb,country,weight,pcs,credit,debit};
+const result=id?await supabaseClient.from("third_party_ledger").update(payload).eq("id",id).eq("city",currentAccountsCity):await supabaseClient.from("third_party_ledger").insert(payload);
+if(result.error){showToast("Unable to save 3rd Party Ledger entry: "+result.error.message,"error");return;}
+showToast(id?"3rd Party Ledger entry updated successfully.":"3rd Party Ledger entry added successfully."); resetThirdPartyForm(); await loadThirdPartyLedger();
+});
+
+function resetThirdPartyForm(){
+const form=document.getElementById("thirdPartyForm");if(form)form.reset();
+document.getElementById("thirdPartyId").value="";document.getElementById("thirdPartyFormTitle").textContent="Add 3rd Party Ledger Entry";document.getElementById("cancelThirdPartyEdit").classList.add("hidden");
+document.getElementById("thirdPartyDate").value=new Date().toISOString().slice(0,10);document.getElementById("thirdPartyWeight").value="0";document.getElementById("thirdPartyPcs").value="1";document.getElementById("thirdPartyCredit").value="0";document.getElementById("thirdPartyDebit").value="0";
+}
+
+function editThirdPartyEntry(id){
+const e=thirdPartyEntries.find(x=>String(x.id)===String(id));if(!e)return;
+document.getElementById("thirdPartyId").value=e.id;document.getElementById("thirdPartyDate").value=e.entry_date||"";document.getElementById("thirdPartyAwb").value=e.awb_number||"";document.getElementById("thirdPartyCountry").value=e.country||"";document.getElementById("thirdPartyWeight").value=e.weight??0;document.getElementById("thirdPartyPcs").value=e.pcs??1;document.getElementById("thirdPartyCredit").value=e.credit??0;document.getElementById("thirdPartyDebit").value=e.debit??0;document.getElementById("thirdPartyFormTitle").textContent="Edit 3rd Party Ledger Entry";document.getElementById("cancelThirdPartyEdit").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function deleteThirdPartyEntry(id){
+const e=thirdPartyEntries.find(x=>String(x.id)===String(id));if(!e)return;if(!confirm("Delete this 3rd Party Ledger entry for AWB "+(e.awb_number||"")+"?"))return;
+const {error}=await supabaseClient.from("third_party_ledger").delete().eq("id",id).eq("city",currentAccountsCity);if(error){showToast("Unable to delete 3rd Party Ledger entry: "+error.message,"error");return;}showToast("3rd Party Ledger entry deleted successfully.");await loadThirdPartyLedger();
+}
+
+function buildThirdPartyPrintHtml(city,month,entries,allEntries){
+const ordered=calculateThirdPartyBalances(allEntries||entries),monthRows=ordered.filter(e=>(e.entry_date||"").slice(0,7)===month);
+const credit=monthRows.reduce((a,e)=>a+Number(e.credit||0),0),debit=monthRows.reduce((a,e)=>a+Number(e.debit||0),0),closing=monthRows.length?Number(monthRows[monthRows.length-1].calculated_balance):0;
+const prior=ordered.filter(e=>(e.entry_date||"")<monthRows[0]?.entry_date).at(-1)?.calculated_balance||0;
+const totalWeight=monthRows.reduce((a,e)=>a+Number(e.weight||0),0),totalPcs=monthRows.reduce((a,e)=>a+Number(e.pcs||0),0);
+const rows=monthRows.map(e=>{const b=Number(e.calculated_balance||0);return `<tr><td>${escapeHtml(e.entry_date||"")}</td><td>${escapeHtml(e.awb_number||"")}</td><td>${escapeHtml(e.country||"")}</td><td class="r">${Number(e.weight||0).toFixed(2)}</td><td class="r">${Number(e.pcs||0)}</td><td class="r credit">${formatMoney(e.credit)}</td><td class="r debit">${formatMoney(e.debit)}</td><td class="r ${b>=0?"positive":"negative"}">${formatMoney(b)}</td></tr>`}).join("");
+return `<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>${escapeHtml(city)} 3rd Party Ledger</title><style>*{box-sizing:border-box}body{margin:0;background:#fff;color:#20252b;font-family:Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{width:100%;max-width:190mm;margin:0 auto}.brand{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #f58220;padding:0 0 9px;margin-bottom:10px}.brand h1{font-size:25px;letter-spacing:1.8px;margin:0;color:#f58220;font-weight:900}.brand p{font-size:9px;margin:3px 0 0;color:#66717c}.chip{text-align:right;font-size:8px;color:#66717c;text-transform:uppercase;font-weight:800}.chip strong{display:block;color:#20252b;font-size:10px;margin-top:2px}.title{font-size:17px;font-weight:900;margin:7px 0 3px}.sub{font-size:8.5px;color:#68737d;margin-bottom:10px}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:10px}.meta-box{border:1px solid #e1e5e9;border-radius:5px;padding:6px 7px;background:#fafbfc}.meta-box span{display:block;font-size:6.5px;text-transform:uppercase;color:#7b858e;font-weight:800}.meta-box strong{display:block;font-size:8.5px;margin-top:2px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:11px}.box{border:1px solid #dfe4e8;border-radius:6px;padding:8px 9px;background:#fff}.box span{display:block;font-size:6.7px;text-transform:uppercase;color:#727c85;font-weight:800}.box strong{display:block;font-size:11px;margin-top:4px;font-weight:900}.credit{color:#168a3a;font-weight:900}.debit{color:#c0392b;font-weight:900}.positive{color:#168a3a;font-weight:900}.negative{color:#c0392b;font-weight:900}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:7px}th,td{border:1px solid #d5dadd;padding:4px 3px;vertical-align:top;word-break:break-word}th{background:#f58220;color:#fff;font-size:6.5px;text-transform:uppercase;font-weight:900}th:nth-child(1){width:11%}th:nth-child(2){width:14%}th:nth-child(3){width:17%}th:nth-child(4){width:11%}th:nth-child(5){width:7%}th:nth-child(6){width:13%}th:nth-child(7){width:13%}th:nth-child(8){width:14%}tbody tr:nth-child(even){background:#fafbfc}.r{text-align:right;white-space:nowrap}.total td{background:#fff4e9;font-weight:900;border-top:2px solid #f58220}.formula{margin-top:8px;padding:7px 9px;border:1px solid #e1e5e9;border-radius:5px;background:#fafbfc;font-size:7.5px}.footer{margin-top:10px;border-top:1px solid #ddd;padding-top:6px;display:flex;justify-content:space-between;font-size:6.7px;color:#7a838b}@page{size:A4 portrait;margin:8mm}@media print{html,body{width:210mm}.page{max-width:none}thead{display:table-header-group}tr{page-break-inside:avoid}}</style></head><body><div class="page"><div class="brand"><div><h1>FAST AIR CARGO</h1><p>Where Every Shipment Matters!</p></div><div class="chip">Financial Control Report<strong>3rd Party Ledger</strong></div></div><div class="title">${escapeHtml(city)} — 3rd Party Ledger</div><div class="sub">Third-party shipment ledger with credit, debit and running balance.</div><div class="meta"><div class="meta-box"><span>Reporting Period</span><strong>${escapeHtml(getReportMonthLabel(month))}</strong></div><div class="meta-box"><span>Station</span><strong>${escapeHtml(city)}</strong></div><div class="meta-box"><span>Entries</span><strong>${monthRows.length}</strong></div></div><div class="summary"><div class="box"><span>Total Credit</span><strong class="credit">${formatMoney(credit)}</strong></div><div class="box"><span>Total Debit</span><strong class="debit">${formatMoney(debit)}</strong></div><div class="box"><span>Opening Balance</span><strong>${formatMoney(prior)}</strong></div><div class="box"><span>Closing Balance</span><strong class="${closing>=0?"positive":"negative"}">${formatMoney(closing)}</strong></div></div><div class="summary"><div class="box"><span>Weight</span><strong>${totalWeight.toFixed(2)} kg</strong></div><div class="box"><span>Pcs</span><strong>${totalPcs}</strong></div></div><table><thead><tr><th>Date</th><th>AWB Number</th><th>Country</th><th>Weight</th><th>Pcs</th><th>Credit</th><th>Debit</th><th>Balance</th></tr></thead><tbody>${rows||'<tr><td colspan="8" style="text-align:center;padding:10px">No 3rd Party Ledger entries found for this period.</td></tr>'}<tr class="total"><td colspan="5">MONTH TOTAL</td><td class="r credit">${formatMoney(credit)}</td><td class="r debit">${formatMoney(debit)}</td><td class="r ${closing>=0?"positive":"negative"}">${formatMoney(closing)}</td></tr></tbody></table><div class="formula"><strong>Balance control:</strong> Opening Balance ${formatMoney(prior)} + Credit ${formatMoney(credit)} − Debit ${formatMoney(debit)} = <strong>${formatMoney(closing)}</strong> Closing Balance</div><div class="footer"><span>FAST AIR CARGO · Where Every Shipment Matters!</span><span>Confidential Business Document · Generated ${escapeHtml(new Date().toLocaleString("en-US"))}</span></div></div></body></html>`;
+}
+
+function printThirdPartyLedger(){
+if(!currentAccountsCity){showToast("Please open a station first.","error");return;}
+const month=document.getElementById("thirdPartyMonth").value||new Date().toISOString().slice(0,7);
+const monthEntries=thirdPartyEntries.filter(e=>(e.entry_date||"").slice(0,7)===month);
+if(!monthEntries.length){showToast("No 3rd Party Ledger entries are available to print for this month.","error");return;}
+const w=window.open("","_blank","width=1000,height=900");if(!w){showToast("Please allow pop-ups to print the 3rd Party Ledger report.","error");return;}
+w.document.open();w.document.write(buildThirdPartyPrintHtml(currentAccountsCity,month,monthEntries,thirdPartyEntries));w.document.close();w.focus();setTimeout(()=>w.print(),300);
 }
 
 /* ============================================================
