@@ -1024,6 +1024,8 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
                                 type="text"
                                 id="trackingNumber"
                                 placeholder="FAC123456"
+                                autocomplete="off"
+                                autocapitalize="characters"
                                 required
                             >
                         </div>
@@ -2100,11 +2102,44 @@ document
     const id =
         document
         .getElementById("shipmentId")
-        .value;
-
+        .value
+        .trim();
 
     if (!currentShipmentCity) {
         showToast("Please open a station first.", "error");
+        return;
+    }
+
+    /* Normalize tracking numbers so FAC123, fac123 and " FAC123 "
+       are treated as the same tracking number. */
+    const trackingNumber = document
+        .getElementById("trackingNumber")
+        .value
+        .trim()
+        .toUpperCase();
+
+    if (!trackingNumber) {
+        showToast("Tracking Number is required.", "error");
+        return;
+    }
+
+    /* Client-side duplicate check.
+       The shipment being edited is excluded from this check. */
+    const duplicateShipment = shipments.find(function(shipment) {
+        return String(shipment.tracking_number || "")
+            .trim()
+            .toUpperCase() === trackingNumber
+            && String(shipment.id || "") !== String(id || "");
+    });
+
+    if (duplicateShipment) {
+        showToast(
+            "Tracking Number " + trackingNumber +
+            " already exists in " + currentShipmentCity +
+            ". Please use a unique tracking number.",
+            "error"
+        );
+        document.getElementById("trackingNumber").focus();
         return;
     }
 
@@ -2112,11 +2147,7 @@ document
 
         city: currentShipmentCity,
 
-        tracking_number:
-            document
-            .getElementById("trackingNumber")
-            .value
-            .trim(),
+        tracking_number: trackingNumber,
 
         origin:
             document
@@ -2173,9 +2204,7 @@ document
 
     };
 
-
     let result;
-
 
     if (id) {
 
@@ -2183,7 +2212,8 @@ document
             await supabaseClient
             .from("shipments")
             .update(shipmentData)
-            .eq("id", id);
+            .eq("id", id)
+            .eq("city", currentShipmentCity);
 
     } else {
 
@@ -2194,25 +2224,41 @@ document
 
     }
 
-
     if (result.error) {
 
-        showToast(
-            "Unable to save shipment: " +
-            result.error.message,
-            "error"
-        );
+        console.error("Save shipment error:", result.error);
+
+        if (
+            result.error.code === "23505" &&
+            (
+                String(result.error.message || "")
+                    .includes("shipments_tracking_number_key") ||
+                String(result.error.message || "")
+                    .toLowerCase()
+                    .includes("tracking_number")
+            )
+        ) {
+            showToast(
+                "This tracking number is already registered. " +
+                "Please use a unique tracking number.",
+                "error"
+            );
+        } else {
+            showToast(
+                "Unable to save shipment: " +
+                result.error.message,
+                "error"
+            );
+        }
 
         return;
     }
-
 
     showToast(
         id
             ? "Shipment successfully updated."
             : "Shipment successfully added."
     );
-
 
     resetShipmentForm();
 
