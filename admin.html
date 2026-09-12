@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fast Air Cargo - Admin Panel</title>
+<title>Fast Air Cargo — Admin Panel V2.0</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -694,6 +694,62 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
 
 .city-selection-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:18px 0}.city-selection-btn{border:1px solid #f58220;background:#fff;color:#d96800;padding:13px;border-radius:9px;cursor:pointer;font-weight:800;font-size:15px}.city-selection-btn:hover{background:#f58220;color:#fff}.city-selection-cancel{margin-top:2px}.accounts-section-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:18px}.accounts-action-card{background:#fff;border:1px solid #ececec;border-radius:12px;padding:20px;box-shadow:0 4px 18px rgba(0,0,0,.04);cursor:pointer;transition:.15s}.accounts-action-card:hover{border-color:#f58220;transform:translateY(-1px)}.accounts-action-card h3{margin-bottom:7px}.accounts-action-card p{color:#777;font-size:13px;line-height:1.5}.accounts-action-card .action-label{display:inline-block;margin-top:14px;color:#f58220;font-weight:800;font-size:13px}.reports-archive-list{display:flex;flex-direction:column;gap:10px}.report-archive-row{display:flex;align-items:center;justify-content:space-between;gap:15px;border:1px solid #ececec;border-radius:10px;padding:14px 16px;background:#fff}.report-archive-month{font-weight:800}.report-archive-meta{color:#777;font-size:12px;margin-top:4px}.report-archive-row .secondary-btn{white-space:nowrap}@media(max-width:700px){.accounts-section-grid{grid-template-columns:1fr}.report-archive-row{align-items:flex-start;flex-direction:column}.report-archive-row .secondary-btn{width:100%}}
 .company-manager-card{margin-bottom:18px}.company-manager-card .card-header{align-items:center}.company-manager-card .card-header p{max-width:720px}.company-ledger-card{cursor:pointer;transition:.2s}.company-ledger-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}.company-ledger-card.selected{border:2px solid var(--orange)}.company-card-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* ============================================================
+   FAST AIR CARGO — ADMIN PANEL V2.0 MODERN SHELL
+============================================================ */
+:root{--v2-orange:#ff7900;--v2-orange-dark:#e86d00;--v2-ink:#17202a;--v2-muted:#74808b;--v2-bg:#f6f7f9;--v2-line:#e7eaf0;--v2-card:#ffffff;--v2-green:#16a05d;--v2-red:#d94b4b;--v2-blue:#3478f6}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--v2-bg);color:var(--v2-ink)}
+header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgba(255,255,255,.96)!important;border-right:1px solid var(--v2-line)!important;border-bottom:0!important;box-shadow:10px 0 35px rgba(18,27,38,.06)!important;z-index:100}
+.header-inner{height:100%;max-width:none!important;padding:22px 16px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:22px!important}
+.header-brand{padding:4px 10px 18px;border-bottom:1px solid var(--v2-line)}
+.header-brand strong{display:block;color:var(--v2-orange)!important;font-size:20px!important;font-weight:900;letter-spacing:.7px}
+.header-brand:after{content:"Operations & Accounts";display:block;color:#9aa3ad;font-size:11px;font-weight:700;margin-top:5px;letter-spacing:.2px}
+.header-buttons{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:7px!important;flex-wrap:nowrap!important}
+.header-btn,.logout-btn{width:100%;text-align:left!important;border:1px solid transparent!important;background:transparent!important;color:#5f6b76!important;padding:12px 13px!important;border-radius:11px!important;font-weight:800!important;cursor:pointer!important;transition:.18s!important}
+.header-btn:hover{background:#fff4eb!important;color:var(--v2-orange)!important;border-color:#ffe0c9!important;transform:translateX(2px)}
+.header-btn.active{background:linear-gradient(90deg,#fff0e3,#fff8f3)!important;color:var(--v2-orange)!important;border-color:#ffd6b8!important;box-shadow:inset 3px 0 0 var(--v2-orange)}
+.logout-btn{margin-top:auto;color:#b44b4b!important;border-color:#f0dddd!important;background:#fffafa!important}
+.logout-btn:hover{background:#fff0f0!important}
+#app>.container,#app>main.container{margin-left:252px;max-width:none;width:auto;padding-left:30px;padding-right:30px}
+#app>.container{padding-top:30px}
+.page-title{margin-bottom:20px}
+.page-title h2{font-size:29px;letter-spacing:-.6px;color:#15202b}
+.page-title p{color:var(--v2-muted);margin-top:6px}
+.card,.dashboard-filter-card,.dashboard-kpi,.account-summary,.accounts-action-card,.third-party-summary-card,.daily-cash-card,.ledger-summary-card,.station-card{border:1px solid var(--v2-line)!important;border-radius:16px!important;box-shadow:0 8px 28px rgba(21,32,43,.045)!important}
+.primary-btn{background:linear-gradient(135deg,var(--v2-orange),#ff8d28)!important;border-radius:10px!important;box-shadow:0 5px 14px rgba(255,121,0,.18)}
+.primary-btn:hover{background:linear-gradient(135deg,var(--v2-orange-dark),var(--v2-orange))!important;transform:translateY(-1px)}
+.secondary-btn{border-radius:10px!important}
+.dashboard-filter-card{padding:18px 20px!important;background:linear-gradient(135deg,#fff,#fffaf6)!important}
+.dashboard-kpi-grid{gap:16px!important}
+.dashboard-kpi{position:relative;overflow:hidden;padding:20px!important;background:#fff!important}
+.dashboard-kpi:after{content:"";position:absolute;width:80px;height:80px;border-radius:50%;right:-28px;top:-28px;background:#fff4e9}
+.dashboard-kpi span{position:relative;z-index:1;color:#7a858f!important}
+.dashboard-kpi strong{position:relative;z-index:1;font-size:27px!important;letter-spacing:-.4px}
+.dashboard-kpi small{position:relative;z-index:1}
+.dashboard-kpi.highlight{border-top:0!important;border-left:4px solid var(--v2-orange)!important}
+.v2-section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px}
+.v2-section-title h3{font-size:16px}
+.v2-section-title span{font-size:12px;color:#8b959e}
+.v2-quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 20px}
+.v2-quick-card{border:1px solid var(--v2-line);background:#fff;border-radius:15px;padding:17px;cursor:pointer;transition:.18s;box-shadow:0 8px 25px rgba(21,32,43,.04)}
+.v2-quick-card:hover{transform:translateY(-3px);border-color:#ffc89f;box-shadow:0 12px 30px rgba(21,32,43,.08)}
+.v2-quick-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:#fff1e5;color:var(--v2-orange);font-weight:900;margin-bottom:11px}
+.v2-quick-card strong{display:block;font-size:14px}.v2-quick-card small{display:block;color:#8a949d;margin-top:5px;line-height:1.4}
+.v2-dashboard-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:16px;margin-bottom:20px}
+.v2-panel{background:#fff;border:1px solid var(--v2-line);border-radius:16px;padding:18px;box-shadow:0 8px 28px rgba(21,32,43,.045)}
+.v2-station-list{display:flex;flex-direction:column;gap:14px}
+.v2-station-row{display:grid;grid-template-columns:115px 1fr 90px;align-items:center;gap:12px}
+.v2-station-name{font-weight:850}.v2-station-meta{font-size:11px;color:#9099a2;margin-top:3px}
+.v2-bar-wrap{height:11px;background:#f0f2f5;border-radius:999px;overflow:hidden}.v2-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--v2-orange),#ffad63);transition:width .5s ease}
+.v2-station-value{text-align:right;font-weight:850;font-size:13px}.v2-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.v2-mini{border:1px solid #eef0f3;border-radius:12px;padding:13px}.v2-mini span{display:block;color:#8b949d;font-size:11px;text-transform:uppercase;font-weight:800}.v2-mini strong{display:block;margin-top:6px;font-size:18px}
+.v2-status-list{display:flex;flex-direction:column;gap:10px}.v2-status-row{display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border:1px solid #eef0f3;border-radius:11px}.v2-status-pill{font-size:11px;font-weight:850;padding:5px 8px;border-radius:999px;background:#f5f6f8}
+.v2-search{display:flex;gap:8px;width:min(430px,100%);margin-bottom:18px}.v2-search input{background:#fff;border-radius:11px}.v2-search button{width:auto;padding:0 15px;white-space:nowrap}
+.settings-security-card{max-width:720px}.security-city-label{font-size:13px;color:#7b858e;margin-top:4px}.v2-settings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:1050px){header{width:220px}#app>.container,#app>main.container{margin-left:220px;padding-left:20px;padding-right:20px}.v2-quick-grid{grid-template-columns:repeat(2,1fr)}.v2-dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:760px){header{position:sticky!important;left:auto;top:0;bottom:auto;width:100%;height:auto;box-shadow:0 4px 18px rgba(21,32,43,.07)!important;border-right:0!important;border-bottom:1px solid var(--v2-line)!important}.header-inner{height:auto!important;padding:12px!important;display:block!important}.header-brand{padding:2px 6px 11px}.header-buttons{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:6px!important;margin-top:10px}.header-btn,.logout-btn{padding:9px 10px!important;font-size:12px}.logout-btn{margin-top:0}.header-brand strong{font-size:17px!important}#app>.container,#app>main.container{margin-left:0;padding:20px 14px}.page-title h2{font-size:24px}.v2-quick-grid{grid-template-columns:1fr 1fr}.v2-station-row{grid-template-columns:85px 1fr 70px}.v2-settings-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.v2-quick-grid{grid-template-columns:1fr}.v2-mini-grid{grid-template-columns:1fr 1fr}.dashboard-kpi-grid{grid-template-columns:1fr!important}}
+
 </style>
 <!-- FAST AIR CARGO: Daily Office is a separate page. Accounts contains only Ledger and 3rd Party Ledger. Existing Supabase data is preserved. -->
 </head>
@@ -811,6 +867,10 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
             <div class="header-brand">
                 <strong>FAST AIR CARGO</strong>
             </div>
+            <div class="v2-search" style="width:100%;margin:0">
+                <input id="globalSearchInput" type="text" placeholder="Search tracking / customer…" onkeydown="if(event.key==='Enter')globalSearch()">
+                <button type="button" class="secondary-btn" onclick="globalSearch()">Search</button>
+            </div>
 
             <div class="header-buttons">
 
@@ -855,6 +915,14 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
                 </button>
 
                 <button
+                    class="header-btn"
+                    id="settingsTabBtn"
+                    onclick="openSecuritySettings()"
+                >
+                    Security Settings
+                </button>
+
+                <button
                     class="logout-btn"
                     onclick="logout()"
                 >
@@ -894,11 +962,74 @@ header{background:#fff;border-bottom:1px solid #ececec;box-shadow:0 2px 14px rgb
         </div>
 
         <div class="dashboard-kpi-grid" style="grid-template-columns:repeat(3,1fr)">
-            <div class="dashboard-kpi"><span>Total Sales</span><strong id="dashSales">0.00</strong><small>All stations</small></div>
-            <div class="dashboard-kpi"><span>Total Expenses</span><strong id="dashExpenses">0.00</strong><small>All stations</small></div>
-            <div class="dashboard-kpi highlight"><span>Total Weight</span><strong id="dashWeight">0.00 kg</strong><small>All stations</small></div>
+            <div class="dashboard-kpi"><span>Total Sales</span><strong id="dashSales">0.00</strong><small>All accessible stations</small></div>
+            <div class="dashboard-kpi highlight"><span>Total Weight</span><strong id="dashWeight">0.00 kg</strong><small>All accessible stations</small></div>
+            <div class="dashboard-kpi"><span>Total Shipments</span><strong id="dashShipments">0</strong><small>Selected month</small></div>
+            <div class="dashboard-kpi"><span>Delivered</span><strong id="dashDelivered">0</strong><small>Completed shipments</small></div>
+            <div class="dashboard-kpi"><span>Active Stations</span><strong id="dashStations">0</strong><small>Accessible stations</small></div>
         </div>
 
+        <div class="v2-section-title"><h3>Quick Actions</h3><span>Frequently used tools</span></div>
+        <div class="v2-quick-grid">
+            <div class="v2-quick-card" onclick="showShipmentManagement()"><div class="v2-quick-icon">＋</div><strong>New Shipment</strong><small>Open shipment management for a station.</small></div>
+            <div class="v2-quick-card" onclick="openDailyOfficeEntry()"><div class="v2-quick-icon">₨</div><strong>Daily Office</strong><small>Record cash in, cash out and office activity.</small></div>
+            <div class="v2-quick-card" onclick="openAccounts()"><div class="v2-quick-icon">↗</div><strong>Accounts</strong><small>Open ledger and third-party company accounts.</small></div>
+            <div class="v2-quick-card" onclick="openReports()"><div class="v2-quick-icon">▥</div><strong>Reports</strong><small>View monthly shipment and financial reports.</small></div>
+        </div>
+
+        <div class="v2-dashboard-grid">
+            <div class="v2-panel">
+                <div class="v2-section-title">
+                    <h3>Station Performance</h3>
+                    <span id="dashPerformanceLabel">Sales by station</span>
+                </div>
+                <div id="dashStationPerformance" class="v2-station-list"><div class="empty">Loading station performance…</div></div>
+            </div>
+            <div class="v2-panel">
+                <div class="v2-section-title">
+                    <h3>Shipment Performance</h3>
+                    <span>Selected month</span>
+                </div>
+                <div class="v2-mini-grid">
+                    <div class="v2-mini"><span>Top Destination</span><strong id="dashTopDestination">—</strong></div>
+                    <div class="v2-mini"><span>Top Service</span><strong id="dashTopService">—</strong></div>
+                    <div class="v2-mini"><span>Delivered Rate</span><strong id="dashDeliveryRate">0%</strong></div>
+                    <div class="v2-mini"><span>Active Shipments</span><strong id="dashActiveShipments">0</strong></div>
+                </div>
+                <div style="height:18px"></div>
+                <div class="v2-section-title"><h3>Shipment Status</h3><span>Current month mix</span></div>
+                <div id="dashStatusList" class="v2-status-list"><div class="empty">Loading status…</div></div>
+            </div>
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         SECURITY SETTINGS
+    ====================================================== -->
+    <main id="settingsPage" class="container hidden">
+        <div class="page-title">
+            <div class="ledger-title"><h2>Security Settings</h2><span class="city-badge" id="securitySettingsCityBadge"></span></div>
+            <p>Change the selected city's City Security Code. The existing city-wise access flow remains unchanged.</p>
+        </div>
+        <div class="v2-settings-grid">
+            <div class="card settings-security-card">
+                <div class="card-header"><div><h3>Change City Security Code</h3><p class="security-city-label" id="securitySettingsCityLabel">No city selected</p></div></div>
+                <div class="card-body">
+                    <form id="changeCitySecurityForm">
+                        <div class="form-grid">
+                            <div class="form-group"><label for="securityCurrentCode">Current Security Code *</label><input type="password" id="securityCurrentCode" inputmode="numeric" maxlength="4" placeholder="Current 4-digit code" required></div>
+                            <div class="form-group"><label for="securityNewCode">New Security Code *</label><input type="password" id="securityNewCode" inputmode="numeric" maxlength="4" placeholder="New 4-digit code" required></div>
+                            <div class="form-group"><label for="securityConfirmCode">Confirm New Security Code *</label><input type="password" id="securityConfirmCode" inputmode="numeric" maxlength="4" placeholder="Repeat new code" required></div>
+                        </div>
+                        <div id="securityChangeError" class="error hidden"></div>
+                        <div class="form-actions"><button type="submit" class="primary-btn">Change Security Code</button><button type="button" class="secondary-btn" onclick="openSecurityCitySelector()">Change City</button></div>
+                    </form>
+                </div>
+            </div>
+            <div class="v2-panel"><div class="v2-section-title"><h3>Access Protection</h3><span>City-wise</span></div><div class="v2-status-list"><div class="v2-status-row"><span>City selection</span><strong>Enabled</strong></div><div class="v2-status-row"><span>4-digit code</span><strong>Required</strong></div><div class="v2-status-row"><span>Old code after change</span><strong>Invalid</strong></div></div><p style="margin-top:14px;color:#7c8791;font-size:12px;line-height:1.6">The change button uses the Supabase RPC <b>change_city_security_code</b>. Your existing verification RPC remains <b>verify_city_security_code</b>.</p></div>
+        </div>
     </main>
 
 
@@ -1506,6 +1637,7 @@ let ledgerEntries = [];
 let currentCity = null;
 let cityAccess = new Set();
 let pendingCity = null;
+let currentSecurityCity = null;
 let pendingCityAction = null;
 let pendingSection = null;
 let reportsArchiveEntries = [];
@@ -1638,6 +1770,7 @@ async function logout() {
     cityAccess.clear();
     pendingCity = null;
     pendingCityAction = null;
+    currentSecurityCity = null;
 
     showLogin();
 
@@ -1649,14 +1782,14 @@ async function logout() {
 ============================================================ */
 
 function setActiveNav(activeId) {
-    ["dashboardTabBtn","dailyOfficeTabBtn","shipmentTabBtn","accountsTabBtn","reportsTabBtn"].forEach(function(id) {
+    ["dashboardTabBtn","dailyOfficeTabBtn","shipmentTabBtn","accountsTabBtn","reportsTabBtn","settingsTabBtn"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.classList.toggle("active", id === activeId);
     });
 }
 
 function hideAllPages() {
-    ["dashboardPage","dailyOfficePage","shipmentManagement","ledgerPage","accountsPage","reportsPage"].forEach(function(id) {
+    ["dashboardPage","dailyOfficePage","shipmentManagement","ledgerPage","accountsPage","reportsPage","settingsPage"].forEach(function(id) {
         const el = document.getElementById(id);
         if (el) el.classList.add("hidden");
     });
@@ -1840,6 +1973,7 @@ function selectCityForAccess(city){
     else if(section==="dailyOffice") requestCityAccess(city,"dailyOffice");
     else if(section==="reports") requestCityAccess(city,"reports");
     else if(section==="shipments") requestCityAccess(city,"shipments");
+    else if(section==="security") openSecuritySettingsAfterAccess(city);
 }
 
 function requestCityAccess(city, action) {
@@ -1919,6 +2053,61 @@ document.getElementById("citySecurityForm").addEventListener("submit", async fun
     }
 });
 
+
+function globalSearch(){
+    const q=(document.getElementById("globalSearchInput")?.value||"").trim().toLowerCase();
+    if(!q){showToast("Enter a tracking number or customer name.","error");return;}
+    const city=currentCity||currentAccountsCity||currentShipmentCity;
+    if(!city){showToast("Open a city first, then search its shipment records.","error");return;}
+    supabaseClient.from("cargo_ledger").select("id,tracking_number,customer_name,destination,status,shipment_date").eq("city",city).or(`tracking_number.ilike.%${q}%,customer_name.ilike.%${q}%,destination.ilike.%${q}%`).order("shipment_date",{ascending:false}).limit(5).then(({data,error})=>{
+        if(error){showToast("Search failed: "+error.message,"error");return;}
+        if(!data?.length){showToast("No shipment found for \""+q+"\".","error");return;}
+        const x=data[0];
+        showToast((x.tracking_number||"Shipment")+" — "+(x.customer_name||"Customer")+" — "+(x.status||"Status"));
+        if(typeof showShipmentManagementAfterAccess==="function") showShipmentManagementAfterAccess(city);
+    });
+}
+
+/* ============================================================
+   V2.0 SECURITY SETTINGS
+============================================================ */
+function openSecuritySettings(){
+    pendingSection="security";
+    openCitySelection("Select City for Security Settings","Select a city to manage its City Security Code.");
+}
+function openSecurityCitySelector(){openSecuritySettings();}
+function openSecuritySettingsAfterAccess(city){
+    currentSecurityCity=city;
+    hideAllPages();
+    document.getElementById("settingsPage").classList.remove("hidden");
+    setActiveNav("settingsTabBtn");
+    document.getElementById("securitySettingsCityBadge").textContent=city;
+    document.getElementById("securitySettingsCityLabel").textContent=city+" City Security Code";
+    const form=document.getElementById("changeCitySecurityForm");if(form)form.reset();
+    const err=document.getElementById("securityChangeError");if(err)err.classList.add("hidden");
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+document.getElementById("changeCitySecurityForm").addEventListener("submit",async function(e){
+    e.preventDefault();
+    const city=currentSecurityCity;
+    const current=document.getElementById("securityCurrentCode").value.trim();
+    const next=document.getElementById("securityNewCode").value.trim();
+    const confirmCode=document.getElementById("securityConfirmCode").value.trim();
+    const err=document.getElementById("securityChangeError");
+    err.classList.add("hidden");
+    if(!city){err.textContent="Please select a city first.";err.classList.remove("hidden");return;}
+    if(!/^\d{4}$/.test(current)||!/^\d{4}$/.test(next)||!/^\d{4}$/.test(confirmCode)){err.textContent="All security codes must be exactly 4 digits.";err.classList.remove("hidden");return;}
+    if(next!==confirmCode){err.textContent="New security code and confirmation do not match.";err.classList.remove("hidden");return;}
+    if(current===next){err.textContent="New security code must be different from the current code.";err.classList.remove("hidden");return;}
+    const verify=await supabaseClient.rpc("verify_city_security_code",{p_city:city,p_code:current});
+    if(verify.error){err.textContent="Unable to verify the current code: "+verify.error.message;err.classList.remove("hidden");return;}
+    if(verify.data!==true){err.textContent="Current security code is incorrect.";err.classList.remove("hidden");return;}
+    const result=await supabaseClient.rpc("change_city_security_code",{p_city:city,p_current_code:current,p_new_code:next});
+    if(result.error){console.error(result.error);err.textContent="Security code change is not available in Supabase yet. Create the change_city_security_code RPC, then try again. Details: "+result.error.message;err.classList.remove("hidden");return;}
+    if(result.data!==true && result.data!=="true" && result.data!==null){err.textContent="Supabase did not confirm the security code change.";err.classList.remove("hidden");return;}
+    showToast(city+" security code changed successfully.");
+    document.getElementById("changeCitySecurityForm").reset();
+});
 
 /* ============================================================
    TOAST
@@ -3209,8 +3398,81 @@ function monthRange(month){
     return {start,end};
 }
 
-async function fetchStationMonth(city,month){const {start,end}=monthRange(month);const [l,a]=await Promise.all([supabaseClient.from("cargo_ledger").select("charges,weight").eq("city",city).gte("shipment_date",start).lt("shipment_date",end),supabaseClient.from("account_transactions").select("transaction_type,amount").eq("city",city).gte("transaction_date",start).lt("transaction_date",end)]);if(l.error)throw l.error;if(a.error)throw a.error;const led=l.data||[],tx=a.data||[];return{city,sales:led.reduce((x,e)=>x+Number(e.charges||0),0),weight:led.reduce((x,e)=>x+Number(e.weight||0),0),expenses:tx.filter(x=>x.transaction_type==="Cash Out"||x.transaction_type==="Expense").reduce((x,e)=>x+Number(e.amount||0),0)}}
-async function loadDashboard(){if(dashboardLoading)return;dashboardLoading=true;const month=document.getElementById("dashboardMonth").value||new Date().toISOString().slice(0,7);try{const {data:members,error:memberError}=await supabaseClient.from("station_members").select("city,role");if(memberError)throw memberError;const admin=(members||[]).some(m=>m.role==="admin"&&m.city===null);const accessible=admin?STATIONS:STATIONS.filter(c=>(members||[]).some(m=>m.role==="owner"&&m.city===c));const r=await Promise.all(accessible.map(c=>fetchStationMonth(c,month)));const t=r.reduce((a,x)=>({sales:a.sales+x.sales,expenses:a.expenses+x.expenses,weight:a.weight+x.weight}),{sales:0,expenses:0,weight:0});document.getElementById("dashSales").textContent=formatMoney(t.sales);document.getElementById("dashExpenses").textContent=formatMoney(t.expenses);document.getElementById("dashWeight").textContent=t.weight.toFixed(2)+" kg";}catch(e){console.error(e);showToast("Unable to load dashboard: "+e.message,"error")}finally{dashboardLoading=false}}
+async function fetchStationMonth(city,month){
+    const {start,end}=monthRange(month);
+    const [l,a]=await Promise.all([
+        supabaseClient.from("cargo_ledger").select("charges,weight,paid,status,destination,service").eq("city",city).gte("shipment_date",start).lt("shipment_date",end),
+        supabaseClient.from("account_transactions").select("transaction_type,amount").eq("city",city).gte("transaction_date",start).lt("transaction_date",end)
+    ]);
+    if(l.error)throw l.error;if(a.error)throw a.error;
+    const led=l.data||[],tx=a.data||[];
+    return{
+        city,
+        sales:led.reduce((x,e)=>x+Number(e.charges||0),0),
+        paid:led.reduce((x,e)=>x+Number(e.paid||0),0),
+        weight:led.reduce((x,e)=>x+Number(e.weight||0),0),
+        shipments:led.length,
+        delivered:led.filter(e=>String(e.status||"").toLowerCase()==="delivered").length,
+        outstanding:led.reduce((x,e)=>x+Math.max(0,Number(e.charges||0)-Number(e.paid||0)),0),
+        expenses:tx.filter(x=>x.transaction_type==="Cash Out"||x.transaction_type==="Expense").reduce((x,e)=>x+Number(e.amount||0),0),
+        statuses:led.reduce((m,e)=>{const k=e.status||"Unknown";m[k]=(m[k]||0)+1;return m},{}),
+        destinations:led.reduce((m,e)=>{const k=String(e.destination||"Unknown").trim()||"Unknown";m[k]=(m[k]||0)+1;return m},{}),
+        services:led.reduce((m,e)=>{const k=String(e.service||"Unknown").trim()||"Unknown";m[k]=(m[k]||0)+1;return m},{}),
+        otherIncome:tx.filter(x=>x.transaction_type==="Cash In"||x.transaction_type==="Other Income").reduce((x,e)=>x+Number(e.amount||0),0)
+    }
+}
+
+function renderDashboardPerformance(rows){
+    const box=document.getElementById("dashStationPerformance");
+    if(!box)return;
+    if(!rows.length){box.innerHTML='<div class="empty">No station data available for this month.</div>';return;}
+    const max=Math.max(...rows.map(x=>x.sales),1);
+    box.innerHTML=rows.map(x=>`<div class="v2-station-row"><div><div class="v2-station-name">${escapeHtml(x.city)}</div><div class="v2-station-meta">${x.shipments} shipment${x.shipments===1?'':'s'} · ${x.weight.toFixed(2)} kg</div></div><div class="v2-bar-wrap"><div class="v2-bar" style="width:${Math.max(3,(x.sales/max)*100)}%"></div></div><div class="v2-station-value">${formatMoney(x.sales)}</div></div>`).join("");
+}
+
+function renderDashboardStatuses(statuses,total){
+    const box=document.getElementById("dashStatusList"); if(!box)return;
+    const list=Object.entries(statuses||{}).sort((a,b)=>b[1]-a[1]);
+    if(!list.length){box.innerHTML='<div class="empty">No shipment statuses for this month.</div>';return;}
+    box.innerHTML=list.slice(0,6).map(([name,count])=>`<div class="v2-status-row"><span class="v2-status-pill">${escapeHtml(name)}</span><strong>${count} <span style="font-weight:600;color:#8b949d;font-size:11px">(${total?Math.round(count/total*100):0}%)</span></strong></div>`).join("");
+}
+
+async function loadDashboard(){
+    if(dashboardLoading)return;
+    dashboardLoading=true;
+    const month=document.getElementById("dashboardMonth").value||new Date().toISOString().slice(0,7);
+    try{
+        const {data:members,error:memberError}=await supabaseClient.from("station_members").select("city,role");
+        if(memberError)throw memberError;
+        const admin=(members||[]).some(m=>m.role==="admin"&&m.city===null);
+        const accessible=admin?STATIONS:STATIONS.filter(c=>(members||[]).some(m=>m.role==="owner"&&m.city===c));
+        const r=await Promise.all(accessible.map(c=>fetchStationMonth(c,month)));
+        const t=r.reduce((a,x)=>({sales:a.sales+x.sales,paid:a.paid+x.paid,weight:a.weight+x.weight,shipments:a.shipments+x.shipments,delivered:a.delivered+x.delivered,outstanding:a.outstanding+x.outstanding,expenses:a.expenses+x.expenses,otherIncome:a.otherIncome+x.otherIncome}),{sales:0,paid:0,weight:0,shipments:0,delivered:0,outstanding:0,expenses:0,otherIncome:0});
+        const statuses={};r.forEach(x=>Object.entries(x.statuses||{}).forEach(([k,v])=>statuses[k]=(statuses[k]||0)+v));
+        document.getElementById("dashSales").textContent=formatMoney(t.sales);
+        document.getElementById("dashWeight").textContent=t.weight.toFixed(2)+" kg";
+        document.getElementById("dashShipments").textContent=t.shipments.toLocaleString();
+        document.getElementById("dashDelivered").textContent=t.delivered.toLocaleString();
+        document.getElementById("dashStations").textContent=accessible.length.toString();
+        const destinationCounts={};
+        const serviceCounts={};
+        r.forEach(x=>{
+            Object.entries(x.destinations||{}).forEach(([name,count])=>destinationCounts[name]=(destinationCounts[name]||0)+count);
+            Object.entries(x.services||{}).forEach(([name,count])=>serviceCounts[name]=(serviceCounts[name]||0)+count);
+        });
+        const topDestination=Object.entries(destinationCounts).sort((a,b)=>b[1]-a[1])[0];
+        const topService=Object.entries(serviceCounts).sort((a,b)=>b[1]-a[1])[0];
+        document.getElementById("dashTopDestination").textContent=topDestination?`${topDestination[0]} (${topDestination[1]})`:"—";
+        document.getElementById("dashTopService").textContent=topService?`${topService[0]} (${topService[1]})`:"—";
+        document.getElementById("dashDeliveryRate").textContent=(t.shipments?Math.round((t.delivered/t.shipments)*100):0)+"%";
+        document.getElementById("dashActiveShipments").textContent=Math.max(0,t.shipments-t.delivered).toLocaleString();
+        document.getElementById("dashboardDate").textContent=new Date().toLocaleDateString("en-US",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+        renderDashboardPerformance(r);
+        renderDashboardStatuses(statuses,t.shipments);
+    }catch(e){console.error(e);showToast("Unable to load dashboard: "+e.message,"error");}
+    finally{dashboardLoading=false;}
+}
+
 
 async function loadAccounts(){
     if(!currentAccountsCity||accountsLoading) return;
@@ -3463,7 +3725,7 @@ function renderThirdPartyCompanies(){
     html+=thirdPartyCompanies.map(c=>`<div class="accounts-action-card company-ledger-card ${String(currentThirdPartyCompanyId)===String(c.id)?'selected':''}" onclick="selectThirdPartyCompany('${c.id}',${JSON.stringify(c.company_name)})"><h3>${escapeHtml(c.company_name)}</h3><p>Separate Credit, Debit and running Balance ledger for this company.</p><div class="company-card-actions"><span class="action-label">Open Ledger →</span><button type="button" class="secondary-btn" onclick="event.stopPropagation();editThirdPartyCompany('${c.id}')">Edit</button><button type="button" class="secondary-btn" onclick="event.stopPropagation();deleteThirdPartyCompany('${c.id}')">Delete</button></div></div>`).join('');
     box.innerHTML=html;
 }
-function selectThirdPartyCompany(id,name){currentThirdPartyCompanyId=id||null;currentThirdPartyCompanyName=name||"General 3rd Party";renderThirdPartyCompanies();resetThirdPartyForm();loadThirdPartyLedger();window.scrollTo({top:0,behavior:"smooth"});}
+function selectThirdPartyCompany(id,name){currentThirdPartyCompanyId=id||null;currentThirdPartyCompanyName=name||"General 3rd Party";renderThirdPartyCompanies();resetThirdPartyForm();loadThirdPartyLedger();setTimeout(()=>{const section=document.getElementById("thirdPartyLedgerSection");if(section)section.scrollIntoView({behavior:"smooth",block:"start"});},120);}
 function showCompanyCreateForm(){document.getElementById("companyCreateForm").classList.remove("hidden");document.getElementById("companyId").value="";document.getElementById("companyName").value="";document.getElementById("companyName").focus();}
 function hideCompanyCreateForm(){document.getElementById("companyCreateForm").classList.add("hidden");document.getElementById("companyId").value="";document.getElementById("companyName").value="";}
 function editThirdPartyCompany(id){const c=thirdPartyCompanies.find(x=>String(x.id)===String(id));if(!c)return;document.getElementById("companyCreateForm").classList.remove("hidden");document.getElementById("companyId").value=c.id;document.getElementById("companyName").value=c.company_name||"";document.getElementById("companyName").focus();}
