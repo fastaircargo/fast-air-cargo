@@ -703,7 +703,7 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,
 header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgba(255,255,255,.96)!important;border-right:1px solid var(--v2-line)!important;border-bottom:0!important;box-shadow:10px 0 35px rgba(18,27,38,.06)!important;z-index:100}
 .header-inner{height:100%;max-width:none!important;padding:22px 16px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:22px!important}
 .header-brand{padding:4px 10px 18px;border-bottom:1px solid var(--v2-line)}
-.header-brand strong{display:block;color:var(--v2-orange)!important;font-size:20px!important;font-weight:900;letter-spacing:.7px}
+.header-brand strong{display:block;color:var(--v2-orange)!important;font-size:20px!important;font-weight:900!important;letter-spacing:.7px}
 .header-brand:after{content:"Operations & Accounts";display:block;color:#9aa3ad;font-size:11px;font-weight:700;margin-top:5px;letter-spacing:.2px}
 .header-buttons{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:7px!important;flex-wrap:nowrap!important}
 .header-btn,.logout-btn{width:100%;text-align:left!important;border:1px solid transparent!important;background:transparent!important;color:#5f6b76!important;padding:12px 13px!important;border-radius:11px!important;font-weight:800!important;cursor:pointer!important;transition:.18s!important}
@@ -835,10 +835,10 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                 <input
                     type="password"
                     id="citySecurityCode"
-                    inputmode="numeric"
+                    
                     autocomplete="off"
-                    maxlength="4"
-                    placeholder="Enter 4-digit security code"
+                    
+                    placeholder="Enter security password"
                     required
                 >
             </div>
@@ -865,7 +865,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
         <div class="header-inner">
 
             <div class="header-brand">
-                <strong>FAST AIR CARGO</strong>
+                <strong>Fast Air Cargo</strong>
             </div>
             <div class="v2-search" style="width:100%;margin:0">
                 <input id="globalSearchInput" type="text" placeholder="Search tracking / customer…" onkeydown="if(event.key==='Enter')globalSearch()">
@@ -1019,16 +1019,16 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                 <div class="card-body">
                     <form id="changeCitySecurityForm">
                         <div class="form-grid">
-                            <div class="form-group"><label for="securityCurrentCode">Current Security Code *</label><input type="password" id="securityCurrentCode" inputmode="numeric" maxlength="4" placeholder="Current 4-digit code" required></div>
-                            <div class="form-group"><label for="securityNewCode">New Security Code *</label><input type="password" id="securityNewCode" inputmode="numeric" maxlength="4" placeholder="New 4-digit code" required></div>
-                            <div class="form-group"><label for="securityConfirmCode">Confirm New Security Code *</label><input type="password" id="securityConfirmCode" inputmode="numeric" maxlength="4" placeholder="Repeat new code" required></div>
+                            <div class="form-group"><label for="securityCurrentCode">Current Security Code *</label><input type="password" id="securityCurrentCode"  placeholder="Current security password" required></div>
+                            <div class="form-group"><label for="securityNewCode">New Security Code *</label><input type="password" id="securityNewCode"  placeholder="New security password" required></div>
+                            <div class="form-group"><label for="securityConfirmCode">Confirm New Security Code *</label><input type="password" id="securityConfirmCode"  placeholder="Repeat new code" required></div>
                         </div>
                         <div id="securityChangeError" class="error hidden"></div>
                         <div class="form-actions"><button type="submit" class="primary-btn">Change Security Code</button><button type="button" class="secondary-btn" onclick="openSecurityCitySelector()">Change City</button></div>
                     </form>
                 </div>
             </div>
-            <div class="v2-panel"><div class="v2-section-title"><h3>Access Protection</h3><span>City-wise</span></div><div class="v2-status-list"><div class="v2-status-row"><span>City selection</span><strong>Enabled</strong></div><div class="v2-status-row"><span>4-digit code</span><strong>Required</strong></div><div class="v2-status-row"><span>Old code after change</span><strong>Invalid</strong></div></div><p style="margin-top:14px;color:#7c8791;font-size:12px;line-height:1.6">The change button uses the Supabase RPC <b>change_city_security_code</b>. Your existing verification RPC remains <b>verify_city_security_code</b>.</p></div>
+            <div class="v2-panel"><div class="v2-section-title"><h3>Access Protection</h3><span>City-wise</span></div><div class="v2-status-list"><div class="v2-status-row"><span>City selection</span><strong>Enabled</strong></div><div class="v2-status-row"><span>security password</span><strong>Required</strong></div><div class="v2-status-row"><span>Old code after change</span><strong>Invalid</strong></div></div><p style="margin-top:14px;color:#7c8791;font-size:12px;line-height:1.6">The change button uses the Supabase RPC <b>change_city_security_code</b>. Your existing verification RPC remains <b>verify_city_security_code</b>.</p></div>
         </div>
     </main>
 
@@ -2006,15 +2006,15 @@ document.getElementById("citySecurityForm").addEventListener("submit", async fun
 
     const city = pendingCity;
     const action = pendingCityAction;
-    const code = document.getElementById("citySecurityCode").value.trim();
+    const code = document.getElementById("citySecurityCode").value;
     const errorBox = document.getElementById("citySecurityError");
 
     if (!city || !action) return;
 
     errorBox.classList.add("hidden");
 
-    if (!/^\d{4}$/.test(code)) {
-        errorBox.textContent = "Please enter a valid 4-digit security code.";
+    if (!code) {
+        errorBox.textContent = "Please enter the security password.";
         errorBox.classList.remove("hidden");
         return;
     }
@@ -2090,13 +2090,13 @@ function openSecuritySettingsAfterAccess(city){
 document.getElementById("changeCitySecurityForm").addEventListener("submit",async function(e){
     e.preventDefault();
     const city=currentSecurityCity;
-    const current=document.getElementById("securityCurrentCode").value.trim();
-    const next=document.getElementById("securityNewCode").value.trim();
-    const confirmCode=document.getElementById("securityConfirmCode").value.trim();
+    const current=document.getElementById("securityCurrentCode").value;
+    const next=document.getElementById("securityNewCode").value;
+    const confirmCode=document.getElementById("securityConfirmCode").value;
     const err=document.getElementById("securityChangeError");
     err.classList.add("hidden");
     if(!city){err.textContent="Please select a city first.";err.classList.remove("hidden");return;}
-    if(!/^\d{4}$/.test(current)||!/^\d{4}$/.test(next)||!/^\d{4}$/.test(confirmCode)){err.textContent="All security codes must be exactly 4 digits.";err.classList.remove("hidden");return;}
+    if(!current||!next||!confirmCode){err.textContent="All security passwords are required.";err.classList.remove("hidden");return;}
     if(next!==confirmCode){err.textContent="New security code and confirmation do not match.";err.classList.remove("hidden");return;}
     if(current===next){err.textContent="New security code must be different from the current code.";err.classList.remove("hidden");return;}
     const verify=await supabaseClient.rpc("verify_city_security_code",{p_city:city,p_code:current});
@@ -3056,7 +3056,7 @@ function buildPrintReportShell(
             </div>
 
             <div class="print-footer">
-                <span><strong>FAST AIR CARGO</strong> &nbsp;|&nbsp; Monthly Financial Report</span>
+                <span><strong>Fast Air Cargo</strong> &nbsp;|&nbsp; Monthly Financial Report</span>
                 <span>Confidential Business Document</span>
             </div>
         </div>
