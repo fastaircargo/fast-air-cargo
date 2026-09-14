@@ -335,10 +335,159 @@ header{
     border-top:1px solid #eee;
 }
 
+.tracking-history-heading{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+    font-size:14px;
+    font-weight:1000;
+    color:#222;
+}
+.tracking-history-heading span{color:var(--orange);}
+.tracking-history-heading small{
+    color:#999;
+    font-size:9px;
+    font-weight:800;
+}
+
+.tracking-history-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.show-more-tracking{
+    appearance:none;
+    border:1px solid #ff6900;
+    background:#fff;
+    color:#ff6900;
+    border-radius:999px;
+    padding:8px 13px;
+    font-size:10px;
+    line-height:1;
+    font-weight:900;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.show-more-tracking:hover{
+    background:#ff6900;
+    color:#fff;
+}
+
+.show-more-tracking:active{
+    transform:scale(.98);
+}
+
+.timeline.history-collapsed{
+    display:none;
+}
+
+@media (max-width:700px){
+    .tracking-history-heading{
+        align-items:flex-start;
+    }
+
+    .tracking-history-actions{
+        width:100%;
+        justify-content:space-between;
+    }
+
+    .show-more-tracking{
+        padding:8px 11px;
+    }
+}
 .timeline{
     position:relative;
     padding-left:4px;
 }
+.history-empty{
+    padding:18px 0 8px 52px;
+    color:#999;
+    font-size:10px;
+    line-height:1.6;
+}
+.history-item{
+    position:relative;
+    z-index:2;
+    min-height:92px;
+    display:grid;
+    grid-template-columns:38px 1fr;
+    column-gap:14px;
+}
+.history-dot{
+    width:29px;
+    height:29px;
+    border-radius:50%;
+    background:var(--orange);
+    border:2px solid var(--orange);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:9px;
+    font-weight:1000;
+    position:relative;
+    z-index:3;
+    box-shadow:0 0 0 5px rgba(255,105,0,.08);
+}
+.history-item.latest-history-item .history-dot{
+    background:var(--green);
+    border-color:var(--green);
+    box-shadow:0 0 0 5px rgba(25,163,74,.08);
+}
+.history-content{
+    padding-top:2px;
+    padding-bottom:14px;
+}
+.history-status{
+    font-size:12px;
+    font-weight:1000;
+    color:#222;
+    line-height:1.45;
+}
+.history-item.latest-history-item .history-status{color:var(--green);}
+.history-meta{
+    margin-top:5px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 12px;
+    color:#888;
+    font-size:9px;
+    font-weight:700;
+}
+.history-location,.history-carrier{color:#666;}
+.history-description{
+    margin-top:8px;
+    padding:9px 11px;
+    background:#fff7f1;
+    border-left:3px solid var(--orange);
+    border-radius:6px;
+    color:#555;
+    font-size:10px;
+    font-weight:700;
+    line-height:1.55;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+.history-item:not(:last-child) .history-content{border-bottom:1px solid #f0f0f0;}
+@media(max-width:600px){
+    .tracking-history-heading{font-size:13px;}
+    .history-item{
+        min-height:88px;
+        grid-template-columns:30px 1fr;
+        column-gap:13px;
+    }
+    .history-dot{width:27px;height:27px;font-size:8px;}
+    .history-status{font-size:11px;}
+    .history-meta,.history-description{font-size:9px;}
+    .history-empty{padding-left:43px;}
+}
+
 
 .timeline-line{
     position:absolute;
@@ -1200,107 +1349,26 @@ Secure & COD services available.
 
 <div class="timeline-wrapper">
 
-<div class="timeline">
-
-<div class="timeline-line" id="timelineLine"></div>
-
-<!-- STEP 1 -->
-
-<div class="step" id="step1">
-
-<div class="dot">1</div>
-
-<div>
-<div class="title">Order Confirmed</div>
-
-<div class="status-detail" id="detail1"></div>
-
-<div class="date" id="date1">-</div>
+<div class="tracking-history-heading">
+    <span>Shipment Tracking History</span>
+    <div class="tracking-history-actions">
+        <small id="historyCount"></small>
+        <button
+            type="button"
+            id="showMoreTrackingButton"
+            class="show-more-tracking"
+            onclick="toggleTrackingHistory()"
+        >Show More Tracking</button>
+    </div>
 </div>
 
+<div class="timeline history-collapsed" id="trackingHistoryTimeline">
+    <div class="timeline-line" id="timelineLine"></div>
+    <div class="history-empty" id="historyEmpty">
+        Tracking history will appear here when shipment updates are added.
+    </div>
 </div>
 
-<!-- STEP 2 -->
-
-<div class="step" id="step2">
-
-<div class="dot">2</div>
-
-<div>
-<div class="title">Picked Up</div>
-
-<div class="status-detail" id="detail2"></div>
-
-<div class="date" id="date2">-</div>
-</div>
-
-</div>
-
-<!-- STEP 3 -->
-
-<div class="step" id="step3">
-
-<div class="dot">3</div>
-
-<div>
-<div class="title">In Transit</div>
-
-<div class="status-detail" id="detail3"></div>
-
-<div class="date" id="date3">-</div>
-</div>
-
-</div>
-
-<!-- STEP 4 -->
-
-<div class="step" id="step4">
-
-<div class="dot">4</div>
-
-<div>
-<div class="title">Customs Clearance</div>
-
-<div class="status-detail" id="detail4"></div>
-
-<div class="date" id="date4">-</div>
-</div>
-
-</div>
-
-<!-- STEP 5 -->
-
-<div class="step" id="step5">
-
-<div class="dot">5</div>
-
-<div>
-<div class="title">Out for Delivery</div>
-
-<div class="status-detail" id="detail5"></div>
-
-<div class="date" id="date5">-</div>
-</div>
-
-</div>
-
-<!-- STEP 6 -->
-
-<div class="step" id="step6">
-
-<div class="dot">6</div>
-
-<div>
-<div class="title">Delivered</div>
-
-<div class="status-detail" id="detail6"></div>
-
-<div class="date" id="date6">-</div>
-</div>
-
-</div>
-
-</div>
 </div>
 
 <!-- ================= ADDITIONAL INFORMATION ================= -->
@@ -1852,276 +1920,251 @@ function formatDate(dateValue){
 
 
 /* ==================================================
-   NORMALIZE STATUS
+   TRACKING HISTORY HELPERS
 ================================================== */
 
-function normalizeStatus(status){
-
-    if(!status){
-        return "order confirmed";
-    }
-
-    return String(status)
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g," ");
+function escapeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
+function formatHistoryDate(dateValue){
+    if(!dateValue) return "-";
 
-/* ==================================================
-   STATUS GROUPS
-================================================== */
+    const date = new Date(dateValue);
 
-const statusGroups = [
-
-    {
-        id:"step1",
-        name:"Order Confirmed",
-        names:[
-            "order confirmed",
-            "confirmed"
-        ]
-    },
-
-    {
-        id:"step2",
-        name:"Picked Up",
-        names:[
-            "picked up",
-            "pickup",
-            "picked"
-        ]
-    },
-
-    {
-        id:"step3",
-        name:"In Transit",
-        names:[
-            "in transit",
-            "transit"
-        ]
-    },
-
-    {
-        id:"step4",
-        name:"Customs Clearance",
-        names:[
-            "customs clearance",
-            "customs"
-        ]
-    },
-
-    {
-        id:"step5",
-        name:"Out for Delivery",
-        names:[
-            "out for delivery"
-        ]
-    },
-
-    {
-        id:"step6",
-        name:"Delivered",
-        names:[
-            "delivered",
-            "complete",
-            "completed"
-        ]
+    if(isNaN(date.getTime())){
+        return String(dateValue);
     }
 
-];
-
-
-/* ==================================================
-   RESET STATUS DETAILS
-================================================== */
-
-function resetStatusDetails(){
-
-    for(let i = 1; i <= 6; i++){
-
-        const detail =
-        document.getElementById("detail" + i);
-
-        const date =
-        document.getElementById("date" + i);
-
-        detail.textContent = "";
-        detail.classList.remove("show");
-
-        date.textContent = "-";
-    }
-}
-
-
-/* ==================================================
-   FIND ACTIVE STATUS
-================================================== */
-
-function getActiveStatusIndex(currentStatus){
-
-    const normalized =
-    normalizeStatus(currentStatus);
-
-    let activeIndex = 0;
-
-    statusGroups.forEach(function(group,index){
-
-        if(group.names.includes(normalized)){
-            activeIndex = index;
-        }
-
+    return date.toLocaleString("en-GB", {
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
     });
-
-    return activeIndex;
 }
 
+function getTrackingHistory(shipment){
 
-/* ==================================================
-   SHOW SELECTED STATUS DETAIL
-================================================== */
+    let history = shipment && shipment.tracking_history;
 
-function showSelectedStatusDetail(
-    currentStatus,
-    statusDetail,
-    statusDate
-){
-
-    resetStatusDetails();
-
-    const activeIndex =
-    getActiveStatusIndex(currentStatus);
-
-    const detailElement =
-    document.getElementById(
-        "detail" + (activeIndex + 1)
-    );
-
-    const dateElement =
-    document.getElementById(
-        "date" + (activeIndex + 1)
-    );
-
-
-    /* Only current status detail */
-
-    if(
-        statusDetail !== null &&
-        statusDetail !== undefined &&
-        String(statusDetail).trim() !== ""
-    ){
-
-        detailElement.textContent =
-        String(statusDetail).trim();
-
-        detailElement.classList.add("show");
+    if(typeof history === "string"){
+        try{
+            history = JSON.parse(history);
+        }catch(error){
+            history = [];
+        }
     }
 
-
-    /* Current status date */
-
-    if(statusDate){
-
-        dateElement.textContent =
-        "Last Update: " +
-        formatDate(statusDate);
-
-    }else{
-
-        dateElement.textContent =
-        "Last Update: -";
+    if(!Array.isArray(history)){
+        history = [];
     }
+
+    return history
+        .filter(item => item && typeof item === "object")
+        .map((item,index) => ({
+            ...item,
+            _index:index,
+            _date:item.date ||
+                  item.datetime ||
+                  item.updated_at ||
+                  item.created_at ||
+                  null
+        }))
+        .sort((a,b) => {
+            const da = a._date ? new Date(a._date).getTime() : 0;
+            const db = b._date ? new Date(b._date).getTime() : 0;
+            return da - db;
+        });
 }
 
+function toggleTrackingHistory(){
+    const timeline =
+        document.getElementById("trackingHistoryTimeline");
 
-/* ==================================================
-   UPDATE TIMELINE
-================================================== */
+    const button =
+        document.getElementById("showMoreTrackingButton");
 
-function updateTimeline(
-    currentStatus,
-    statusDetail,
-    statusDate
-){
+    if(!timeline || !button) return;
 
-    const activeIndex =
-    getActiveStatusIndex(currentStatus);
+    const collapsed =
+        timeline.classList.toggle("history-collapsed");
 
+    button.textContent =
+        collapsed
+            ? "Show More Tracking"
+            : "Hide Tracking";
+}
 
-    statusGroups.forEach(function(group,index){
+function renderTrackingHistory(shipment){
 
-        const element =
-        document.getElementById(group.id);
+    const timeline =
+        document.getElementById("trackingHistoryTimeline");
 
-        const dot =
-        element.querySelector(".dot");
+    const line =
+        document.getElementById("timelineLine");
 
-        element.classList.remove(
-            "done",
-            "active"
-        );
+    const empty =
+        document.getElementById("historyEmpty");
 
-        dot.style.animation = "none";
+    const count =
+        document.getElementById("historyCount");
 
-        void dot.offsetWidth;
+    if(!timeline) return;
 
+    timeline.classList.add("history-collapsed");
 
-        if(index < activeIndex){
+    const toggleButton =
+        document.getElementById("showMoreTrackingButton");
 
-            element.classList.add("done");
+    if(toggleButton){
+        toggleButton.textContent = "Show More Tracking";
+        toggleButton.style.display = "";
+    }
 
-            dot.textContent = "✓";
+    timeline.querySelectorAll(".history-item").forEach(
+        item => item.remove()
+    );
 
-            dot.style.animation =
-            "tickPop .45s ease-out";
+    const history = getTrackingHistory(shipment);
 
+    if(count){
+        count.textContent =
+            history.length
+            ? history.length + (history.length === 1 ? " update" : " updates")
+            : "";
+    }
+
+    if(!history.length){
+        if(empty) empty.style.display = "block";
+        if(line) line.style.display = "none";
+        if(toggleButton) toggleButton.style.display = "none";
+        return;
+    }
+
+    if(empty) empty.style.display = "none";
+    if(line){
+        line.style.display = "block";
+        line.style.top = "16px";
+        line.style.bottom = "40px";
+    }
+
+    history.forEach(function(item,index){
+
+        const status =
+            item.status ||
+            item.title ||
+            "Shipment Update";
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "history-item";
+
+        const dot = document.createElement("div");
+        dot.className = "history-dot";
+        const isLatest = index === history.length - 1;
+        dot.textContent = isLatest ? "●" : "✓";
+        if (isLatest) {
+            wrapper.classList.add("latest-history-item");
         }
 
-        else if(index === activeIndex){
+        const content = document.createElement("div");
+        content.className = "history-content";
 
-            element.classList.add("active");
+        const dateText = item._date
+            ? formatHistoryDate(item._date)
+            : "-";
 
-            dot.textContent = "●";
+        content.innerHTML =
+            '<div class="history-status">' +
+                escapeHtml(status) +
+            '</div>' +
+            '<div class="history-meta"><span>' +
+                escapeHtml(dateText) +
+            '</span></div>';
 
-        }
-
-        else{
-
-            dot.textContent =
-            index + 1;
-
-        }
-
+        wrapper.appendChild(dot);
+        wrapper.appendChild(content);
+        timeline.appendChild(wrapper);
     });
-
-
-    const percentage =
-    activeIndex /
-    (statusGroups.length - 1) *
-    100;
-
-
-    document.getElementById(
-        "timelineLine"
-    ).style.background =
-    "linear-gradient(to bottom," +
-    "var(--orange) 0%," +
-    "var(--orange) " +
-    percentage +
-    "%," +
-    "#ddd " +
-    percentage +
-    "%," +
-    "#ddd 100%)";
-
-
-    showSelectedStatusDetail(
-        currentStatus,
-        statusDetail,
-        statusDate
-    );
 }
 
+
+/* ==================================================
+   LEGACY STATUS FALLBACK
+================================================== */
+
+function renderLegacyStatus(shipment){
+
+    const history = getTrackingHistory(shipment);
+
+    if(history.length) return;
+
+    const timeline =
+        document.getElementById("trackingHistoryTimeline");
+
+    if(!timeline) return;
+
+    const empty =
+        document.getElementById("historyEmpty");
+
+    if(empty) empty.style.display = "none";
+
+    const line =
+        document.getElementById("timelineLine");
+
+    if(line) line.style.display = "block";
+
+    const status =
+        shipment.current_status ||
+        "Order Confirmed";
+
+    const detail =
+        shipment.status_detail || "";
+
+    const date =
+        shipment.status_date ||
+        shipment.last_update ||
+        shipment.updated_at ||
+        shipment.booking_date ||
+        null;
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "history-item";
+
+    const dot = document.createElement("div");
+    dot.className = "history-dot";
+    dot.textContent = "●";
+
+    const content = document.createElement("div");
+    content.className = "history-content";
+
+    content.innerHTML =
+        '<div class="history-status">' +
+            escapeHtml(status) +
+        '</div>' +
+        '<div class="history-meta"><span>' +
+            escapeHtml(formatHistoryDate(date)) +
+        '</span></div>' +
+        (detail
+            ? '<div class="history-description">' +
+                escapeHtml(detail) +
+              '</div>'
+            : '');
+
+    wrapper.appendChild(dot);
+    wrapper.appendChild(content);
+    timeline.appendChild(wrapper);
+}
+
+/* ==================================================
+   SHOW SHIPMENT
+================================================== */
 
 /* ==================================================
    SHOW SHIPMENT
@@ -2188,6 +2231,13 @@ function showShipment(shipment){
     const statusDetail =
     shipment.status_detail || "";
 
+    /* ==========================
+       TRACKING HISTORY
+    ========================== */
+
+    renderTrackingHistory(shipment);
+    renderLegacyStatus(shipment);
+
 
     /* ==================================================
        LAST UPDATE DATE
@@ -2203,16 +2253,7 @@ function showShipment(shipment){
     shipment.updated_at ||
     shipment.booking_date ||
     null;
-
-
-    updateTimeline(
-        status,
-        statusDetail,
-        statusDate
-    );
-
-
-    trackingCard.classList.add("show");
+trackingCard.classList.add("show");
 
 
     trackingCard.scrollIntoView({
