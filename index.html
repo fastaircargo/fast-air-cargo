@@ -335,6 +335,31 @@ header{
     border-top:1px solid #eee;
 }
 
+.tracking-current-status{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:12px;
+    padding:12px 14px;
+    border:1px solid #f0dfd3;
+    border-left:4px solid var(--orange);
+    border-radius:10px;
+    background:#fffaf6;
+}
+.tracking-current-status-label{
+    color:#777;
+    font-size:9px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+.tracking-current-status-value{
+    color:var(--green);
+    font-size:13px;
+    font-weight:1000;
+    text-align:right;
+}
 .tracking-history-heading{
     display:flex;
     align-items:center;
@@ -388,6 +413,14 @@ header{
 }
 
 @media (max-width:700px){
+    .tracking-current-status{
+        align-items:flex-start;
+    }
+
+    .tracking-current-status-value{
+        text-align:left;
+    }
+
     .tracking-history-heading{
         align-items:flex-start;
     }
@@ -1349,6 +1382,11 @@ Secure & COD services available.
 
 <div class="timeline-wrapper">
 
+<div class="tracking-current-status">
+    <div class="tracking-current-status-label">Current Shipment Status</div>
+    <div class="tracking-current-status-value" id="displayCurrentStatus">-</div>
+</div>
+
 <div class="tracking-history-heading">
     <span>Shipment Tracking History</span>
     <div class="tracking-history-actions">
@@ -1880,6 +1918,9 @@ document.getElementById("displayService");
 const displayBookingDate =
 document.getElementById("displayBookingDate");
 
+const displayCurrentStatus =
+document.getElementById("displayCurrentStatus");
+
 const displayAdditionalInformation =
 document.getElementById(
     "displayAdditionalInformation"
@@ -2189,6 +2230,18 @@ function showShipment(shipment){
 
     displayService.textContent =
     shipment.service || "-";
+
+    /* ==========================
+       CURRENT SHIPMENT STATUS
+    ========================== */
+
+    const currentStatus =
+    shipment.current_status ||
+    "Order Confirmed";
+
+    if(displayCurrentStatus){
+        displayCurrentStatus.textContent = currentStatus;
+    }
 
 
     /* ==========================
