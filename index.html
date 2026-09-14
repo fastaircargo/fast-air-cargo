@@ -2249,6 +2249,7 @@ function showShipment(shipment){
     ================================================== */
 
     const statusDate =
+    shipment.last_update ||
     shipment.status_date ||
     shipment.updated_at ||
     shipment.booking_date ||
@@ -2315,7 +2316,7 @@ async function(event){
         await supabaseClient
         .from("shipments")
         .select("*")
-        .eq(
+        .ilike(
             "tracking_number",
             trackingNumber
         )
@@ -2325,7 +2326,7 @@ async function(event){
         if(error){
 
             console.error(
-                "Supabase error:",
+                "Supabase tracking query error:",
                 error
             );
 
