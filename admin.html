@@ -1286,6 +1286,27 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                         </div>
 
                         <div class="form-group">
+                            <label for="carrier">
+                                Carrier / Airline
+                            </label>
+
+                            <select id="carrier" onchange="toggleCarrierOther()">
+                                <option value="PIA">PIA</option>
+                                <option value="Emirates">Emirates</option>
+                                <option value="Qatar Airways">Qatar Airways</option>
+                                <option value="Gulf Air">Gulf Air</option>
+                                <option value="Virgin Atlantic">Virgin Atlantic</option>
+                                <option value="Etihad Airways">Etihad Airways</option>
+                                <option value="Saudia">Saudia</option>
+                                <option value="Turkish Airlines">Turkish Airlines</option>
+                                <option value="DHL">DHL</option>
+                                <option value="FedEx">FedEx</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <input type="text" id="carrierOther" class="other-entry" placeholder="Enter carrier / airline">
+                        </div>
+
+                        <div class="form-group">
                             <label for="bookingDate">
                                 Booking Date
                             </label>
@@ -1316,57 +1337,23 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                                 id="shipmentStatus"
                                 required
                             >
+                                        <option value="Shipment Created">Shipment Created</option>
+                                        <option value="Order Confimed">Order Confimed</option>
+                                        <option value="Forwarded">Forwarded</option>
+                                        <option value="Departed">Departed</option>
+                                        <option value="in Custom Clearance">in Custom Clearance</option>
+                                        <option value="Custom Cleared">Custom Cleared</option>
+                                        <option value="in Transit">in Transit</option>
+                                        <option value="Arrived">Arrived</option>
+                                        <option value="in Custom Clearance UK">in Custom Clearance UK</option>
+                                        <option value="Custom Cleared UK">Custom Cleared UK</option>
+                                        <option value="Forwarded to Germany">Forwarded to Germany</option>
+                                        <option value="Reached at Germany">Reached at Germany</option>
+                                        <option value="Handover to Delivery Partner">Handover to Delivery Partner</option>
+                                        <option value="Out for Delivery">Out for Delivery</option>
+                                        <option value="Delivered">Delivered</option>
 
-                                <option value="Order Confirmed">
-                                    Order Confirmed
-                                </option>
-
-                                <option value="Picked Up">
-                                    Picked Up
-                                </option>
-
-                                <option value="In Transit">
-                                    In Transit
-                                </option>
-
-                                <option value="Out for Delivery">
-                                    Out for Delivery
-                                </option>
-
-                                <option value="Delivered">
-                                    Delivered
-                                </option>
-
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="statusDetail">
-                                Status Detail
-                            </label>
-
-                            <select id="statusDetail" onchange="toggleStatusDetailOther()">
-                                <option value="Shipment Created">Shipment Created</option>
-                                <option value="Shipment Picked Up from Origin">Shipment Picked Up from Origin</option>
-                                <option value="Departed from Origin Facility">Departed from Origin Facility</option>
-                                <option value="Arrived at Export Facility">Arrived at Export Facility</option>
-                                <option value="Pakistan Customs Clearance Completed">Pakistan Customs Clearance Completed</option>
-                                <option value="Departed from Pakistan">Departed from Pakistan</option>
-                                <option value="Arrived at Transit Hub">Arrived at Transit Hub</option>
-                                <option value="Shipment Received at Destination Facility">Shipment Received at Destination Facility</option>
-                                <option value="Customs Clearance in Progress">Customs Clearance in Progress</option>
-                                <option value="Saudi Customs Clearance Completed">Saudi Customs Clearance Completed</option>
-                                <option value="Processed and Ready for Onward Transportation">Processed and Ready for Onward Transportation</option>
-                                <option value="Departed Saudi Arabia for United Kingdom">Departed Saudi Arabia for United Kingdom</option>
-                                <option value="Arrived at UK Facility">Arrived at UK Facility</option>
-                                <option value="UK Import/Customs Clearance in Progress">UK Import/Customs Clearance in Progress</option>
-                                <option value="UK Customs Clearance Completed">UK Customs Clearance Completed</option>
-                                <option value="Handed Over to Local Delivery Partner">Handed Over to Local Delivery Partner</option>
-                                <option value="Out for Delivery">Out for Delivery</option>
-                                <option value="Delivered">Delivered</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            <input type="text" id="statusDetailOther" class="other-entry" placeholder="Enter custom status detail">
+                                    </select>
                         </div>
 
                         <div class="form-group two">
@@ -1377,7 +1364,6 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                             <input
                                 type="datetime-local"
                                 id="lastUpdate"
-                                readonly
                             >
                         </div>
 
@@ -1389,66 +1375,32 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                                     <input type="datetime-local" id="historyDate">
                                 </div>
                                 <div class="form-group">
-                                    <label for="historyCountry">Country / Location</label>
-                                    <select id="historyCountry" onchange="toggleHistoryOther('historyCountry','historyCountryOther')">
-                                        <option value="Pakistan">Pakistan</option>
-                                        <option value="Saudi Arabia">Saudi Arabia</option>
-                                        <option value="United Arab Emirates">United Arab Emirates</option>
-                                        <option value="Qatar">Qatar</option>
-                                        <option value="Kuwait">Kuwait</option>
-                                        <option value="Bahrain">Bahrain</option>
-                                        <option value="Oman">Oman</option>
-                                        <option value="Jordan">Jordan</option>
-                                        <option value="Iraq">Iraq</option>
-                                        <option value="Iran">Iran</option>
-                                        <option value="Lebanon">Lebanon</option>
-                                        <option value="Egypt">Egypt</option>
-                                        <option value="Yemen">Yemen</option>
-                                        <option value="Turkey">Turkey</option>
-                                        <option value="United Kingdom">United Kingdom</option>
-                                        <option value="United States">United States</option>
-                                        <option value="China">China</option>
-                                        <option value="Germany">Germany</option>
-                                        <option value="India">India</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    <input type="text" id="historyCountryOther" class="other-entry" placeholder="Enter country / location">
-                                </div>
-                                <div class="form-group">
-                                    <label for="historyCarrier">Carrier / Airline</label>
-                                    <select id="historyCarrier" onchange="toggleHistoryOther('historyCarrier','historyCarrierOther')">
-                                        <option value="PIA">PIA</option>
-                                        <option value="Emirates">Emirates</option>
-                                        <option value="Qatar Airways">Qatar Airways</option>
-                                        <option value="Gulf Air">Gulf Air</option>
-                                        <option value="Virgin Atlantic">Virgin Atlantic</option>
-                                        <option value="Etihad Airways">Etihad Airways</option>
-                                        <option value="Saudia">Saudia</option>
-                                        <option value="Turkish Airlines">Turkish Airlines</option>
-                                        <option value="DHL">DHL</option>
-                                        <option value="FedEx">FedEx</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                    <input type="text" id="historyCarrierOther" class="other-entry" placeholder="Enter carrier / airline">
-                                </div>
-                                <div class="form-group">
                                     <label for="historyStatus">Status</label>
                                     <select id="historyStatus">
-                                        <option value="Shipment Created">Shipment Created</option>
                                         <option value="Order Confirmed">Order Confirmed</option>
                                         <option value="Picked Up">Picked Up</option>
-                                        <option value="Departed">Departed</option>
-                                        <option value="Arrived">Arrived</option>
-                                        <option value="Customs Clearance">Customs Clearance</option>
-                                        <option value="Customs Cleared">Customs Cleared</option>
                                         <option value="In Transit">In Transit</option>
                                         <option value="Out for Delivery">Out for Delivery</option>
                                         <option value="Delivered">Delivered</option>
+                                        <option value="Shipment Created">Shipment Created</option>
+                                        <option value="Shipment Picked Up from Origin">Shipment Picked Up from Origin</option>
+                                        <option value="Departed from Origin Facility">Departed from Origin Facility</option>
+                                        <option value="Arrived at Export Facility">Arrived at Export Facility</option>
+                                        <option value="Pakistan Customs Clearance Completed">Pakistan Customs Clearance Completed</option>
+                                        <option value="Departed from Pakistan">Departed from Pakistan</option>
+                                        <option value="Arrived at Transit Hub">Arrived at Transit Hub</option>
+                                        <option value="Shipment Received at Destination Facility">Shipment Received at Destination Facility</option>
+                                        <option value="Customs Clearance in Progress">Customs Clearance in Progress</option>
+                                        <option value="Saudi Customs Clearance Completed">Saudi Customs Clearance Completed</option>
+                                        <option value="Processed and Ready for Onward Transportation">Processed and Ready for Onward Transportation</option>
+                                        <option value="Departed Saudi Arabia for United Kingdom">Departed Saudi Arabia for United Kingdom</option>
+                                        <option value="Arrived at UK Facility">Arrived at UK Facility</option>
+                                        <option value="UK Import/Customs Clearance in Progress">UK Import/Customs Clearance in Progress</option>
+                                        <option value="UK Customs Clearance Completed">UK Customs Clearance Completed</option>
+                                        <option value="Handed our to Local delivery Partner">Handed our to Local delivery Partner</option>
+                                        <option value="Other">Other</option>
+
                                     </select>
-                                </div>
-                                <div class="form-group two">
-                                    <label for="historyDetails">Shipment Update / Description</label>
-                                    <input type="text" id="historyDetails" placeholder="Shipment departed Saudi Arabia for United Kingdom">
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -1468,16 +1420,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                             </select>
                         </div>
 
-                        <div class="form-group two">
-                            <label for="packageDetails">
-                                Package Details
-                            </label>
 
-                            <textarea
-                                id="packageDetails"
-                                placeholder="Documents, weight, quantity, package information, etc."
-                            ></textarea>
-                        </div>
 
                     </div>
 
@@ -1553,11 +1496,9 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                                 <th>Booking Date</th>
                                 <th>Estimated Delivery</th>
                                 <th>Status</th>
-                                <th>Status Detail</th>
                                 <th>Last Update</th>
-                                <th>Package Details</th>
+                                <th>Carrier / Airline</th>
                                 <th>Tax &amp; Duties / VAT</th>
-                                <th>Last Modified</th>
                                 <th>Actions</th>
                             </tr>
 
@@ -2327,9 +2268,8 @@ function renderShipments() {
                 shipment.destination,
                 shipment.service,
                 shipment.current_status,
-                shipment.status_detail,
                 shipment.last_update,
-                shipment.package_details,
+                shipment.carrier,
                 shipment.tax_duties_vat
             ]
             .join(" ")
@@ -2355,7 +2295,7 @@ function renderShipments() {
 
         tbody.innerHTML = `
             <tr>
-                <td colspan="13" class="empty">
+                <td colspan="12" class="empty">
                     No shipments found.
                 </td>
             </tr>
@@ -2368,14 +2308,6 @@ function renderShipments() {
     tbody.innerHTML =
         filtered
         .map(function(shipment) {
-
-            const updated =
-                shipment.updated_at
-                    ? new Date(
-                        shipment.updated_at
-                    ).toLocaleString()
-                    : "-";
-
 
             return `
 
@@ -2462,19 +2394,13 @@ function renderShipments() {
 
                     <td>
                         ${escapeHtml(
-                            shipment.status_detail || ""
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
                             shipment.last_update || ""
                         )}
                     </td>
 
                     <td>
                         ${escapeHtml(
-                            shipment.package_details || ""
+                            shipment.carrier || ""
                         )}
                     </td>
 
@@ -2482,10 +2408,6 @@ function renderShipments() {
                         ${escapeHtml(
                             shipment.tax_duties_vat || "Non Paid"
                         )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(updated)}
                     </td>
 
                     <td>
@@ -2593,8 +2515,38 @@ document
         return;
     }
 
-    setCurrentLastUpdate();
-    const shipmentHistory = window.currentTrackingHistory || [];
+    let shipmentHistory = Array.isArray(window.currentTrackingHistory)
+        ? [...window.currentTrackingHistory]
+        : [];
+
+    const selectedStatus =
+        document.getElementById("shipmentStatus").value;
+    const existingShipment = id
+        ? shipments.find(s => String(s.id) === String(id))
+        : null;
+
+    const previousStatus =
+        existingShipment?.current_status || "";
+
+    const isNewShipment = !id;
+
+    const statusChanged =
+        isNewShipment ||
+        selectedStatus !== previousStatus;
+
+    if (statusChanged) {
+        shipmentHistory.push({
+            date: new Date().toISOString(),
+            country: currentShipmentCity || "",
+            carrier: "Fast Air Cargo",
+            status: selectedStatus
+        });
+    }
+
+    shipmentHistory.sort((a, b) =>
+        new Date(a.date || a.datetime || 0) -
+        new Date(b.date || b.datetime || 0)
+    );
 
     const shipmentData = {
 
@@ -2616,6 +2568,10 @@ document
             .value
             .trim(),
 
+        carrier: (document.getElementById("carrier").value === "Other"
+            ? document.getElementById("carrierOther").value.trim()
+            : document.getElementById("carrier").value),
+
         booking_date:
             document
             .getElementById("bookingDate")
@@ -2633,19 +2589,14 @@ document
             .getElementById("shipmentStatus")
             .value,
 
-        status_detail: (document.getElementById("statusDetail").value === "Other"
-            ? document.getElementById("statusDetailOther").value.trim()
-            : document.getElementById("statusDetail").value),
-
-        last_update: new Date().toISOString(),
+        last_update: (() => {
+            const value = document.getElementById("lastUpdate").value;
+            if (!value) return null;
+            const date = new Date(value);
+            return isNaN(date.getTime()) ? null : date.toISOString();
+        })(),
 
         tracking_history: shipmentHistory,
-
-        package_details:
-            document
-            .getElementById("packageDetails")
-            .value
-            .trim(),
 
         tax_duties_vat:
             document
@@ -2756,25 +2707,24 @@ async function editShipment(id) {
     document.getElementById("origin").value = currentShipmentCity || shipment.origin || "";
     document.getElementById("destination").value = shipment.destination || "";
     document.getElementById("service").value = shipment.service || "";
+    const savedCarrier = shipment.carrier || "PIA";
+    const carrierSelect = document.getElementById("carrier");
+    const carrierOther = document.getElementById("carrierOther");
+    const knownCarrier = Array.from(carrierSelect.options).some(o => o.value === savedCarrier);
+    carrierSelect.value = knownCarrier ? savedCarrier : "Other";
+    carrierOther.value = knownCarrier ? "" : savedCarrier;
+    carrierOther.classList.toggle("show", !knownCarrier);
     document.getElementById("bookingDate").value = shipment.booking_date || "";
     document.getElementById("estimatedDelivery").value = shipment.estimated_delivery || "";
     document.getElementById("shipmentStatus").value =
-        shipment.current_status || "Order Confirmed";
-    const savedStatusDetail = shipment.status_detail || "Shipment Created";
-    const statusDetailSelect = document.getElementById("statusDetail");
-    const statusDetailOther = document.getElementById("statusDetailOther");
-    const knownStatusDetail = Array.from(statusDetailSelect.options).some(o => o.value === savedStatusDetail);
-    statusDetailSelect.value = knownStatusDetail ? savedStatusDetail : "Other";
-    statusDetailOther.value = knownStatusDetail ? "" : savedStatusDetail;
-    toggleStatusDetailOther();
+        shipment.current_status || "Shipment Created";
     if (shipment.last_update) {
         const lastUpdateDate = new Date(shipment.last_update);
         document.getElementById("lastUpdate").value = new Date(lastUpdateDate.getTime() - lastUpdateDate.getTimezoneOffset() * 60000)
             .toISOString().slice(0, 16);
     } else {
-        setCurrentLastUpdate();
+        document.getElementById("lastUpdate").value = "";
     }
-    document.getElementById("packageDetails").value = shipment.package_details || "";
     document.getElementById("taxDutiesVat").value = shipment.tax_duties_vat === "Paid" ? "Paid" : "Non Paid";
     window.currentTrackingHistory = Array.isArray(shipment.tracking_history) ? shipment.tracking_history : [];
     renderTrackingHistoryEditor();
@@ -2815,49 +2765,29 @@ function resetShipmentForm() {
     document
         .getElementById("shipmentStatus")
         .value =
-            "Order Confirmed";
+            "Shipment Created";
 
     document.getElementById("service").value = "Fastest";
-    document.getElementById("statusDetail").value = "Shipment Created";
+    document.getElementById("carrier").value = "PIA";
+    document.getElementById("carrierOther").value = "";
+    document.getElementById("carrierOther").classList.remove("show");
     document.getElementById("taxDutiesVat").value = "Non Paid";
-    document.getElementById("statusDetailOther").value = "";
-    toggleStatusDetailOther();
-    setCurrentLastUpdate();
+    document.getElementById("lastUpdate").value = "";
     if (currentShipmentCity) document.getElementById("origin").value = currentShipmentCity;
 
     window.currentTrackingHistory = [];
     renderTrackingHistoryEditor();
     const now = new Date();
     document.getElementById("historyDate").value = new Date(now.getTime() - now.getTimezoneOffset()*60000).toISOString().slice(0,16);
-    document.getElementById("historyCountry").value = "Pakistan";
-    document.getElementById("historyCarrier").value = "PIA";
     document.getElementById("historyStatus").value = "Shipment Created";
-    document.getElementById("historyCountryOther").value = "";
-    document.getElementById("historyCarrierOther").value = "";
-    document.getElementById("historyDetails").value = "";
 
 }
 
 
-function setCurrentLastUpdate() {
-    const input = document.getElementById("lastUpdate");
-    if (!input) return;
-    const now = new Date();
-    input.value = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-        .toISOString().slice(0, 16);
-}
 
-function toggleStatusDetailOther() {
-    const select = document.getElementById("statusDetail");
-    const input = document.getElementById("statusDetailOther");
-    if (!select || !input) return;
-    input.classList.toggle("show", select.value === "Other");
-    if (select.value !== "Other") input.value = "";
-}
-
-function toggleHistoryOther(selectId, inputId) {
-    const select = document.getElementById(selectId);
-    const input = document.getElementById(inputId);
+function toggleCarrierOther() {
+    const select = document.getElementById("carrier");
+    const input = document.getElementById("carrierOther");
     if (!select || !input) return;
     input.classList.toggle("show", select.value === "Other");
     if (select.value !== "Other") input.value = "";
@@ -2865,18 +2795,12 @@ function toggleHistoryOther(selectId, inputId) {
 
 function addTrackingHistoryEntry() {
     const date = document.getElementById("historyDate").value;
-    const countrySelect = document.getElementById("historyCountry").value;
-    const carrierSelect = document.getElementById("historyCarrier").value;
-    const country = countrySelect === "Other" ? document.getElementById("historyCountryOther").value.trim() : countrySelect;
-    const carrier = carrierSelect === "Other" ? document.getElementById("historyCarrierOther").value.trim() : carrierSelect;
     const status = document.getElementById("historyStatus").value;
-    const details = document.getElementById("historyDetails").value.trim();
-    if (!date || !country || !carrier || !status) { showToast("Date, country, carrier and status are required.", "error"); return; }
+    if (!date || !status) { showToast("Update Date & Time and Status are required.", "error"); return; }
     if (!window.currentTrackingHistory) window.currentTrackingHistory = [];
-    window.currentTrackingHistory.push({date, country, carrier, status, details});
-    window.currentTrackingHistory.sort((a,b) => new Date(a.date) - new Date(b.date));
+    window.currentTrackingHistory.push({ date, status });
+    window.currentTrackingHistory.sort((a,b) => new Date(a.date || a.datetime || 0) - new Date(b.date || b.datetime || 0));
     renderTrackingHistoryEditor();
-    document.getElementById("historyDetails").value = "";
 }
 
 function removeTrackingHistoryEntry(index) {
@@ -2888,12 +2812,14 @@ function renderTrackingHistoryEditor() {
     const list = document.getElementById("trackingHistoryList");
     if (!list) return;
     const history = window.currentTrackingHistory || [];
-    if (!history.length) { list.innerHTML = '<div class="empty">No tracking updates added yet.</div>'; return; }
+    if (!history.length) {
+        list.innerHTML = '<div class="empty">No tracking updates added yet.</div>';
+        return;
+    }
     list.innerHTML = history.map((item, index) => `
         <div class="tracking-history-item">
             <strong>${escapeHtml(item.status || "")}</strong>
-            <div class="tracking-history-meta">${escapeHtml(new Date(item.date).toLocaleString())} · ${escapeHtml(item.country || "")} · ${escapeHtml(item.carrier || "")}</div>
-            ${item.details ? `<div class="tracking-history-meta">${escapeHtml(item.details)}</div>` : ""}
+            <div class="tracking-history-meta">${escapeHtml(new Date(item.date || item.datetime).toLocaleString())}</div>
             <button type="button" class="action-btn delete-btn tracking-history-remove" onclick="removeTrackingHistoryEntry(${index})">Remove</button>
         </div>`).join("");
 }
@@ -2907,28 +2833,40 @@ async function quickShipmentStatus(
     status
 ) {
 
-    const shipment = shipments.find(s => String(s.id) === String(id));
-    const history = Array.isArray(shipment && shipment.tracking_history) ? [...shipment.tracking_history] : [];
+    const shipment = shipments.find(
+        s => String(s.id) === String(id)
+    );
+
+    if (!shipment) {
+        showToast("Shipment was not found.", "error");
+        return;
+    }
+
+    let history = Array.isArray(shipment.tracking_history)
+        ? [...shipment.tracking_history]
+        : [];
+
+    const now = new Date().toISOString();
+
     history.push({
-        date: new Date().toISOString(),
-        country: shipment?.destination || currentShipmentCity || "",
-        carrier: shipment?.service || "Other",
-        status,
-        details: shipment?.status_detail || shipment?.last_update || ""
+        date: now,
+        status: status
     });
+
+    history.sort((a, b) =>
+        new Date(a.date || a.datetime || 0) -
+        new Date(b.date || b.datetime || 0)
+    );
 
     const result =
         await supabaseClient
         .from("shipments")
         .update({
             current_status: status,
-            status_detail: status,
-            last_update: new Date().toISOString(),
             tracking_history: history
         })
         .eq("id", id)
         .eq("city", currentShipmentCity);
-
 
     if (result.error) {
 
@@ -2943,13 +2881,11 @@ async function quickShipmentStatus(
         return;
     }
 
-
     showToast(
-        "Shipment status successfully updated."
+        "Shipment status updated and added to tracking history."
     );
 
     await loadShipments();
-
 }
 
 
