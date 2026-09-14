@@ -2502,7 +2502,11 @@ function formatHistoryDate(dateValue){
 
 function getTrackingHistory(shipment){
 
-    let history = shipment && shipment.tracking_history;
+    let history = shipment && (
+        shipment.tracking_history ??
+        shipment.trackingHistory ??
+        shipment.history
+    );
 
     /* Supabase JSON/JSONB may arrive as an array or JSON text. */
     if(typeof history === "string"){
@@ -2585,12 +2589,15 @@ function renderTrackingHistory(shipment){
 
     if(!timeline) return;
 
-    /* Always start collapsed; the button controls the history. */
-    timeline.classList.add("history-collapsed");
+    /*
+       History is visible when shipment details are loaded.
+       The button still controls Show / Hide.
+    */
+    timeline.classList.remove("history-collapsed");
 
     if(toggleButton){
-        toggleButton.textContent = "Show Tracking History";
-        toggleButton.setAttribute("aria-expanded", "false");
+        toggleButton.textContent = "Hide Tracking History";
+        toggleButton.setAttribute("aria-expanded", "true");
         toggleButton.style.display = "inline-flex";
     }
 
@@ -2614,6 +2621,7 @@ function renderTrackingHistory(shipment){
             const historyStatus = String(
                 history[i].status ||
                 history[i].title ||
+                history[i].status_detail ||
                 ""
             ).trim();
 
@@ -2653,6 +2661,7 @@ function renderTrackingHistory(shipment){
         const status =
             item.status ||
             item.title ||
+            item.status_detail ||
             "Shipment Update";
 
         const dateText = item._date
