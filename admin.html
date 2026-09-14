@@ -1457,6 +1457,17 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                             <div id="trackingHistoryList" class="tracking-history-list"></div>
                         </div>
 
+                        <div class="form-group">
+                            <label for="taxDutiesVat">
+                                Tax &amp; Duties / VAT
+                            </label>
+
+                            <select id="taxDutiesVat">
+                                <option value="Non Paid">Non Paid</option>
+                                <option value="Paid">Paid</option>
+                            </select>
+                        </div>
+
                         <div class="form-group two">
                             <label for="packageDetails">
                                 Package Details
@@ -1545,6 +1556,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                                 <th>Status Detail</th>
                                 <th>Last Update</th>
                                 <th>Package Details</th>
+                                <th>Tax &amp; Duties / VAT</th>
                                 <th>Last Modified</th>
                                 <th>Actions</th>
                             </tr>
@@ -2317,7 +2329,8 @@ function renderShipments() {
                 shipment.current_status,
                 shipment.status_detail,
                 shipment.last_update,
-                shipment.package_details
+                shipment.package_details,
+                shipment.tax_duties_vat
             ]
             .join(" ")
             .toLowerCase();
@@ -2342,7 +2355,7 @@ function renderShipments() {
 
         tbody.innerHTML = `
             <tr>
-                <td colspan="12" class="empty">
+                <td colspan="13" class="empty">
                     No shipments found.
                 </td>
             </tr>
@@ -2462,6 +2475,12 @@ function renderShipments() {
                     <td>
                         ${escapeHtml(
                             shipment.package_details || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            shipment.tax_duties_vat || "Non Paid"
                         )}
                     </td>
 
@@ -2626,7 +2645,12 @@ document
             document
             .getElementById("packageDetails")
             .value
-            .trim()
+            .trim(),
+
+        tax_duties_vat:
+            document
+            .getElementById("taxDutiesVat")
+            .value || "Non Paid"
 
     };
 
@@ -2751,6 +2775,7 @@ async function editShipment(id) {
         setCurrentLastUpdate();
     }
     document.getElementById("packageDetails").value = shipment.package_details || "";
+    document.getElementById("taxDutiesVat").value = shipment.tax_duties_vat === "Paid" ? "Paid" : "Non Paid";
     window.currentTrackingHistory = Array.isArray(shipment.tracking_history) ? shipment.tracking_history : [];
     renderTrackingHistoryEditor();
 
@@ -2794,6 +2819,7 @@ function resetShipmentForm() {
 
     document.getElementById("service").value = "Fastest";
     document.getElementById("statusDetail").value = "Shipment Created";
+    document.getElementById("taxDutiesVat").value = "Non Paid";
     document.getElementById("statusDetailOther").value = "";
     toggleStatusDetailOther();
     setCurrentLastUpdate();
