@@ -1114,46 +1114,28 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
     ====================================================== -->
 
     <main id="accountsPage" class="container hidden">
-        <div class="page-title">
-            <div class="ledger-title"><h2 id="accountsTitle">Accounts</h2><span class="city-badge" id="accountsCityBadge"></span></div>
-            <p>Manage the selected city's Ledger and 3rd Party Ledger.</p>
-        </div>
-
-        <div class="account-summary-grid">
-            <div class="account-summary"><span>Total Sales</span><strong id="accountsSales">0.00</strong></div>
-            <div class="account-summary"><span>Total Paid</span><strong id="accountsPaid">0.00</strong></div>
-            <div class="account-summary profit"><span>Profit</span><strong id="accountsProfit">0.00</strong></div>
-            <div class="account-summary"><span>Expenses</span><strong id="accountsExpenses">0.00</strong></div>
-        </div>
-
-        <div class="accounts-section-grid">
-            <div class="accounts-action-card" onclick="openAccountsLedger()">
-                <h3>Ledger</h3>
-                <p>Open the selected city's cargo ledger, sales, payments and profit records.</p>
-                <span class="action-label">Open Ledger →</span>
+        <div id="shipmentAccountsSection">
+            <div class="page-title">
+                <div class="ledger-title"><h2 id="accountsTitle">Shipment Accounts</h2><span class="city-badge" id="accountsCityBadge"></span></div>
+                <p>Airwaybill financial records for the selected station. Received comes from the Airwaybill, Paid is entered here, and Profit is calculated automatically.</p>
             </div>
-            <div class="accounts-action-card" onclick="openThirdPartyLedger()">
-                <h3>3rd Party Ledger</h3>
-                <p>Manage third-party shipments, credits, debits and running balances for the selected city.</p>
-                <span class="action-label">Open 3rd Party Ledger →</span>
-            </div>
-        </div>
 
-        <div class="card" id="accountsAirwaybillCard">
-            <div class="card-header">
-                <h3>Airwaybill Accounts</h3>
-                <span class="city-badge" id="accountsAwbCount">0 Airwaybills</span>
-            </div>
-            <div class="card-body">
-                <div class="account-tools">
-                    <input type="text" id="accountsAwbSearch" class="search-box" placeholder="Search AWB number..." oninput="renderAccountsAirwaybills()">
-                    <input type="month" id="accountsAwbMonth" onchange="loadAccounts()">
+            <div class="card" id="accountsAirwaybillCard">
+                <div class="card-header">
+                    <h3>Shipment Accounts</h3>
+                    <span class="city-badge" id="accountsAwbCount">0 Shipments</span>
                 </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>Date</th><th>AWB</th><th>Received Amount</th><th>Paid</th><th>Profit</th><th>Action</th></tr></thead>
-                        <tbody id="accountsAwbTableBody"></tbody>
-                    </table>
+                <div class="card-body">
+                    <div class="account-tools">
+                        <input type="text" id="accountsAwbSearch" class="search-box" placeholder="Search AWB number..." oninput="renderAccountsAirwaybills()">
+                        <input type="month" id="accountsAwbMonth" onchange="loadAccounts()">
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Date</th><th>AWB</th><th>Received Amount</th><th>Paid</th><th>Profit</th><th>Action</th></tr></thead>
+                            <tbody id="accountsAwbTableBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1193,7 +1175,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
 <div class="form-actions">
 <button type="submit" class="primary-btn">Save Ledger Entry</button>
 <button type="button" class="secondary-btn hidden" id="cancelThirdPartyEdit" onclick="resetThirdPartyForm()">Cancel Edit</button>
-<button type="button" class="secondary-btn" onclick="openAccountsHome()">Back to Accounts</button>
+
 </div>
 </form>
 </div>
@@ -1670,7 +1652,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                     <div class="form-group"><label for="ledgerProfit">Profit</label><input type="text" id="ledgerProfit" value="+ 0.00" readonly class="profit-positive"></div>
                     <div class="form-group two"><label for="ledgerPackage">Note</label><textarea id="ledgerPackage" placeholder="Note"></textarea></div>
                 </div>
-                <div class="form-actions"><button type="submit" class="primary-btn">Save Entry</button><button type="button" class="secondary-btn" onclick="openAccountsHome()">Back to Accounts</button><button type="button" class="secondary-btn hidden" id="cancelLedgerEdit" onclick="resetLedgerForm()">Cancel Edit</button></div>
+                <div class="form-actions"><button type="submit" class="primary-btn">Save Entry</button><button type="button" class="secondary-btn hidden" id="cancelLedgerEdit" onclick="resetLedgerForm()">Cancel Edit</button></div>
             </form></div>
         </div>
 
@@ -2017,8 +1999,10 @@ async function openAccountsHome() {
 
     const title = document.getElementById("accountsTitle");
     const badge = document.getElementById("accountsCityBadge");
-    if (title) title.textContent = currentAccountsCity + " Accounts";
+    if (title) title.textContent = currentAccountsCity + " Shipment Accounts";
     if (badge) badge.textContent = currentAccountsCity;
+    const shipmentSection=document.getElementById("shipmentAccountsSection");
+    if(shipmentSection) shipmentSection.classList.remove("hidden");
 
     // Return to the selected city's Accounts home, not the city-selection screen.
     resetAccountForm();
@@ -2069,8 +2053,8 @@ async function openThirdPartyLedger(){
     hideAllPages();
     document.getElementById("accountsPage").classList.remove("hidden");
     setActiveNav("accountsTabBtn");
-    document.getElementById("accountsTitle").textContent=currentAccountsCity+" Accounts";
-    document.getElementById("accountsCityBadge").textContent=currentAccountsCity;
+    const shipmentSection=document.getElementById("shipmentAccountsSection");
+    if(shipmentSection) shipmentSection.classList.add("hidden");
     document.getElementById("thirdPartyLedgerSection").classList.remove("hidden");
     if(!document.getElementById("thirdPartyMonth").value) document.getElementById("thirdPartyMonth").value=new Date().toISOString().slice(0,7);
     await loadThirdPartyCompanies();
@@ -2090,8 +2074,10 @@ async function openAccountsAfterAccess(city) {
     hideAllPages();
     document.getElementById("accountsPage").classList.remove("hidden");
     setActiveNav("accountsTabBtn");
-    document.getElementById("accountsTitle").textContent = city + " Accounts";
+    document.getElementById("accountsTitle").textContent = city + " Shipment Accounts";
     document.getElementById("accountsCityBadge").textContent = city;
+    const shipmentSection=document.getElementById("shipmentAccountsSection");
+    if(shipmentSection) shipmentSection.classList.remove("hidden");
     if (!document.getElementById("accountMonth").value) document.getElementById("accountMonth").value = new Date().toISOString().slice(0,7);
     if (!document.getElementById("accountsAwbMonth").value) document.getElementById("accountsAwbMonth").value = new Date().toISOString().slice(0,7);
     setAccountCategories();
@@ -3650,7 +3636,7 @@ const OTHER_CASH_IN_CATEGORIES=["Sales Collection","Commission","Service Income"
 function setAccountCategories(){
     const type=document.getElementById("accountType").value;
     const select=document.getElementById("accountCategory");
-    const list=type==="Cash Out"?EXPENSE_CATEGORIES:["Shipment","Other Cash In"];
+    const list=type==="Cash Out"?EXPENSE_CATEGORIES:["Other Cash In"];
     select.innerHTML=list.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join("");
     const incomeSelect=document.getElementById("accountOtherIncomeCategory");
     if(incomeSelect){
@@ -3799,10 +3785,10 @@ async function loadAccounts(){
         const sales=led.reduce((a,x)=>a+Number(x.charges||0),0), paid=led.reduce((a,x)=>a+Number(x.paid||0),0);
         const expenses=accountTransactions.filter(x=>x.transaction_type==="Cash Out"||x.transaction_type==="Expense").reduce((a,x)=>a+Number(x.amount||0),0);
         const otherIncome=accountTransactions.filter(x=>x.transaction_type==="Cash In"||x.transaction_type==="Other Income").reduce((a,x)=>a+Number(x.amount||0),0);
-        document.getElementById("accountsSales").textContent=formatMoney(sales);
-        document.getElementById("accountsPaid").textContent=formatMoney(paid);
-        document.getElementById("accountsExpenses").textContent=formatMoney(expenses);
-        document.getElementById("accountsProfit").textContent=formatMoney(sales+otherIncome-expenses);
+        if(document.getElementById("accountsSales")) document.getElementById("accountsSales").textContent=formatMoney(sales);
+        if(document.getElementById("accountsPaid")) document.getElementById("accountsPaid").textContent=formatMoney(paid);
+        if(document.getElementById("accountsExpenses")) document.getElementById("accountsExpenses").textContent=formatMoney(expenses);
+        if(document.getElementById("accountsProfit")) document.getElementById("accountsProfit").textContent=formatMoney(sales+otherIncome-expenses);
         document.getElementById("accountPeriodLabel").textContent=getReportMonthLabel(month);
         renderAccountTransactions();
         renderAccountsAirwaybills();
@@ -3818,13 +3804,13 @@ function renderAccountsAirwaybills(){
         .filter(t=>t.awb_number || t.category==="Shipment")
         .filter(t=>!search||String(t.awb_number||t.reference||"").toLowerCase().includes(search));
     const count=document.getElementById("accountsAwbCount");
-    if(count) count.textContent=list.length+(list.length===1?" Airwaybill":" Airwaybills");
+    if(count) count.textContent=list.length+(list.length===1?" Shipment":" Shipments");
     body.innerHTML=list.length?list.map(t=>{
         const received=Number(t.received_amount??t.amount??0);
         const paid=Number(t.paid_amount||0);
         const profit=received-paid;
         return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td><strong>${escapeHtml(t.awb_number||t.reference||"")}</strong></td><td>${formatMoney(received)}</td><td><input type="number" min="0" step="0.01" id="accountsPaid_${t.id}" value="${paid.toFixed(2)}" style="min-width:120px" oninput="previewAccountsAwbProfit('${t.id}',${received})"></td><td id="accountsProfit_${t.id}">${formatMoney(profit)}</td><td><button type="button" class="action-btn edit-btn" onclick="saveAccountsAwbPaid('${t.id}',${received})">Save Paid</button></td></tr>`;
-    }).join(""):'<tr><td colspan="6" class="empty">No Airwaybill account entries found for this month.</td></tr>';
+    }).join(""):'<tr><td colspan="6" class="empty">No Shipment Account entries found for this month.</td></tr>';
 }
 function previewAccountsAwbProfit(id,received){
     const paid=Number(document.getElementById("accountsPaid_"+id)?.value||0);
@@ -3845,9 +3831,10 @@ async function saveAccountsAwbPaid(id,received){
 
 function renderAccountTransactions(){
     const search=(document.getElementById("accountSearch").value||"").toLowerCase().trim();
-    const list=accountTransactions.filter(t=>!search||[t.transaction_type,t.category,t.description,t.reference,t.payment_method,t.awb_number].join(" ").toLowerCase().includes(search));
-    const cashIn=accountTransactions.filter(t=>t.transaction_type==="Cash In"||t.transaction_type==="Other Income").reduce((a,t)=>a+Number(t.amount||0),0);
-    const cashOut=accountTransactions.filter(t=>t.transaction_type==="Cash Out"||t.transaction_type==="Expense").reduce((a,t)=>a+Number(t.amount||0),0);
+    const officeTransactions=accountTransactions.filter(t=>!(t.awb_number || t.category==="Shipment"));
+    const list=officeTransactions.filter(t=>!search||[t.transaction_type,t.category,t.description,t.reference,t.payment_method].join(" ").toLowerCase().includes(search));
+    const cashIn=officeTransactions.filter(t=>t.transaction_type==="Cash In"||t.transaction_type==="Other Income").reduce((a,t)=>a+Number(t.amount||0),0);
+    const cashOut=officeTransactions.filter(t=>t.transaction_type==="Cash Out"||t.transaction_type==="Expense").reduce((a,t)=>a+Number(t.amount||0),0);
     document.getElementById("dailyCashIn").textContent=formatMoney(cashIn);
     document.getElementById("dailyCashOut").textContent=formatMoney(cashOut);
     document.getElementById("accountTransactionCount").textContent=list.length+(list.length===1?" Transaction":" Transactions");
@@ -4069,7 +4056,7 @@ function buildDailyCashPrintHtml(city, month, entries){
 function printDailyCashReport(){
     if(!currentAccountsCity){showToast("Please open a station first.","error");return;}
     const month=document.getElementById("accountMonth").value||new Date().toISOString().slice(0,7);
-    const entries=accountTransactions.filter(t=>(t.transaction_date||"").slice(0,7)===month).sort((a,b)=>(b.transaction_date||"").localeCompare(a.transaction_date||""));
+    const entries=accountTransactions.filter(t=>!(t.awb_number || t.category==="Shipment")).filter(t=>(t.transaction_date||"").slice(0,7)===month).sort((a,b)=>(b.transaction_date||"").localeCompare(a.transaction_date||""));
     if(!entries.length){showToast("No cash transactions are available to print for this month.","error");return;}
     const w=window.open("","_blank","width=900,height=900");
     if(!w){showToast("Please allow pop-ups to print the cash report.","error");return;}
