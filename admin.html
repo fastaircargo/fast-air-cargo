@@ -4283,51 +4283,29 @@ function awbDbPayload(){
 }
 async function syncAirwaybillToAccountsAndShipments(){
     const awb=awbVal("awbNumber");
-    if(!awb || !currentAirwaybillCity) return;
+    if(!awb || !currentAirwaybillCity) return {accounts:false,shipments:false};
 
-    // 1) Station-wise Accounts: one row per AWB. Received Amount follows Payable Bill.
-    const received=awbNum("awbPayable");
-    const {data:existingAccounts,error:accountLookupError}=await supabaseClient
-        .from("account_transactions").select("id,paid_amount").eq("city",currentAirwaybillCity).eq("awb_number",awb).limit(1);
-    if(accountLookupError) throw accountLookupError;
-    const existingAccount=existingAccounts?.[0];
-    const paid=Number(existingAccount?.paid_amount||0);
-    const accountPayload={
-        city:currentAirwaybillCity,
-        transaction_date:awbVal("awbBookingDate")||new Date().toISOString().slice(0,10),
-        transaction_type:"Cash In", category:"Shipment",
-        description:`Shipment - AWB ${awb}`,
-        amount:received, received_amount:received,
-        paid_amount:paid, profit_amount:received-paid,
-        payment_method:"Cash", reference:awb, awb_number:awb,
-        actual_weight:awbNum("awbActualWeight"), dimensional_weight:awbNum("awbVolWeight"),
-        notes:"Auto-created from Airwaybill"
+    // Use one server-side Supabase RPC so station Accounts and existing Shipment
+    // Management are created reliably even when browser-side RLS is restrictive.
+    const params={
+        p_city:currentAirwaybillCity,
+        p_awb_number:awb,
+        p_booking_date:awbVal("awbBookingDate")||new Date().toISOString().slice(0,10),
+        p_received_amount:awbNum("awbPayable"),
+        p_actual_weight:awbNum("awbActualWeight"),
+        p_dimensional_weight:awbNum("awbVolWeight"),
+        p_destination:awbVal("awbConsigneeCountry")||awbVal("awbConsigneeCity"),
+        p_service:awbVal("awbService"),
+        p_tax_duties_vat:awbVal("awbTaxDutiesVat")||"Non Paid"
     };
-    const accountResult=existingAccount
-        ? await supabaseClient.from("account_transactions").update(accountPayload).eq("id",existingAccount.id)
-        : await supabaseClient.from("account_transactions").insert(accountPayload);
-    if(accountResult.error) throw accountResult.error;
+    const result=await supabaseClient.rpc("sync_airwaybill_to_operations",params);
+    if(result.error) throw new Error("Accounts/Shipment sync failed: "+result.error.message);
 
-    // 2) Existing Shipment Management is the tracking-update system. Create only the initial row.
-    const {data:existingShipments,error:shipmentLookupError}=await supabaseClient
-        .from("shipments").select("id").eq("city",currentAirwaybillCity).eq("tracking_number",awb).limit(1);
-    if(shipmentLookupError) throw shipmentLookupError;
-    if(!existingShipments?.length){
-        const now=new Date().toISOString();
-        const shipmentPayload={
-            city:currentAirwaybillCity, tracking_number:awb, origin:currentAirwaybillCity,
-            destination:awbVal("awbConsigneeCountry")||awbVal("awbConsigneeCity"),
-            service:awbVal("awbService"), carrier:"Fast Air Cargo",
-            booking_date:awbVal("awbBookingDate")||null, estimated_delivery:null,
-            current_status:"Order Confirmed", last_update:now,
-            tracking_history:[{date:now,country:currentAirwaybillCity,carrier:"Fast Air Cargo",status:"Order Confirmed"}],
-            tax_duties_vat:awbVal("awbTaxDutiesVat")||"Non Paid"
-        };
-        const shipmentResult=await supabaseClient.from("shipments").insert(shipmentPayload);
-        if(shipmentResult.error) throw shipmentResult.error;
-    }
+    // Refresh only when those station screens are already open for the same city.
+    if(currentAccountsCity===currentAirwaybillCity){ try{ await loadAccounts(); }catch(e){ console.error(e); } }
+    if(currentShipmentCity===currentAirwaybillCity){ try{ await loadShipments(); }catch(e){ console.error(e); } }
+    return result.data || {accounts:true,shipments:true};
 }
-
 async function saveAirwaybill(silent=false){
     if(airwaybillSaving) return false;
     if(!currentAirwaybillCity){ if(!silent) showToast("Please open Airwaybill through a city first.","error"); return false; }
