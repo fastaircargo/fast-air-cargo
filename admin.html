@@ -1134,7 +1134,8 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                             <div class="form-group"><label for="awbSetNextNumber">Set Next AWB Number *</label><input id="awbSetNextNumber" type="number" min="1000000" max="9999999" step="1" placeholder="e.g. 5500001"></div>
                         </div>
                         <div id="awbNumberControlError" class="error hidden"></div>
-                        <div class="form-actions"><button type="button" class="primary-btn" onclick="updateAwbNextNumber()">Update AWB Number</button><button type="button" class="secondary-btn" onclick="lockAwbNumberControl()">Lock</button></div>
+                        <p style="margin:12px 0;color:#667085;font-size:12px;line-height:1.6"><b>Update</b> is for a new unused number. <b>Reset & Set</b> can reuse an older number and will permanently remove only conflicting Airwaybill test records from that number upward, including their auto-created Shipment Accounts and Shipment Management rows.</p>
+                        <div class="form-actions"><button type="button" class="primary-btn" onclick="updateAwbNextNumber()">Update AWB Number</button><button type="button" class="secondary-btn" onclick="resetAwbNextNumber()">Reset & Set AWB</button><button type="button" class="secondary-btn" onclick="lockAwbNumberControl()">Lock</button></div>
                     </div>
                 </div>
             </div>
@@ -2400,6 +2401,25 @@ async function updateAwbNextNumber(){
     const data=result.data||{};
     if(data.success!==true){if(err){err.textContent=data.message||"AWB number was not changed.";err.classList.remove("hidden");}return;}
     showToast("Next central Airwaybill number set to "+data.next_number+".");
+    await loadAwbNumberControlStatus();
+}
+
+async function resetAwbNextNumber(){
+    const err=document.getElementById("awbNumberControlError");
+    if(err)err.classList.add("hidden");
+    if(!awbNumberControlDinaCode){openAwbNumberControlSecurity();return;}
+    const raw=document.getElementById("awbSetNextNumber").value.trim();
+    const next=Number(raw);
+    if(!Number.isInteger(next)||next<1000000||next>9999999){if(err){err.textContent="Enter a valid 7-digit AWB number.";err.classList.remove("hidden");}return;}
+    const warning="RESET central Airwaybill number to "+next+"?\n\nIMPORTANT: Any saved Airwaybills numbered "+next+" or higher will be permanently removed, together with their Airwaybill items and their auto-created Shipment Accounts / Shipment Management rows.\n\nDina, Jhelum and Mirpur will then share "+next+" as the next AWB.\n\nPress OK only if these are test records.";
+    if(!confirm(warning))return;
+    const typed=prompt('For final confirmation, type RESET '+next);
+    if(typed!==('RESET '+next)){if(err){err.textContent="Reset cancelled. Confirmation text did not match.";err.classList.remove("hidden");}return;}
+    const result=await supabaseClient.rpc("reset_airwaybill_number_safe",{p_dina_code:awbNumberControlDinaCode,p_next_number:next});
+    if(result.error){if(err){err.textContent=result.error.message;err.classList.remove("hidden");}return;}
+    const data=result.data||{};
+    if(data.success!==true){if(err){err.textContent=data.message||"AWB reset was not completed.";err.classList.remove("hidden");}return;}
+    showToast("AWB reset complete. Next central Airwaybill number is "+data.next_number+".");
     await loadAwbNumberControlStatus();
 }
 
