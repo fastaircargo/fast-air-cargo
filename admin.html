@@ -863,6 +863,21 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
 </div>
 
 <!-- =========================================================
+     AIRWAYBILL NUMBER CONTROL SECURITY MODAL
+========================================================= -->
+<div id="awbNumberSecurityModal" class="city-security-overlay hidden">
+    <div class="city-security-box">
+        <h3>Airwaybill Number Control</h3>
+        <p>Enter the existing <b>Dina Security Code</b> to continue.</p>
+        <div id="awbNumberSecurityError" class="city-security-error hidden"></div>
+        <form id="awbNumberSecurityForm">
+            <div class="form-group"><label for="awbNumberSecurityCode">Dina Security Code</label><input type="password" id="awbNumberSecurityCode" autocomplete="off" placeholder="Enter Dina security password" required></div>
+            <div class="city-security-actions"><button type="button" class="city-security-cancel" onclick="closeAwbNumberControlSecurity()">Cancel</button><button type="submit" class="city-security-open">Open</button></div>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================
      CITY SECURITY MODAL
 ========================================================= -->
 <div id="citySecurityModal" class="city-security-overlay hidden">
@@ -1104,6 +1119,23 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                         <div id="securityChangeError" class="error hidden"></div>
                         <div class="form-actions"><button type="submit" class="primary-btn">Change Security Code</button><button type="button" class="secondary-btn" onclick="openSecurityCitySelector()">Change City</button></div>
                     </form>
+                </div>
+            </div>
+            <div class="card settings-security-card">
+                <div class="card-header"><div><h3>Airwaybill Reset & Change</h3><p>Central AWB sequence control for Dina, Jhelum & Mirpur. Dina Security Code is required.</p></div></div>
+                <div class="card-body">
+                    <div id="awbNumberControlLocked">
+                        <p style="margin:0 0 14px;color:#667085;line-height:1.6">Open this control with the existing Dina Security Code. Changing the number affects only the next new Airwaybill; saved Airwaybills are not changed.</p>
+                        <button type="button" class="primary-btn" onclick="openAwbNumberControlSecurity()">Open Airwaybill Number Control</button>
+                    </div>
+                    <div id="awbNumberControlPanel" class="hidden">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Current / Next AWB Number</label><input id="awbCurrentNextNumber" type="text" value="—" readonly></div>
+                            <div class="form-group"><label for="awbSetNextNumber">Set Next AWB Number *</label><input id="awbSetNextNumber" type="number" min="1000000" max="9999999" step="1" placeholder="e.g. 5500001"></div>
+                        </div>
+                        <div id="awbNumberControlError" class="error hidden"></div>
+                        <div class="form-actions"><button type="button" class="primary-btn" onclick="updateAwbNextNumber()">Update AWB Number</button><button type="button" class="secondary-btn" onclick="lockAwbNumberControl()">Lock</button></div>
+                    </div>
                 </div>
             </div>
             <div class="v2-panel"><div class="v2-section-title"><h3>Access Protection</h3><span>City-wise</span></div><div class="v2-status-list"><div class="v2-status-row"><span>City selection</span><strong>Enabled</strong></div><div class="v2-status-row"><span>security password</span><strong>Required</strong></div><div class="v2-status-row"><span>Old code after change</span><strong>Invalid</strong></div></div><p style="margin-top:14px;color:#7c8791;font-size:12px;line-height:1.6">The change button uses the Supabase RPC <b>change_city_security_code</b>. Your existing verification RPC remains <b>verify_city_security_code</b>.</p></div>
@@ -2259,6 +2291,7 @@ function openSecuritySettings(){
 }
 function openSecurityCitySelector(){openSecuritySettings();}
 function openSecuritySettingsAfterAccess(city){
+    lockAwbNumberControl();
     currentSecurityCity=city;
     hideAllPages();
     document.getElementById("settingsPage").classList.remove("hidden");
@@ -2290,6 +2323,85 @@ document.getElementById("changeCitySecurityForm").addEventListener("submit",asyn
     showToast(city+" security code changed successfully.");
     document.getElementById("changeCitySecurityForm").reset();
 });
+
+/* ============================================================
+   AIRWAYBILL NUMBER CONTROL — DINA SECURITY PROTECTED
+============================================================ */
+let awbNumberControlDinaCode = null;
+
+function openAwbNumberControlSecurity(){
+    awbNumberControlDinaCode=null;
+    const modal=document.getElementById("awbNumberSecurityModal");
+    const code=document.getElementById("awbNumberSecurityCode");
+    const err=document.getElementById("awbNumberSecurityError");
+    if(err)err.classList.add("hidden");
+    if(code)code.value="";
+    if(modal)modal.classList.remove("hidden");
+    setTimeout(()=>{if(code)code.focus();},50);
+}
+function closeAwbNumberControlSecurity(){
+    const modal=document.getElementById("awbNumberSecurityModal");
+    const code=document.getElementById("awbNumberSecurityCode");
+    const err=document.getElementById("awbNumberSecurityError");
+    if(modal)modal.classList.add("hidden");
+    if(code)code.value="";
+    if(err)err.classList.add("hidden");
+}
+function lockAwbNumberControl(){
+    awbNumberControlDinaCode=null;
+    const panel=document.getElementById("awbNumberControlPanel");
+    const locked=document.getElementById("awbNumberControlLocked");
+    const next=document.getElementById("awbSetNextNumber");
+    if(panel)panel.classList.add("hidden");
+    if(locked)locked.classList.remove("hidden");
+    if(next)next.value="";
+}
+async function loadAwbNumberControlStatus(){
+    if(!awbNumberControlDinaCode)return;
+    const result=await supabaseClient.rpc("get_airwaybill_sequence_status",{p_dina_code:awbNumberControlDinaCode});
+    const err=document.getElementById("awbNumberControlError");
+    if(result.error){
+        if(err){err.textContent="Unable to read AWB sequence: "+result.error.message;err.classList.remove("hidden");}
+        return;
+    }
+    if(err)err.classList.add("hidden");
+    const data=result.data||{};
+    const current=document.getElementById("awbCurrentNextNumber");
+    const next=document.getElementById("awbSetNextNumber");
+    if(current)current.value=String(data.next_number??"—");
+    if(next && data.next_number!=null)next.value=String(data.next_number);
+}
+const awbNumberSecurityForm=document.getElementById("awbNumberSecurityForm");
+if(awbNumberSecurityForm)awbNumberSecurityForm.addEventListener("submit",async function(e){
+    e.preventDefault();
+    const code=document.getElementById("awbNumberSecurityCode").value.trim();
+    const err=document.getElementById("awbNumberSecurityError");
+    if(err)err.classList.add("hidden");
+    if(!code){if(err){err.textContent="Dina Security Code is required.";err.classList.remove("hidden");}return;}
+    const verify=await supabaseClient.rpc("verify_city_security_code",{p_city:"Dina",p_code:code});
+    if(verify.error){if(err){err.textContent="Unable to verify Dina Security Code: "+verify.error.message;err.classList.remove("hidden");}return;}
+    if(verify.data!==true){if(err){err.textContent="Dina Security Code is incorrect.";err.classList.remove("hidden");}return;}
+    awbNumberControlDinaCode=code;
+    closeAwbNumberControlSecurity();
+    document.getElementById("awbNumberControlLocked").classList.add("hidden");
+    document.getElementById("awbNumberControlPanel").classList.remove("hidden");
+    await loadAwbNumberControlStatus();
+});
+async function updateAwbNextNumber(){
+    const err=document.getElementById("awbNumberControlError");
+    if(err)err.classList.add("hidden");
+    if(!awbNumberControlDinaCode){openAwbNumberControlSecurity();return;}
+    const raw=document.getElementById("awbSetNextNumber").value.trim();
+    const next=Number(raw);
+    if(!Number.isInteger(next)||next<1000000||next>9999999){if(err){err.textContent="Enter a valid 7-digit AWB number.";err.classList.remove("hidden");}return;}
+    if(!confirm("Set the next central Airwaybill number to "+next+"?\n\nThis affects Dina, Jhelum and Mirpur."))return;
+    const result=await supabaseClient.rpc("set_next_airwaybill_number",{p_dina_code:awbNumberControlDinaCode,p_next_number:next});
+    if(result.error){if(err){err.textContent=result.error.message;err.classList.remove("hidden");}return;}
+    const data=result.data||{};
+    if(data.success!==true){if(err){err.textContent=data.message||"AWB number was not changed.";err.classList.remove("hidden");}return;}
+    showToast("Next central Airwaybill number set to "+data.next_number+".");
+    await loadAwbNumberControlStatus();
+}
 
 /* ============================================================
    TOAST
