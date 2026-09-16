@@ -706,7 +706,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
 .header-inner{height:100%;max-width:none!important;padding:22px 16px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:22px!important}
 .header-brand{padding:4px 10px 18px;border-bottom:1px solid var(--v2-line)}
 .header-brand strong{display:block;color:var(--v2-orange)!important;font-size:20px!important;font-weight:900!important;letter-spacing:.7px}
-.header-brand:after{content:"Operations & Accounts";display:block;color:#9aa3ad;font-size:11px;font-weight:700;margin-top:5px;letter-spacing:.2px}
+.header-brand:after{content:none;display:none}
 .header-buttons{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:7px!important;flex-wrap:nowrap!important}
 .header-btn,.logout-btn{width:100%;text-align:left!important;border:1px solid transparent!important;background:transparent!important;color:#5f6b76!important;padding:12px 13px!important;border-radius:11px!important;font-weight:800!important;cursor:pointer!important;transition:.18s!important}
 .header-btn:hover{background:#fff4eb!important;color:var(--v2-orange)!important;border-color:#ffe0c9!important;transform:translateX(2px)}
@@ -3809,7 +3809,7 @@ function renderAccountsAirwaybills(){
         const received=Number(t.received_amount??t.amount??0);
         const paid=Number(t.paid_amount||0);
         const profit=received-paid;
-        return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td><strong>${escapeHtml(t.awb_number||t.reference||"")}</strong></td><td>${formatMoney(received)}</td><td><input type="number" min="0" step="0.01" id="accountsPaid_${t.id}" value="${paid.toFixed(2)}" style="min-width:120px" oninput="previewAccountsAwbProfit('${t.id}',${received})"></td><td id="accountsProfit_${t.id}">${formatMoney(profit)}</td><td><button type="button" class="action-btn edit-btn" onclick="saveAccountsAwbPaid('${t.id}',${received})">Save Paid</button></td></tr>`;
+        return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td><strong>${escapeHtml(t.awb_number||t.reference||"")}</strong></td><td>${formatMoney(received)}</td><td><input type="number" min="0" step="0.01" id="accountsPaid_${t.id}" value="${paid.toFixed(2)}" style="min-width:120px" oninput="previewAccountsAwbProfit('${t.id}',${received})"></td><td id="accountsProfit_${t.id}">${formatMoney(profit)}</td><td><button type="button" class="action-btn edit-btn" onclick="saveAccountsAwbPaid('${t.id}',${received})">Save Paid</button> <button type="button" class="action-btn delete-btn" onclick="deleteAccountTransaction('${t.id}')">Delete</button></td></tr>`;
     }).join(""):'<tr><td colspan="6" class="empty">No Shipment Account entries found for this month.</td></tr>';
 }
 function previewAccountsAwbProfit(id,received){
