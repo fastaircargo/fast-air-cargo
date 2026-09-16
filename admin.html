@@ -775,7 +775,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
 .awb-paper:before{height:3px!important;background:#ff6900!important}
 .awb-pro-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:3px 2px 10px;border-bottom:2px solid #ff6900;margin-bottom:7px}
 .awb-pro-logo{width:52px;height:52px;object-fit:cover;border-radius:50%;display:block}
-.awb-pro-brand strong{display:block;font-size:25px;line-height:1;color:#171717;font-weight:950;letter-spacing:.2px}.awb-pro-brand strong span{color:#ff6900}.awb-pro-brand small{display:block;margin-top:5px;font-size:8.5px;letter-spacing:2.3px;font-weight:900;color:#50545a}.awb-pro-doc{text-align:right}.awb-pro-doc span{display:block;font-size:8px;color:#8a929a;font-weight:900;letter-spacing:1.3px}.awb-pro-doc strong{display:block;color:#ff6900;font-size:15px;margin-top:2px;letter-spacing:.5px}
+.awb-pro-brand strong{display:block;font-size:25px;line-height:1;color:#ff6900;font-weight:950;letter-spacing:.2px}.awb-pro-brand strong span{color:#ff6900}.awb-pro-brand small{display:block;margin-top:5px;font-size:8.5px;letter-spacing:2.3px;font-weight:900;color:#50545a}.awb-pro-doc{text-align:right}.awb-pro-doc span{display:block;font-size:8px;color:#8a929a;font-weight:900;letter-spacing:1.3px}.awb-pro-doc strong{display:block;color:#ff6900;font-size:15px;margin-top:2px;letter-spacing:.5px}
 .awb-pro-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}.awb-pro-card{border:1px solid #cfd4d9;border-radius:5px;overflow:hidden;background:#fff}.awb-pro-title{background:#ff6900;color:#fff;font-size:11px;font-weight:900;padding:5px 7px;letter-spacing:.25px;display:flex;align-items:center;gap:5px}.awb-pro-title .mini-logo{width:17px;height:17px;border-radius:50%;object-fit:cover;border:1px solid rgba(255,255,255,.65)}
 .awb-pro-table{width:100%!important;min-width:0!important;border-collapse:collapse!important;font-size:9.5px!important}.awb-pro-table th,.awb-pro-table td{padding:3.3px 5px!important;border:0!important;border-bottom:1px solid #e2e5e8!important;background:#fff!important;color:#171717!important;line-height:1.18!important}.awb-pro-table tr:last-child th,.awb-pro-table tr:last-child td{border-bottom:0!important}.awb-pro-table th{width:38%;font-weight:800!important;color:#333!important;text-align:left!important}.awb-pro-table td{text-align:right!important}.awb-pro-table .accent{background:#fff!important;color:#ff6900!important;font-weight:900!important;text-align:center!important;font-size:11px!important}.awb-pro-table #pNumber{background:#fff!important;color:#111!important;font-weight:900!important;font-size:12px!important;letter-spacing:.25px!important}.awb-pro-table #pService{background:#fff!important;color:#ff6900!important;font-weight:900!important;font-size:11px!important}.awb-pro-table .red{color:#e12626!important;font-weight:900!important}.awb-pro-table .country{background:#ff6900!important;color:#fff!important;text-align:center!important;font-weight:900!important}.awb-pro-sms{margin-top:4px;border:1px solid #ffd6bd;background:#fff7f1;border-radius:4px;padding:5px;text-align:center;font-size:9px;font-weight:800}.awb-pro-sms b{display:block;color:#e12626;font-size:11px;margin-top:2px}
 .awb-invoice-card{border:1px solid #cfd4d9;border-radius:5px;overflow:hidden;margin-bottom:7px}.awb-invoice-title{background:#ff6900;color:#fff;padding:5px 8px;font-size:14px;font-weight:950;letter-spacing:.6px}.awb-invoice-table{width:100%!important;min-width:0!important;border-collapse:collapse!important;font-size:9px!important}.awb-invoice-table th{background:#fff1e7!important;color:#e45e00!important;border:1px solid #d7dadd!important;padding:4px!important;text-align:center!important;font-size:9px!important}.awb-invoice-table td{border:1px solid #d7dadd!important;padding:2.6px 4px!important;height:17px;background:#fff!important;color:#171717!important;text-align:center!important}.awb-invoice-table tbody tr:nth-child(even) td{background:#fbfbfc!important}.awb-invoice-table tfoot td{font-weight:950!important;color:#e45e00!important;background:#fff7f1!important}.awb-invoice-table tfoot .total-value{background:#ff6900!important;color:#fff!important;font-size:12px!important}
@@ -981,7 +981,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                 <div class="card-body">
                     <div class="awb-editor-grid">
                         <div class="form-group"><label>CNIC <span class="awb-required">*</span></label><input id="awbCnic" required value=""></div>
-                        <div class="form-group"><label>Airwaybill #</label><input id="awbNumber" value="" readonly title="Central AWB number assigned by Supabase when saved"></div><div class="awb-number-note">Central 7-digit sequence: starts at 5500001 and is shared by Dina, Jhelum & Mirpur. AWB is permanently assigned when saved.</div>
+                        <div class="form-group"><label>Airwaybill #</label><input id="awbNumber" value="" readonly title="Central AWB number assigned by Supabase when saved"></div>
                         <div class="form-group"><label>Shipper Name <span class="awb-required">*</span></label><input id="awbShipperName" required></div>
                         <div class="form-group"><label>Load Type <span class="awb-required">*</span></label><input id="awbLoadType" required value="GARMENTS"></div>
                         <div class="form-group"><label>Shipper Contact <span class="awb-required">*</span></label><input id="awbShipperContact" required></div>
@@ -997,6 +997,8 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                         <div class="form-group"><label>Service Type <span class="awb-required">*</span></label><input id="awbService" required value="STANDARD DPD"></div>
                         <div class="form-group"><label>Special docx required</label><input id="awbSpecialDocs" type="number" step="0.01" value="0"></div>
 
+                        <div class="form-group"><label>VAT ID</label><input id="awbConsigneeVatId"></div>
+                        <div class="form-group"><label>Email</label><input id="awbConsigneeEmail" type="email"></div>
                         <div class="form-group"><label>Consignee Name <span class="awb-required">*</span></label><input id="awbConsigneeName" required></div>
                         <div class="form-group"><label>Consignee Contact <span class="awb-required">*</span></label><input id="awbConsigneeContact" required></div>
                         <div class="form-group wide"><label>Consignee Address <span class="awb-required">*</span></label><input id="awbConsigneeAddress" required></div>
@@ -1041,7 +1043,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
     <tr><th>Airwaybill #</th><td id="pNumber" class="accent"></td></tr><tr><th>Loadtype :</th><td id="pLoadType"></td></tr><tr><th>Volumetric Weight :</th><td id="pVolWeight"></td></tr><tr><th>Actual Weight :</th><td id="pActualWeight"></td></tr><tr><th>Number of Pcs :</th><td id="pPcs"></td></tr><tr><th>Load.val ?</th><td class="red">$ <span id="pLoadValue"></span></td></tr>
   </tbody></table><div class="awb-pro-sms">For SMS Alert !<b id="pSms"></b></div></div>
   <div class="awb-pro-card"><div class="awb-pro-title">CONSIGNEE INFORMATION</div><table class="awb-pro-table"><tbody>
-    <tr><th>Consignee Name :</th><td id="pConsigneeName"></td></tr><tr><th>Contact :</th><td id="pConsigneeContact"></td></tr><tr><th>Address :</th><td id="pConsigneeAddress"></td></tr><tr><th>Postcode :</th><td id="pConsigneePostcode"></td></tr><tr><th>City/State :</th><td id="pConsigneeCity"></td></tr><tr><th>Country :</th><td id="pConsigneeCountry" class="country"></td></tr>
+    <tr><th>VAT ID :</th><td id="pConsigneeVatId"></td></tr><tr><th>Email :</th><td id="pConsigneeEmail"></td></tr><tr><th>Consignee Name :</th><td id="pConsigneeName"></td></tr><tr><th>Contact :</th><td id="pConsigneeContact"></td></tr><tr><th>Address :</th><td id="pConsigneeAddress"></td></tr><tr><th>Postcode :</th><td id="pConsigneePostcode"></td></tr><tr><th>City/State :</th><td id="pConsigneeCity"></td></tr><tr><th>Country :</th><td id="pConsigneeCountry" class="country"></td></tr>
   </tbody></table></div>
   <div class="awb-pro-card"><div class="awb-pro-title">SERVICE &amp; CHARGES</div><table class="awb-pro-table"><tbody>
     <tr><th>Service Type :</th><td id="pService" class="accent"></td></tr><tr><th>Tax &amp; Duties / VAT :</th><td id="pTaxDutiesVat" class="accent"></td></tr><tr><th>Special docx required :</th><td id="pSpecialDocs" class="red"></td></tr><tr class="awb-payment-row"><th>Cargo Charges :</th><td id="pCargoCharges"></td></tr><tr class="awb-payment-row"><th>AWB, Customs, Packing :</th><td id="pCustomCharges"></td></tr><tr class="awb-payment-row"><th>Total Charges :</th><td id="pTotalCharges"></td></tr><tr class="awb-payment-row"><th>Discount :</th><td id="pDiscount" class="red"></td></tr><tr class="awb-payment-row"><th>Payable Bill :</th><td id="pPayable" class="red"></td></tr>
@@ -4220,6 +4222,7 @@ checkLogin();
 ============================================================ */
 let awbItems = [];
 let currentAirwaybillId = null;
+let lastSavedAirwaybillFingerprint = null;
 let airwaybillSaving = false;
 const AWB_START_NUMBER = 5500001;
 
@@ -4273,6 +4276,7 @@ function awbDbPayload(){
         city: currentAirwaybillCity,
         shipper_name: awbVal("awbShipperName"), shipper_cnic: awbVal("awbCnic"), shipper_contact: awbVal("awbShipperContact"),
         shipper_address: awbVal("awbShipperAddress"), shipper_postcode: awbVal("awbShipperPostcode"), shipper_city: awbVal("awbShipperCity"), shipper_country: awbVal("awbShipperCountry"),
+        consignee_vat_id: awbVal("awbConsigneeVatId"), consignee_email: awbVal("awbConsigneeEmail"),
         consignee_name: awbVal("awbConsigneeName"), consignee_contact: awbVal("awbConsigneeContact"), consignee_address: awbVal("awbConsigneeAddress"),
         consignee_postcode: awbVal("awbConsigneePostcode"), consignee_city: awbVal("awbConsigneeCity"), consignee_country: awbVal("awbConsigneeCountry"),
         load_type: awbVal("awbLoadType"), volumetric_weight: awbNum("awbVolWeight"), actual_weight: awbNum("awbActualWeight"), pieces: Math.max(0,parseInt(awbVal("awbPcs")||"0",10)||0),
@@ -4280,6 +4284,23 @@ function awbDbPayload(){
         cargo_charges: awbNum("awbCargoCharges"), custom_charges: awbNum("awbCustomCharges"), total_charges: awbNum("awbTotalCharges"), discount: awbNum("awbDiscount"), payable_amount: awbNum("awbPayable"),
         booking_date: awbVal("awbBookingDate") || null, estimated_delivery_days: awbVal("awbDeliveryDays")
     };
+}
+function getAirwaybillFingerprint(){
+    return JSON.stringify({
+        form: awbDbPayload(),
+        items: awbItems.map(x=>({box:x.box||"",qty:String(x.qty||""),description:x.description||"",hs:x.hs||"",value:String(x.value||"")}))
+    });
+}
+function requireSavedAirwaybillBeforePrint(){
+    if(!currentAirwaybillId || !awbVal("awbNumber") || !lastSavedAirwaybillFingerprint){
+        showToast("Please click Save Airwaybill before printing.","error");
+        return false;
+    }
+    if(getAirwaybillFingerprint()!==lastSavedAirwaybillFingerprint){
+        showToast("Airwaybill has changes. Please click Save Airwaybill again before printing.","error");
+        return false;
+    }
+    return true;
 }
 async function syncAirwaybillToAccountsAndShipments(){
     const awb=awbVal("awbNumber");
@@ -4330,6 +4351,7 @@ async function saveAirwaybill(silent=false){
         if(items.length){ const ins=await supabaseClient.from("airwaybill_items").insert(items); if(ins.error) throw ins.error; }
         await syncAirwaybillToAccountsAndShipments();
         renderAirwaybill();
+        lastSavedAirwaybillFingerprint=getAirwaybillFingerprint();
         if(!silent) showToast("Airwaybill #"+awbVal("awbNumber")+" saved successfully.");
         return true;
     }catch(error){
@@ -4402,7 +4424,7 @@ function renderUndertaking(){
 }
 async function printUndertaking(){
     if(!validateAirwaybillForPrint()) return;
- if(!(await saveAirwaybill(true))) return;
+    if(!requireSavedAirwaybillBeforePrint()) return;
  renderAirwaybill(); renderUndertaking(); document.body.classList.add("undertaking-printing");
  const done=()=>document.body.classList.remove("undertaking-printing"); window.addEventListener("afterprint",done,{once:true}); window.print(); setTimeout(done,1500);
  const lang=document.getElementById("undertakingLanguage")?.value==="ur"?"Roman Urdu":"English";
@@ -4410,7 +4432,7 @@ async function printUndertaking(){
 }
 
 function renderAirwaybill(){
-    const map={pCnic:"awbCnic",pNumber:"awbNumber",pShipperName:"awbShipperName",pLoadType:"awbLoadType",pShipperContact:"awbShipperContact",pShipperAddress:"awbShipperAddress",pShipperPostcode:"awbShipperPostcode",pShipperCity:"awbShipperCity",pShipperCountry:"awbShipperCountry",pSms:"awbSms",pTaxDutiesVat:"awbTaxDutiesVat",pService:"awbService",pConsigneeName:"awbConsigneeName",pConsigneeContact:"awbConsigneeContact",pConsigneeAddress:"awbConsigneeAddress",pConsigneePostcode:"awbConsigneePostcode",pConsigneeCity:"awbConsigneeCity",pConsigneeCountry:"awbConsigneeCountry",pDeliveryDays:"awbDeliveryDays"};
+    const map={pCnic:"awbCnic",pNumber:"awbNumber",pShipperName:"awbShipperName",pLoadType:"awbLoadType",pShipperContact:"awbShipperContact",pShipperAddress:"awbShipperAddress",pShipperPostcode:"awbShipperPostcode",pShipperCity:"awbShipperCity",pShipperCountry:"awbShipperCountry",pSms:"awbSms",pTaxDutiesVat:"awbTaxDutiesVat",pService:"awbService",pConsigneeVatId:"awbConsigneeVatId",pConsigneeEmail:"awbConsigneeEmail",pConsigneeName:"awbConsigneeName",pConsigneeContact:"awbConsigneeContact",pConsigneeAddress:"awbConsigneeAddress",pConsigneePostcode:"awbConsigneePostcode",pConsigneeCity:"awbConsigneeCity",pConsigneeCountry:"awbConsigneeCountry",pDeliveryDays:"awbDeliveryDays"};
     Object.keys(map).forEach(k=>awbPut(k,awbVal(map[k])));
     awbPut("pFooterAwb",awbVal("awbNumber"));
     awbPut("pAwbCity",currentAirwaybillCity||"—"); awbPut("pAwbHelp",getAirwaybillHelp()||"—");
@@ -4428,15 +4450,16 @@ function renderAirwaybill(){
 }
 function resetAirwaybill(){
     currentAirwaybillId=null;
+    lastSavedAirwaybillFingerprint=null;
     const number=document.getElementById("awbNumber"); if(number) number.value="";
-    ["awbCnic","awbShipperName","awbShipperContact","awbShipperAddress","awbShipperPostcode","awbShipperCity","awbSms","awbConsigneeName","awbConsigneeContact","awbConsigneeAddress","awbConsigneePostcode","awbConsigneeCity","awbConsigneeCountry"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});
+    ["awbCnic","awbShipperName","awbShipperContact","awbShipperAddress","awbShipperPostcode","awbShipperCity","awbSms","awbConsigneeVatId","awbConsigneeEmail","awbConsigneeName","awbConsigneeContact","awbConsigneeAddress","awbConsigneePostcode","awbConsigneeCity","awbConsigneeCountry"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});
     ["awbVolWeight","awbActualWeight","awbLoadValue","awbSpecialDocs","awbCargoCharges","awbCustomCharges","awbTotalCharges","awbDiscount","awbPayable"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="0"});
     document.getElementById("awbPcs").value="1"; document.getElementById("awbTaxDutiesVat").value=""; document.getElementById("awbLoadType").value="GARMENTS"; document.getElementById("awbShipperCountry").value="PAKISTAN"; document.getElementById("awbService").value="STANDARD DPD"; document.getElementById("awbDeliveryDays").value="10-12 WORKING DAYS"; document.getElementById("awbBookingDate").value=new Date().toISOString().slice(0,10);
     awbItems=[]; for(let i=0;i<6;i++)addAwbItem(false); renderAwbItemsEditor(); loadNextAirwaybillNumber();
 }
 async function printAirwaybill(){
     if(!validateAirwaybillForPrint()) return;
-    if(!(await saveAirwaybill(true))) return;
+    if(!requireSavedAirwaybillBeforePrint()) return;
     renderAirwaybill();
     document.body.classList.add("awb-printing");
     const finish=()=>document.body.classList.remove("awb-printing");
@@ -4448,7 +4471,7 @@ async function printAirwaybill(){
 
 async function printAirwaybillNoCharges(){
     if(!validateAirwaybillForPrint()) return;
-    if(!(await saveAirwaybill(true))) return;
+    if(!requireSavedAirwaybillBeforePrint()) return;
     renderAirwaybill();
     document.body.classList.add("awb-printing","awb-no-charges-printing");
     const finish=()=>document.body.classList.remove("awb-printing","awb-no-charges-printing");
