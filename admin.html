@@ -1080,20 +1080,22 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                         <div class="form-group"><label>Shipper Country <span class="awb-required">*</span></label><input id="awbShipperCountry" required value="PAKISTAN"></div>
                         <div class="form-group"><label>Load Value ($)</label><input id="awbLoadValue" type="number" step="0.01" value="0"></div>
                         <div class="form-group"><label>SMS Alert Number</label><input id="awbSms"></div>
-                        <div class="form-group"><label>VAT/EU VAT</label><input id="awbVat"></div>
                         <div class="form-group"><label>Service Type <span class="awb-required">*</span></label><input id="awbService" required value="STANDARD DPD"></div>
-                        <div class="form-group"><label>Consignee Name <span class="awb-required">*</span></label><input id="awbConsigneeName" required></div>
                         <div class="form-group"><label>Special docx required</label><input id="awbSpecialDocs" type="number" step="0.01" value="0"></div>
+
+                        <div class="form-group"><label>Consignee Name <span class="awb-required">*</span></label><input id="awbConsigneeName" required></div>
                         <div class="form-group"><label>Consignee Contact <span class="awb-required">*</span></label><input id="awbConsigneeContact" required></div>
-                        <div class="form-group"><label>Cargo Charges</label><input id="awbCargoCharges" type="number" step="0.01" value="0"></div>
                         <div class="form-group wide"><label>Consignee Address <span class="awb-required">*</span></label><input id="awbConsigneeAddress" required></div>
-                        <div class="form-group"><label>AWB, Customs, Packing</label><input id="awbCustomCharges" type="number" step="0.01" value="0"></div>
                         <div class="form-group"><label>Consignee Postcode</label><input id="awbConsigneePostcode"></div>
-                        <div class="form-group"><label>Total Charges</label><input id="awbTotalCharges" type="number" step="0.01" value="0"></div>
                         <div class="form-group"><label>Consignee City/State <span class="awb-required">*</span></label><input id="awbConsigneeCity" required></div>
-                        <div class="form-group"><label>Discount</label><input id="awbDiscount" type="number" step="0.01" value="0"></div>
                         <div class="form-group"><label>Consignee Country <span class="awb-required">*</span></label><input id="awbConsigneeCountry" required></div>
+
+                        <div class="form-group"><label>Cargo Charges</label><input id="awbCargoCharges" type="number" step="0.01" value="0"></div>
+                        <div class="form-group"><label>AWB, Customs, Packing</label><input id="awbCustomCharges" type="number" step="0.01" value="0"></div>
+                        <div class="form-group"><label>Total Charges</label><input id="awbTotalCharges" type="number" step="0.01" value="0"></div>
+                        <div class="form-group"><label>Discount</label><input id="awbDiscount" type="number" step="0.01" value="0"></div>
                         <div class="form-group"><label>Payable Bill</label><input id="awbPayable" type="number" step="0.01" value="0"></div>
+                        <div class="form-group"><label>Tax &amp; Duties / VAT <span class="awb-required">*</span></label><select id="awbTaxDutiesVat" required><option value="">Select</option><option value="Paid">Paid</option><option value="Non Paid">Non Paid</option></select></div>
                         <div class="form-group"><label>Booking Date <span class="awb-required">*</span></label><input id="awbBookingDate" required type="date"></div>
                         <div class="form-group"><label>Estimated Delivery Days <span class="awb-required">*</span></label><input id="awbDeliveryDays" required value="10-12 WORKING DAYS"></div>
                         <div class="form-group wide"><label>Invoice Items <span class="awb-required">*</span></label><div id="awbItemsEditor" class="awb-items-editor"></div><div class="form-actions"><button type="button" class="secondary-btn" onclick="addAwbItem()">+ Add Item</button></div></div>
@@ -1124,10 +1126,10 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
     <tr><th>Airwaybill #</th><td id="pNumber" class="accent"></td></tr><tr><th>Loadtype :</th><td id="pLoadType"></td></tr><tr><th>Volumetric Weight :</th><td id="pVolWeight"></td></tr><tr><th>Actual Weight :</th><td id="pActualWeight"></td></tr><tr><th>Number of Pcs :</th><td id="pPcs"></td></tr><tr><th>Load.val ?</th><td class="red">$ <span id="pLoadValue"></span></td></tr>
   </tbody></table><div class="awb-pro-sms">For SMS Alert !<b id="pSms"></b></div></div>
   <div class="awb-pro-card"><div class="awb-pro-title">CONSIGNEE INFORMATION</div><table class="awb-pro-table"><tbody>
-    <tr><th>VAT/EU VAT :</th><td id="pVat"></td></tr><tr><th>Consignee Name :</th><td id="pConsigneeName"></td></tr><tr><th>Contact :</th><td id="pConsigneeContact"></td></tr><tr><th>Address :</th><td id="pConsigneeAddress"></td></tr><tr><th>Postcode :</th><td id="pConsigneePostcode"></td></tr><tr><th>City/State :</th><td id="pConsigneeCity"></td></tr><tr><th>Country :</th><td id="pConsigneeCountry" class="country"></td></tr>
+    <tr><th>Consignee Name :</th><td id="pConsigneeName"></td></tr><tr><th>Contact :</th><td id="pConsigneeContact"></td></tr><tr><th>Address :</th><td id="pConsigneeAddress"></td></tr><tr><th>Postcode :</th><td id="pConsigneePostcode"></td></tr><tr><th>City/State :</th><td id="pConsigneeCity"></td></tr><tr><th>Country :</th><td id="pConsigneeCountry" class="country"></td></tr>
   </tbody></table></div>
   <div class="awb-pro-card"><div class="awb-pro-title">SERVICE &amp; CHARGES</div><table class="awb-pro-table"><tbody>
-    <tr><th>Service Type :</th><td id="pService" class="accent"></td></tr><tr><th>Special docx required :</th><td id="pSpecialDocs" class="red"></td></tr><tr class="awb-payment-row"><th>Cargo Charges :</th><td id="pCargoCharges"></td></tr><tr class="awb-payment-row"><th>AWB, Customs, Packing :</th><td id="pCustomCharges"></td></tr><tr class="awb-payment-row"><th>Total Charges :</th><td id="pTotalCharges"></td></tr><tr class="awb-payment-row"><th>Discount :</th><td id="pDiscount" class="red"></td></tr><tr class="awb-payment-row"><th>Payable Bill :</th><td id="pPayable" class="red"></td></tr>
+    <tr><th>Service Type :</th><td id="pService" class="accent"></td></tr><tr><th>Tax &amp; Duties / VAT :</th><td id="pTaxDutiesVat" class="accent"></td></tr><tr><th>Special docx required :</th><td id="pSpecialDocs" class="red"></td></tr><tr class="awb-payment-row"><th>Cargo Charges :</th><td id="pCargoCharges"></td></tr><tr class="awb-payment-row"><th>AWB, Customs, Packing :</th><td id="pCustomCharges"></td></tr><tr class="awb-payment-row"><th>Total Charges :</th><td id="pTotalCharges"></td></tr><tr class="awb-payment-row"><th>Discount :</th><td id="pDiscount" class="red"></td></tr><tr class="awb-payment-row"><th>Payable Bill :</th><td id="pPayable" class="red"></td></tr>
   </tbody></table></div>
 </div>
 <div class="awb-invoice-card"><div class="awb-invoice-title">▤ &nbsp; INVOICE</div><table class="awb-invoice-table"><colgroup><col style="width:12%"><col style="width:9%"><col style="width:34%"><col style="width:25%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>Box #</th><th>Qty</th><th>Description</th><th>HS CODES</th><th>Val$</th><th>Total</th></tr></thead><tbody id="awbInvoiceBody"></tbody><tfoot><tr><td colspan="5">Total Value :</td><td id="pInvoiceTotal" class="total-value">0</td></tr></tfoot></table></div>
@@ -4253,7 +4255,7 @@ function awbDbPayload(){
         consignee_name: awbVal("awbConsigneeName"), consignee_contact: awbVal("awbConsigneeContact"), consignee_address: awbVal("awbConsigneeAddress"),
         consignee_postcode: awbVal("awbConsigneePostcode"), consignee_city: awbVal("awbConsigneeCity"), consignee_country: awbVal("awbConsigneeCountry"),
         load_type: awbVal("awbLoadType"), volumetric_weight: awbNum("awbVolWeight"), actual_weight: awbNum("awbActualWeight"), pieces: Math.max(0,parseInt(awbVal("awbPcs")||"0",10)||0),
-        load_value: awbNum("awbLoadValue"), sms_alert: awbVal("awbSms"), vat: awbNum("awbVat"), service_type: awbVal("awbService"), special_documents: awbVal("awbSpecialDocs"),
+        load_value: awbNum("awbLoadValue"), sms_alert: awbVal("awbSms"), tax_duties_vat_status: awbVal("awbTaxDutiesVat"), service_type: awbVal("awbService"), special_documents: awbVal("awbSpecialDocs"),
         cargo_charges: awbNum("awbCargoCharges"), custom_charges: awbNum("awbCustomCharges"), total_charges: awbNum("awbTotalCharges"), discount: awbNum("awbDiscount"), payable_amount: awbNum("awbPayable"),
         booking_date: awbVal("awbBookingDate") || null, estimated_delivery_days: awbVal("awbDeliveryDays")
     };
@@ -4293,7 +4295,7 @@ function validateAirwaybillForPrint(){
     const requiredFields=[
         ["awbCnic","CNIC"],["awbShipperName","Shipper Name"],["awbLoadType","Load Type"],["awbShipperContact","Shipper Contact"],
         ["awbShipperAddress","Shipper Address"],["awbActualWeight","Actual Weight"],["awbShipperCity","Shipper City"],["awbPcs","Number of Pcs"],
-        ["awbShipperCountry","Shipper Country"],["awbService","Service Type"],["awbConsigneeName","Consignee Name"],["awbConsigneeContact","Consignee Contact"],
+        ["awbShipperCountry","Shipper Country"],["awbService","Service Type"],["awbTaxDutiesVat","Tax & Duties / VAT"],["awbConsigneeName","Consignee Name"],["awbConsigneeContact","Consignee Contact"],
         ["awbConsigneeAddress","Consignee Address"],["awbConsigneeCity","Consignee City/State"],["awbConsigneeCountry","Consignee Country"],
         ["awbBookingDate","Booking Date"],["awbDeliveryDays","Estimated Delivery Days"]
     ];
@@ -4361,7 +4363,7 @@ async function printUndertaking(){
 }
 
 function renderAirwaybill(){
-    const map={pCnic:"awbCnic",pNumber:"awbNumber",pShipperName:"awbShipperName",pLoadType:"awbLoadType",pShipperContact:"awbShipperContact",pShipperAddress:"awbShipperAddress",pShipperPostcode:"awbShipperPostcode",pShipperCity:"awbShipperCity",pShipperCountry:"awbShipperCountry",pSms:"awbSms",pVat:"awbVat",pService:"awbService",pConsigneeName:"awbConsigneeName",pConsigneeContact:"awbConsigneeContact",pConsigneeAddress:"awbConsigneeAddress",pConsigneePostcode:"awbConsigneePostcode",pConsigneeCity:"awbConsigneeCity",pConsigneeCountry:"awbConsigneeCountry",pDeliveryDays:"awbDeliveryDays"};
+    const map={pCnic:"awbCnic",pNumber:"awbNumber",pShipperName:"awbShipperName",pLoadType:"awbLoadType",pShipperContact:"awbShipperContact",pShipperAddress:"awbShipperAddress",pShipperPostcode:"awbShipperPostcode",pShipperCity:"awbShipperCity",pShipperCountry:"awbShipperCountry",pSms:"awbSms",pTaxDutiesVat:"awbTaxDutiesVat",pService:"awbService",pConsigneeName:"awbConsigneeName",pConsigneeContact:"awbConsigneeContact",pConsigneeAddress:"awbConsigneeAddress",pConsigneePostcode:"awbConsigneePostcode",pConsigneeCity:"awbConsigneeCity",pConsigneeCountry:"awbConsigneeCountry",pDeliveryDays:"awbDeliveryDays"};
     Object.keys(map).forEach(k=>awbPut(k,awbVal(map[k])));
     awbPut("pFooterAwb",awbVal("awbNumber"));
     awbPut("pAwbCity",currentAirwaybillCity||"—"); awbPut("pAwbHelp",getAirwaybillHelp()||"—");
@@ -4380,9 +4382,9 @@ function renderAirwaybill(){
 function resetAirwaybill(){
     currentAirwaybillId=null;
     const number=document.getElementById("awbNumber"); if(number) number.value="";
-    ["awbCnic","awbShipperName","awbShipperContact","awbShipperAddress","awbShipperPostcode","awbShipperCity","awbSms","awbVat","awbConsigneeName","awbConsigneeContact","awbConsigneeAddress","awbConsigneePostcode","awbConsigneeCity","awbConsigneeCountry"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});
+    ["awbCnic","awbShipperName","awbShipperContact","awbShipperAddress","awbShipperPostcode","awbShipperCity","awbSms","awbConsigneeName","awbConsigneeContact","awbConsigneeAddress","awbConsigneePostcode","awbConsigneeCity","awbConsigneeCountry"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});
     ["awbVolWeight","awbActualWeight","awbLoadValue","awbSpecialDocs","awbCargoCharges","awbCustomCharges","awbTotalCharges","awbDiscount","awbPayable"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="0"});
-    document.getElementById("awbPcs").value="1"; document.getElementById("awbLoadType").value="GARMENTS"; document.getElementById("awbShipperCountry").value="PAKISTAN"; document.getElementById("awbService").value="STANDARD DPD"; document.getElementById("awbDeliveryDays").value="10-12 WORKING DAYS"; document.getElementById("awbBookingDate").value=new Date().toISOString().slice(0,10);
+    document.getElementById("awbPcs").value="1"; document.getElementById("awbTaxDutiesVat").value=""; document.getElementById("awbLoadType").value="GARMENTS"; document.getElementById("awbShipperCountry").value="PAKISTAN"; document.getElementById("awbService").value="STANDARD DPD"; document.getElementById("awbDeliveryDays").value="10-12 WORKING DAYS"; document.getElementById("awbBookingDate").value=new Date().toISOString().slice(0,10);
     awbItems=[]; for(let i=0;i<6;i++)addAwbItem(false); renderAwbItemsEditor(); loadNextAirwaybillNumber();
 }
 async function printAirwaybill(){
