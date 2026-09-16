@@ -1225,6 +1225,25 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
             </div>
         </div>
 
+        <div class="card" id="accountsAirwaybillCard">
+            <div class="card-header">
+                <h3>Airwaybill Accounts</h3>
+                <span class="city-badge" id="accountsAwbCount">0 Airwaybills</span>
+            </div>
+            <div class="card-body">
+                <div class="account-tools">
+                    <input type="text" id="accountsAwbSearch" class="search-box" placeholder="Search AWB number..." oninput="renderAccountsAirwaybills()">
+                    <input type="month" id="accountsAwbMonth" onchange="loadAccounts()">
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead><tr><th>Date</th><th>AWB</th><th>Received Amount</th><th>Paid</th><th>Profit</th><th>Action</th></tr></thead>
+                        <tbody id="accountsAwbTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
 <div id="thirdPartyLedgerSection" class="hidden">
 <div class="card company-manager-card">
 <div class="card-header"><div><h3>3rd Party Companies</h3><p style="margin:4px 0 0;color:#68737d;font-size:13px">Create separate company ledgers. Each company has its own Credit, Debit and running Balance.</p></div><button type="button" class="primary-btn" onclick="showCompanyCreateForm()">+ Create More Companies Ledger</button></div>
@@ -2128,6 +2147,7 @@ async function openAccountsAfterAccess(city) {
     document.getElementById("accountsTitle").textContent = city + " Accounts";
     document.getElementById("accountsCityBadge").textContent = city;
     if (!document.getElementById("accountMonth").value) document.getElementById("accountMonth").value = new Date().toISOString().slice(0,7);
+    if (!document.getElementById("accountsAwbMonth").value) document.getElementById("accountsAwbMonth").value = new Date().toISOString().slice(0,7);
     setAccountCategories();
     resetAccountForm();
     resetThirdPartyForm();
@@ -3809,7 +3829,8 @@ async function loadDashboard(){
 async function loadAccounts(){
     if(!currentAccountsCity||accountsLoading) return;
     accountsLoading=true;
-    const month=document.getElementById("accountMonth").value||new Date().toISOString().slice(0,7);
+    const accountsPageOpen=!document.getElementById("accountsPage")?.classList.contains("hidden");
+    const month=(accountsPageOpen?document.getElementById("accountsAwbMonth")?.value:document.getElementById("accountMonth")?.value)||new Date().toISOString().slice(0,7);
     const range=monthRange(month);
     try{
         const [ledgerRes,txRes]=await Promise.all([
@@ -3827,8 +3848,42 @@ async function loadAccounts(){
         document.getElementById("accountsProfit").textContent=formatMoney(sales+otherIncome-expenses);
         document.getElementById("accountPeriodLabel").textContent=getReportMonthLabel(month);
         renderAccountTransactions();
+        renderAccountsAirwaybills();
     }catch(e){console.error(e);showToast("Unable to load accounts: "+e.message,"error");}
     finally{accountsLoading=false;}
+}
+
+function renderAccountsAirwaybills(){
+    const body=document.getElementById("accountsAwbTableBody");
+    if(!body) return;
+    const search=(document.getElementById("accountsAwbSearch")?.value||"").toLowerCase().trim();
+    const list=accountTransactions
+        .filter(t=>t.awb_number || t.category==="Shipment")
+        .filter(t=>!search||String(t.awb_number||t.reference||"").toLowerCase().includes(search));
+    const count=document.getElementById("accountsAwbCount");
+    if(count) count.textContent=list.length+(list.length===1?" Airwaybill":" Airwaybills");
+    body.innerHTML=list.length?list.map(t=>{
+        const received=Number(t.received_amount??t.amount??0);
+        const paid=Number(t.paid_amount||0);
+        const profit=received-paid;
+        return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td><strong>${escapeHtml(t.awb_number||t.reference||"")}</strong></td><td>${formatMoney(received)}</td><td><input type="number" min="0" step="0.01" id="accountsPaid_${t.id}" value="${paid.toFixed(2)}" style="min-width:120px" oninput="previewAccountsAwbProfit('${t.id}',${received})"></td><td id="accountsProfit_${t.id}">${formatMoney(profit)}</td><td><button type="button" class="action-btn edit-btn" onclick="saveAccountsAwbPaid('${t.id}',${received})">Save Paid</button></td></tr>`;
+    }).join(""):'<tr><td colspan="6" class="empty">No Airwaybill account entries found for this month.</td></tr>';
+}
+function previewAccountsAwbProfit(id,received){
+    const paid=Number(document.getElementById("accountsPaid_"+id)?.value||0);
+    const el=document.getElementById("accountsProfit_"+id);
+    if(el) el.textContent=formatMoney(Number(received||0)-paid);
+}
+async function saveAccountsAwbPaid(id,received){
+    if(!currentAccountsCity){showToast("Please open a station first.","error");return;}
+    const paid=Math.max(0,Number(document.getElementById("accountsPaid_"+id)?.value||0));
+    const profit=Number(received||0)-paid;
+    const {error}=await supabaseClient.from("account_transactions").update({paid_amount:paid,profit_amount:profit}).eq("id",id).eq("city",currentAccountsCity);
+    if(error){showToast("Unable to save Paid amount: "+error.message,"error");return;}
+    const row=accountTransactions.find(x=>String(x.id)===String(id));
+    if(row){row.paid_amount=paid;row.profit_amount=profit;}
+    renderAccountsAirwaybills();
+    showToast("Paid amount saved. Profit updated automatically.");
 }
 
 function renderAccountTransactions(){
