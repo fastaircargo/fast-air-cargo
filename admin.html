@@ -1318,6 +1318,8 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                                     <div class="form-group"><label for="shipmentActualWeight">Actual Weight (kg) *</label><input type="number" id="shipmentActualWeight" min="0" step="0.01" placeholder="0.00"></div>
                                     <div class="form-group"><label for="shipmentDimensionalWeight">Dimensional Weight (kg) *</label><input type="number" id="shipmentDimensionalWeight" min="0" step="0.01" placeholder="0.00"></div>
                                     <div class="form-group"><label for="shipmentReceivedAmount">Received Amount *</label><input type="number" id="shipmentReceivedAmount" min="0" step="0.01" placeholder="0.00"></div>
+                                    <div class="form-group"><label for="shipmentPaidAmount">Paid</label><input type="number" id="shipmentPaidAmount" min="0" step="0.01" value="0" oninput="updateShipmentProfitPreview()"></div>
+                                    <div class="form-group"><label for="shipmentProfitAmount">Profit</label><input type="number" id="shipmentProfitAmount" step="0.01" value="0" readonly></div>
                                 </div>
                             </div>
 
@@ -1340,7 +1342,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                 <div class="card-header"><h3>Daily Office Transactions</h3><div style="display:flex;align-items:center;gap:8px"><span class="city-badge" id="accountTransactionCount">0</span><button type="button" class="secondary-btn ledger-print-btn" onclick="printDailyCashReport()">Print Cash In / Out</button></div></div>
                 <div class="card-body">
                     <div class="account-tools"><input type="text" id="accountSearch" class="search-box" placeholder="Search description, category, reference..." oninput="renderAccountTransactions()"><input type="month" id="accountMonth" onchange="loadAccounts()"></div>
-                    <div class="table-wrapper"><table><thead><tr><th>Date</th><th>Type</th><th>Category</th><th>Description</th><th>Amount</th><th>Payment Method</th><th>Reference</th><th>Actions</th></tr></thead><tbody id="accountTableBody"></tbody></table></div>
+                    <div class="table-wrapper"><table><thead><tr><th>Date</th><th>AWB</th><th>Category</th><th>Description</th><th>Received Amount</th><th>Paid</th><th>Profit</th><th>Payment Method</th><th>Actions</th></tr></thead><tbody id="accountTableBody"></tbody></table></div>
                 </div>
             </div>
         </div>
@@ -3830,13 +3832,26 @@ async function loadAccounts(){
 
 function renderAccountTransactions(){
     const search=(document.getElementById("accountSearch").value||"").toLowerCase().trim();
-    const list=accountTransactions.filter(t=>!search||[t.transaction_type,t.category,t.description,t.reference,t.payment_method].join(" ").toLowerCase().includes(search));
+    const list=accountTransactions.filter(t=>!search||[t.transaction_type,t.category,t.description,t.reference,t.payment_method,t.awb_number].join(" ").toLowerCase().includes(search));
     const cashIn=accountTransactions.filter(t=>t.transaction_type==="Cash In"||t.transaction_type==="Other Income").reduce((a,t)=>a+Number(t.amount||0),0);
     const cashOut=accountTransactions.filter(t=>t.transaction_type==="Cash Out"||t.transaction_type==="Expense").reduce((a,t)=>a+Number(t.amount||0),0);
     document.getElementById("dailyCashIn").textContent=formatMoney(cashIn);
     document.getElementById("dailyCashOut").textContent=formatMoney(cashOut);
     document.getElementById("accountTransactionCount").textContent=list.length+(list.length===1?" Transaction":" Transactions");
-    document.getElementById("accountTableBody").innerHTML=list.length?list.map(t=>{const isIn=t.transaction_type==="Cash In"||t.transaction_type==="Other Income";return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td><span class="cash-flow-badge ${isIn?"cash-flow-in":"cash-flow-out"}">${isIn?"Cash In":"Cash Out"}</span></td><td>${escapeHtml((t.transaction_type==="Cash In" && !t.awb_number && t.category!=="Shipment")?"Other Cash In — "+(t.category||"Other Income"):(t.category||""))}</td><td>${escapeHtml(t.description||"")}</td><td class="cash-flow-amount ${isIn?"cash-flow-in":"cash-flow-out"}">${formatMoney(t.amount)}</td><td>${escapeHtml(t.payment_method||"")}</td><td>${escapeHtml(t.reference||"")}</td><td><button type="button" class="action-btn edit-btn" onclick="editAccountTransaction('${t.id}')">Edit</button> <button type="button" class="action-btn delete-btn" onclick="deleteAccountTransaction('${t.id}')">Delete</button></td></tr>`}).join(""): '<tr><td colspan="8" class="empty">No account transactions found.</td></tr>';
+    document.getElementById("accountTableBody").innerHTML=list.length?list.map(t=>{
+        const shipment=!!(t.awb_number || t.category==="Shipment");
+        const received=shipment?Number(t.received_amount??t.amount??0):Number(t.amount||0);
+        const paid=shipment?Number(t.paid_amount||0):0;
+        const profit=shipment?received-paid:0;
+        return `<tr><td>${escapeHtml(t.transaction_date||"")}</td><td>${escapeHtml(t.awb_number||t.reference||"")}</td><td>${escapeHtml(t.category||"")}</td><td>${escapeHtml(t.description||"")}</td><td>${formatMoney(received)}</td><td>${shipment?formatMoney(paid):"—"}</td><td>${shipment?formatMoney(profit):"—"}</td><td>${escapeHtml(t.payment_method||"")}</td><td><button type="button" class="action-btn edit-btn" onclick="editAccountTransaction('${t.id}')">Edit</button> <button type="button" class="action-btn delete-btn" onclick="deleteAccountTransaction('${t.id}')">Delete</button></td></tr>`;
+    }).join(""): '<tr><td colspan="9" class="empty">No account transactions found.</td></tr>';
+}
+
+function updateShipmentProfitPreview(){
+    const received=Number(document.getElementById("shipmentReceivedAmount")?.value||0);
+    const paid=Number(document.getElementById("shipmentPaidAmount")?.value||0);
+    const profit=document.getElementById("shipmentProfitAmount");
+    if(profit) profit.value=(received-paid).toFixed(2);
 }
 
 document.getElementById("accountForm").addEventListener("submit",async function(e){
@@ -3873,6 +3888,8 @@ document.getElementById("accountForm").addEventListener("submit",async function(
         payload.actual_weight=actual;
         payload.dimensional_weight=dimensional;
         payload.received_amount=received;
+        payload.paid_amount=Number(document.getElementById("shipmentPaidAmount")?.value||0);
+        payload.profit_amount=received-payload.paid_amount;
         payload.amount=received;
         payload.reference=awb;
         payload.description=`Shipment - AWB ${awb}`;
@@ -3903,6 +3920,8 @@ function resetAccountForm(){
     document.getElementById("shipmentActualWeight").value="";
     document.getElementById("shipmentDimensionalWeight").value="";
     document.getElementById("shipmentReceivedAmount").value="";
+    document.getElementById("shipmentPaidAmount").value="0";
+    document.getElementById("shipmentProfitAmount").value="0";
     updateAccountTransactionFields();
 }
 
@@ -3935,6 +3954,8 @@ function editAccountTransaction(id){
     document.getElementById("shipmentActualWeight").value=t.actual_weight??"";
     document.getElementById("shipmentDimensionalWeight").value=t.dimensional_weight??"";
     document.getElementById("shipmentReceivedAmount").value=t.received_amount??(category==="Shipment"?t.amount||0:"");
+    document.getElementById("shipmentPaidAmount").value=t.paid_amount??0;
+    updateShipmentProfitPreview();
     document.getElementById("accountFormTitle").textContent="Edit Account Transaction";
     document.getElementById("cancelAccountEdit").classList.remove("hidden");
     window.scrollTo({top:0,behavior:"smooth"});
@@ -4260,6 +4281,53 @@ function awbDbPayload(){
         booking_date: awbVal("awbBookingDate") || null, estimated_delivery_days: awbVal("awbDeliveryDays")
     };
 }
+async function syncAirwaybillToAccountsAndShipments(){
+    const awb=awbVal("awbNumber");
+    if(!awb || !currentAirwaybillCity) return;
+
+    // 1) Station-wise Accounts: one row per AWB. Received Amount follows Payable Bill.
+    const received=awbNum("awbPayable");
+    const {data:existingAccounts,error:accountLookupError}=await supabaseClient
+        .from("account_transactions").select("id,paid_amount").eq("city",currentAirwaybillCity).eq("awb_number",awb).limit(1);
+    if(accountLookupError) throw accountLookupError;
+    const existingAccount=existingAccounts?.[0];
+    const paid=Number(existingAccount?.paid_amount||0);
+    const accountPayload={
+        city:currentAirwaybillCity,
+        transaction_date:awbVal("awbBookingDate")||new Date().toISOString().slice(0,10),
+        transaction_type:"Cash In", category:"Shipment",
+        description:`Shipment - AWB ${awb}`,
+        amount:received, received_amount:received,
+        paid_amount:paid, profit_amount:received-paid,
+        payment_method:"Cash", reference:awb, awb_number:awb,
+        actual_weight:awbNum("awbActualWeight"), dimensional_weight:awbNum("awbVolWeight"),
+        notes:"Auto-created from Airwaybill"
+    };
+    const accountResult=existingAccount
+        ? await supabaseClient.from("account_transactions").update(accountPayload).eq("id",existingAccount.id)
+        : await supabaseClient.from("account_transactions").insert(accountPayload);
+    if(accountResult.error) throw accountResult.error;
+
+    // 2) Existing Shipment Management is the tracking-update system. Create only the initial row.
+    const {data:existingShipments,error:shipmentLookupError}=await supabaseClient
+        .from("shipments").select("id").eq("city",currentAirwaybillCity).eq("tracking_number",awb).limit(1);
+    if(shipmentLookupError) throw shipmentLookupError;
+    if(!existingShipments?.length){
+        const now=new Date().toISOString();
+        const shipmentPayload={
+            city:currentAirwaybillCity, tracking_number:awb, origin:currentAirwaybillCity,
+            destination:awbVal("awbConsigneeCountry")||awbVal("awbConsigneeCity"),
+            service:awbVal("awbService"), carrier:"Fast Air Cargo",
+            booking_date:awbVal("awbBookingDate")||null, estimated_delivery:null,
+            current_status:"Order Confirmed", last_update:now,
+            tracking_history:[{date:now,country:currentAirwaybillCity,carrier:"Fast Air Cargo",status:"Order Confirmed"}],
+            tax_duties_vat:awbVal("awbTaxDutiesVat")||"Non Paid"
+        };
+        const shipmentResult=await supabaseClient.from("shipments").insert(shipmentPayload);
+        if(shipmentResult.error) throw shipmentResult.error;
+    }
+}
+
 async function saveAirwaybill(silent=false){
     if(airwaybillSaving) return false;
     if(!currentAirwaybillCity){ if(!silent) showToast("Please open Airwaybill through a city first.","error"); return false; }
@@ -4282,6 +4350,7 @@ async function saveAirwaybill(silent=false){
             hs_code:x.hs||null, unit_value:parseFloat(x.value)||0, total_value:(parseInt(x.qty||"0",10)||0)*(parseFloat(x.value)||0)
         }));
         if(items.length){ const ins=await supabaseClient.from("airwaybill_items").insert(items); if(ins.error) throw ins.error; }
+        await syncAirwaybillToAccountsAndShipments();
         renderAirwaybill();
         if(!silent) showToast("Airwaybill #"+awbVal("awbNumber")+" saved successfully.");
         return true;
