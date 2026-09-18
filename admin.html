@@ -782,6 +782,10 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
 .awb-pro-bottom{display:grid;grid-template-columns:1.35fr 1fr;gap:7px}.awb-terms{border:1px solid #cfd4d9;border-radius:5px;overflow:hidden}.awb-terms-title{background:#ff6900;color:#fff;padding:5px 7px;font-size:10px;font-weight:900}.awb-terms-body{padding:6px 8px;font-size:8.2px;line-height:1.38}.awb-sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.awb-sign{border:1px solid #ff8b42;border-radius:5px;overflow:hidden;min-height:67px}.awb-sign strong{display:block;background:#fff3e9;color:#e55f00;padding:5px;font-size:9px}.awb-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}.awb-date-box{border:1px solid #e0e3e6;border-radius:5px;padding:6px;background:#fffaf6}.awb-date-box span{display:block;color:#737b83;font-size:7.5px;font-weight:800;text-transform:uppercase}.awb-date-box strong{display:block;margin-top:3px;font-size:8.5px;color:#222}.awb-pro-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:2px solid #ff6900;margin-top:7px;padding:6px 2px 0;font-size:7.5px;color:#555}.awb-pro-footer b{color:#ff6900}.awb-pro-footer-tag{font-weight:900;letter-spacing:1.4px;color:#555}
 @media print{body.awb-printing #airwaybillPrintArea{padding:6mm 7mm!important}.awb-pro-brand strong,.awb-pro-brand strong span{color:#ff6900!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.awb-paper{box-shadow:none!important}.awb-pro-header{margin-top:0}.awb-pro-grid,.awb-invoice-card,.awb-pro-bottom{break-inside:avoid}}
 @media print{body.awb-printing.awb-no-charges-printing #airwaybillPrintArea .awb-payment-row{display:none!important}}
+/* ===== AIRWAYBILL PRINT VALUE ALIGNMENT ===== */
+body.awb-printing #airwaybillPrintArea .awb-pro-table td{text-align:left!important}
+body.awb-printing #airwaybillPrintArea .awb-pro-table td.accent,body.awb-printing #airwaybillPrintArea .awb-pro-table td.country{text-align:left!important}
+
 
 
 /* Airwaybill city + undertaking additions */
@@ -1137,7 +1141,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
                         <div class="form-group"><label>Tax &amp; Duties / VAT <span class="awb-required">*</span></label><select id="awbTaxDutiesVat" required><option value="">Select</option><option value="Paid">Paid</option><option value="Non Paid">Non Paid</option></select></div>
 
                         <h3 class="awb-section-title">Weight Calculation</h3>
-                        <div class="form-group"><label>Actual Weight <span class="awb-required">*</span></label><input id="awbActualWeight" required type="number" step="0.01" value="0"></div>
+                        <div class="form-group"><label>Actual Weight <span class="awb-required">*</span></label><input id="awbActualWeight" required type="number" step="0.01" value="0" readonly></div>
                         <div class="form-group"><label>Total Volumetric Weight</label><input id="awbVolWeight" type="number" step="0.01" value="0" readonly></div>
                         <div class="form-group wide"><div id="awbBoxDimensionsEditor" class="awb-items-editor"></div><div class="form-actions"><button type="button" class="secondary-btn" onclick="addAwbBox()">+ Add Box</button></div></div>
 
@@ -1196,7 +1200,7 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
     <tr><th>VAT ID :</th><td id="pConsigneeVatId"></td></tr><tr><th>Email :</th><td id="pConsigneeEmail"></td></tr><tr><th>Consignee Name :</th><td id="pConsigneeName"></td></tr><tr><th>Contact :</th><td id="pConsigneeContact"></td></tr><tr><th>Address :</th><td id="pConsigneeAddress"></td></tr><tr><th>Postcode :</th><td id="pConsigneePostcode"></td></tr><tr><th>City/State :</th><td id="pConsigneeCity"></td></tr><tr><th>Country :</th><td id="pConsigneeCountry" class="country"></td></tr>
   </tbody></table></div>
   <div class="awb-pro-card"><div class="awb-pro-title">SERVICE &amp; CHARGES</div><table class="awb-pro-table"><tbody>
-    <tr><th>Service Type :</th><td id="pService" class="accent"></td></tr><tr><th>Tax &amp; Duties / VAT :</th><td id="pTaxDutiesVat" class="accent"></td></tr><tr><th>Special Handling :</th><td id="pSpecialDocs" class="red"></td></tr><tr class="awb-payment-row"><th>Cargo Charges :</th><td id="pCargoCharges"></td></tr><tr class="awb-payment-row"><th>AWB, Customs, Packing :</th><td id="pCustomCharges"></td></tr><tr class="awb-payment-row"><th>Total Charges :</th><td id="pTotalCharges"></td></tr><tr class="awb-payment-row"><th>Discount :</th><td id="pDiscount" class="red"></td></tr><tr class="awb-payment-row"><th>Payable Bill :</th><td id="pPayable" class="red"></td></tr>
+    <tr><th>Service Type :</th><td id="pService" class="accent"></td></tr><tr><th>Tax &amp; Duties / VAT :</th><td id="pTaxDutiesVat" class="accent"></td></tr><tr><th>Special Handling Charges :</th><td id="pSpecialDocs" class="red"></td></tr><tr class="awb-payment-row"><th>Cargo Charges :</th><td id="pCargoCharges"></td></tr><tr class="awb-payment-row"><th>AWB, Customs, Packing :</th><td id="pCustomCharges"></td></tr><tr class="awb-payment-row"><th>Total Charges :</th><td id="pTotalCharges"></td></tr><tr class="awb-payment-row"><th>Discount :</th><td id="pDiscount" class="red"></td></tr><tr class="awb-payment-row"><th>Payable Bill :</th><td id="pPayable" class="red"></td></tr>
   </tbody></table></div>
 </div>
 <div class="awb-invoice-card"><div class="awb-invoice-title">▤ &nbsp; INVOICE</div><table class="awb-invoice-table"><colgroup><col style="width:12%"><col style="width:9%"><col style="width:34%"><col style="width:25%"><col style="width:10%"><col style="width:10%"></colgroup><thead><tr><th>Box #</th><th>Qty</th><th>Description</th><th>HS CODES</th><th>Val$</th><th>Total</th></tr></thead><tbody id="awbInvoiceBody"></tbody><tfoot><tr><td colspan="5">Total Value :</td><td id="pInvoiceTotal" class="total-value">0</td></tr></tfoot></table></div>
@@ -1212,6 +1216,59 @@ header{position:fixed!important;left:0;top:0;bottom:0;width:252px;background:rgb
     </main>
 
 
+
+<div id="professionalInvoicePrintArea" class="fac-invoice-print-wrap">
+  <div class="fac-invoice-paper">
+    <div class="fac-invoice-head">
+      <div>
+        <div class="fac-invoice-brand">FAST AIR CARGO</div>
+        <div class="fac-invoice-slogan">WHERE EVERY SHIPMENT MATTER!</div>
+      </div>
+      <div style="text-align:right">
+        <div class="fac-invoice-title">INVOICE</div>
+        <div style="font-size:9px;color:#66717c;margin-top:3px">Professional Shipment Invoice</div>
+      </div>
+    </div>
+
+    <div class="fac-invoice-meta">
+      <div><span>Invoice No.</span><strong id="invNumber">—</strong></div>
+      <div><span>Airwaybill No.</span><strong id="invAwb">—</strong></div>
+      <div><span>Invoice Date</span><strong id="invDate">—</strong></div>
+      <div><span>Station</span><strong id="invStation">—</strong></div>
+      <div><span>Service Type</span><strong id="invService">—</strong></div>
+      <div><span>Payment / Payable</span><strong id="invPayable">£0.00</strong></div>
+    </div>
+
+    <div class="fac-invoice-parties">
+      <div><h3>SHIPPER / SENDER</h3><p id="invShipper">—</p></div>
+      <div><h3>CONSIGNEE / RECEIVER</h3><p id="invConsignee">—</p></div>
+    </div>
+
+    <div style="border:1px solid #dfe4e8;border-radius:7px;padding:9px;margin-bottom:14px">
+      <div style="font-size:8px;text-transform:uppercase;color:#7a838b;font-weight:800;margin-bottom:4px">Shipment Details</div>
+      <strong id="invShipmentSummary" style="font-size:10px">—</strong>
+    </div>
+
+    <table class="fac-invoice-table">
+      <thead><tr><th>Charges Description</th><th>Amount (£)</th></tr></thead>
+      <tbody id="invChargeRows"></tbody>
+      <tfoot><tr><th>Total Invoice Amount</th><th id="invTotal">£0.00</th></tr></tfoot>
+    </table>
+
+    <div class="fac-invoice-note">
+      <strong>Invoice Note:</strong> This invoice is generated against the referenced Fast Air Cargo Airwaybill. Special Handling &amp; Additional Charges are based on the amounts entered for this shipment.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:45px;margin-top:34px;font-size:9px;text-align:center">
+      <div style="border-top:1px solid #555;padding-top:6px">Customer / Shipper Signature</div>
+      <div style="border-top:1px solid #555;padding-top:6px">Authorized Signature</div>
+    </div>
+
+    <div class="fac-invoice-footer">
+      <span>FAST AIR CARGO</span><span id="invHelp">—</span><span>SAFE • SECURE • ON TIME</span>
+    </div>
+  </div>
+</div>
 
 <div id="undertakingPrintArea" class="undertaking-print-area">
   <div class="undertaking-paper">
@@ -4557,7 +4614,7 @@ function recalculateAwbBoxTotals(){
     let loadValue=0;
     awbBoxes.forEach(x=>{const c=calculateAwbBox(x);vol+=c.volTotal;actual+=c.actualTotal;extra+=c.extraLength;over+=c.overWeight;if(c.extraLength>0&&!flags.includes("Extra Length"))flags.push("Extra Length");if(c.overWeight>0&&!flags.includes("Over Weight"))flags.push("Over Weight");}); awbItems.forEach(x=>{loadValue+=(parseFloat(x.qty)||0)*(parseFloat(x.value)||0);});
     const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=Number(v||0).toFixed(2)};
-    set("awbVolWeight",vol); set("awbExtraLengthCharge",extra); set("awbOverWeightCharge",over); set("awbLoadValue",loadValue);
+    set("awbVolWeight",vol); set("awbActualWeight",actual); set("awbExtraLengthCharge",extra); set("awbOverWeightCharge",over); set("awbLoadValue",loadValue);
     
     const sel=document.getElementById("awbSpecialDocs"); if(sel){const hasNonStack=String(sel.value||"").includes("Non Stackable Pallet");const all=[...flags];if(hasNonStack)all.push("Non Stackable Pallet");const value=all.join(" + ");if(value&&!([...sel.options].some(o=>o.value===value)))sel.add(new Option(value,value));sel.value=value;}
     return {vol,actual,pcs,extra,over,flags,loadValue};
@@ -4565,6 +4622,7 @@ function recalculateAwbBoxTotals(){
 function updateAwbSpecialHandling(){renderAirwaybill();}
 function getAwbInvoiceCharges(){
     return [
+      ["Cargo Charges",awbNum("awbCargoCharges")],
       ["Box Charges",awbNum("awbBoxCharges")],["Extra Length",awbNum("awbExtraLengthCharge")],["Over Weight",awbNum("awbOverWeightCharge")],
       ["Non Stackable Pallet",awbNum("awbNonStackableCharge")],["Bubble Wrap",awbNum("awbBubbleWrapCharge")],["Extra Tape Wrap",awbNum("awbTapeWrapCharge")],
       ["Thermopool Sheet",awbNum("awbThermopoolCharge")],["Freight Charges",awbNum("awbFreightCharge")],["Extra Custom Clearance Charges",awbNum("awbExtraCustomCharge")],
@@ -4746,7 +4804,7 @@ function renderAirwaybill(){
     Object.keys(map).forEach(k=>awbPut(k,awbVal(map[k])));
     awbPut("pFooterAwb",awbVal("awbNumber"));
     awbPut("pAwbCity",currentAirwaybillCity||"—"); awbPut("pAwbHelp",getAirwaybillHelp()||"—");
-    awbPut("pVolWeight",awbFmt(awbNum("awbVolWeight"))); awbPut("pActualWeight",awbFmt(awbNum("awbActualWeight"))); awbPut("pPcs",awbFmt(awbNum("awbPcs"))); awbPut("pLoadValue",awbFmt(awbNum("awbLoadValue"))); awbPut("pSpecialDocs",awbVal("awbSpecialDocs")||"None"); awbPut("pCargoCharges",awbFmt(awbNum("awbCargoCharges"))); awbPut("pCustomCharges",awbFmt(awbNum("awbCustomCharges"))); awbPut("pTotalCharges",awbFmt(awbNum("awbTotalCharges"))); awbPut("pDiscount",awbFmt(awbNum("awbDiscount"))); awbPut("pPayable",awbFmt(awbNum("awbPayable")));
+    awbPut("pVolWeight",awbFmt(awbNum("awbVolWeight"))); awbPut("pActualWeight",awbFmt(awbNum("awbActualWeight"))); awbPut("pPcs",awbFmt(awbNum("awbPcs"))); awbPut("pLoadValue",awbFmt(awbNum("awbLoadValue"))); awbPut("pSpecialDocs","£"+awbFmt(awbNum("awbExtraLengthCharge")+awbNum("awbOverWeightCharge"))); awbPut("pCargoCharges",awbFmt(awbNum("awbCargoCharges"))); awbPut("pCustomCharges",awbFmt(awbNum("awbCustomCharges"))); awbPut("pTotalCharges",awbFmt(awbNum("awbTotalCharges"))); awbPut("pDiscount",awbFmt(awbNum("awbDiscount"))); awbPut("pPayable",awbFmt(awbNum("awbPayable")));
     const d=awbVal("awbBookingDate"); awbPut("pBookingDate",d?new Date(d+"T00:00:00").toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"}):"");
     const rows=[...awbItems]; while(rows.length<15) rows.push({box:"",qty:"",description:"",hs:"",value:""});
     let total=0; const body=document.getElementById("awbInvoiceBody");
@@ -4794,15 +4852,26 @@ async function printAirwaybillNoCharges(){
 
 
 function renderProfessionalInvoice(){
-    const d=awbVal("awbBookingDate"); awbPut("invAwb",awbVal("awbNumber")||"—"); awbPut("invDate",d?new Date(d+"T00:00:00").toLocaleDateString("en-GB"):"—"); awbPut("invStation",currentAirwaybillCity||"—");
+    const d=awbVal("awbBookingDate");
+    const awb=awbVal("awbNumber")||"—";
+    awbPut("invNumber",awb==="—"?"—":"INV-"+awb);
+    awbPut("invAwb",awb);
+    awbPut("invDate",d?new Date(d+"T00:00:00").toLocaleDateString("en-GB"):"—");
+    awbPut("invStation",currentAirwaybillCity||"—");
+    awbPut("invService",awbVal("awbService")||awbVal("awbServiceType")||"—");
+    awbPut("invPayable","£"+awbFmt(awbNum("awbPayable")));
     awbPut("invShipper",[awbVal("awbShipperName"),awbVal("awbShipperAddress"),[awbVal("awbShipperCity"),awbVal("awbShipperCountry")].filter(Boolean).join(", "),awbVal("awbShipperContact")].filter(Boolean).join("\n"));
     awbPut("invConsignee",[awbVal("awbConsigneeName"),awbVal("awbConsigneeAddress"),[awbVal("awbConsigneeCity"),awbVal("awbConsigneeCountry")].filter(Boolean).join(", "),awbVal("awbConsigneeContact"),awbVal("awbConsigneeEmail"),awbVal("awbConsigneeVatId")?"VAT ID: "+awbVal("awbConsigneeVatId"):""].filter(Boolean).join("\n"));
-    const charges=getAwbInvoiceCharges(); const body=document.getElementById("invChargeRows"); let total=0; if(body)body.innerHTML=charges.map(([label,amount])=>{total+=Number(amount)||0;return `<tr><td>${escapeHtml(label)}</td><td>${awbFmt(amount)}</td></tr>`}).join("");
-    awbPut("invTotal",awbFmt(total)); awbPut("invHelp",(currentAirwaybillCity||"")+" Help: "+(getAirwaybillHelp()||"—"));
+    const charges=getAwbInvoiceCharges();
+    const body=document.getElementById("invChargeRows");
+    let total=0;
+    if(body)body.innerHTML=charges.map(([label,amount])=>{total+=Number(amount)||0;return `<tr><td>${escapeHtml(label)}</td><td>${awbFmt(amount)}</td></tr>`}).join("");
+    awbPut("invTotal","£"+awbFmt(total));
+    awbPut("invHelp",(currentAirwaybillCity||"")+" Help: "+(getAirwaybillHelp()||"—"));
     awbPut("invShipmentSummary",`${awbFmt(awbNum("awbPcs"))} pcs · Actual ${awbFmt(awbNum("awbActualWeight"))} kg · Volumetric ${awbFmt(awbNum("awbVolWeight"))} kg · ${awbVal("awbSpecialDocs")||"Standard handling"}`);
 }
 async function printProfessionalInvoice(){
-    if(!validateAirwaybillForPrint()||!requireSavedAirwaybillBeforePrint())return; renderAirwaybill(); document.body.classList.add("fac-invoice-printing");
+    if(!validateAirwaybillForPrint()||!requireSavedAirwaybillBeforePrint())return; renderAirwaybill(); renderProfessionalInvoice(); document.body.classList.add("fac-invoice-printing");
     const done=()=>document.body.classList.remove("fac-invoice-printing");window.addEventListener("afterprint",done,{once:true});window.print();setTimeout(done,1500);
 }
 async function printDigitalCustomerSlip(){
